@@ -1,12 +1,12 @@
-﻿using AccommodationBooking.Domain.Users.Entities;
+﻿using AccommodationBooking.Domain.Common.Models;
+using AccommodationBooking.Domain.Users.Entities;
 using AccommodationBooking.Domain.Users.Enums;
+using System.Text.RegularExpressions;
 
 namespace AccommodationBooking.Domain.Users
 {
-    public class User
+    public class User : Entity<Guid>
     {
-        public Guid Id { get; init; }
-
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
 
@@ -24,12 +24,11 @@ namespace AccommodationBooking.Domain.Users
             string email,
             string passwordHash,
             UserRole role,
-            GuestProfile guestProfile,
-            HostProfile hostProfile,
+            GuestProfile? guestProfile,
+            HostProfile? hostProfile,
             DateTime createdAt,
-            DateTime updatedAt)
+            DateTime updatedAt) : base(id)
         {
-            Id = id;
             Email = email;
             PasswordHash = passwordHash;
             Role = role;
@@ -49,7 +48,7 @@ namespace AccommodationBooking.Domain.Users
                 passwordHash,
                 UserRole.Guest,
                 GuestProfile.Create(id, firstName, lastName, phone),
-                null!,
+                null,
                 DateTime.UtcNow,
                 DateTime.UtcNow); 
         }
@@ -63,7 +62,7 @@ namespace AccommodationBooking.Domain.Users
                 email,
                 passwordHash,
                 UserRole.Host,
-                null!,
+                null,
                 HostProfile.Create(id, firstName, lastName, phone),
                 DateTime.UtcNow,
                 DateTime.UtcNow);
@@ -76,24 +75,54 @@ namespace AccommodationBooking.Domain.Users
                 email,
                 passwordHash,
                 UserRole.Admin,
-                null!,
-                null!,
+                null,
+                null,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
 
         public void UpdateEmail(string email)
         {
+            ValidateEmail(email);
+
+            if (Email == email)
+                return;
+
             Email = email;
             UpdatedAt = DateTime.UtcNow;
         }
 
         public void UpdatePasswordHash(string passwordHash)
         {
-            // TODO: Walidacja hasła
+            ValidatePasswordHash(passwordHash);
+
+            if (PasswordHash == passwordHash)
+                return;
 
             PasswordHash = passwordHash;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        private static void ValidateEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new Exception("Email cannot be empty.");
+
+            var emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (!Regex.IsMatch(email, emailPattern))
+                throw new Exception("Invalid email format.");
+        }
+
+        private static void ValidatePasswordHash(string passwordHash)
+        {
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new Exception("Password hash cannot be empty.");
+        }
+
+#pragma warning disable CS8618
+        private User()
+        {
+        }
+#pragma warning restore CS8618
     }
 }
