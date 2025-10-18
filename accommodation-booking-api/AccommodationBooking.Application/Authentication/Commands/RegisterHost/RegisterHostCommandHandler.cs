@@ -1,4 +1,5 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Users;
 using ErrorOr;
@@ -6,16 +7,17 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
 {
-    public class RegisterHostCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<RegisterHostCommand, ErrorOr<Unit>>
+    public class RegisterHostCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterHostCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IPasswordHasher _passwordHasher = passwordHasher;
         public async Task<ErrorOr<Unit>> Handle(RegisterHostCommand command, CancellationToken cancellationToken)
         {
             var email = command.Email;
             if (await _unitOfWork.Users.GetByEmailAsync(email) is not null)
                 return Errors.User.DuplicateEmail;
 
-            var passwordHash = command.Password;
+            var passwordHash = _passwordHasher.HashPassword(command.Password);
 
             var user = User.CreateHost(
                 email: email,

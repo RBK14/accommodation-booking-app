@@ -1,4 +1,6 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Infrastructure.Authentication;
 using AccommodationBooking.Infrastructure.Persistence.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,15 @@ namespace AccommodationBooking.Infrastructure
             ConfigurationManager configuration)
         {
             services
+                .AddAuth(configuration)
                 .AddPersistence(configuration);
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             return services;
         }

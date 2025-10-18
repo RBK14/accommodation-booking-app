@@ -1,4 +1,5 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Users;
 using ErrorOr;
@@ -6,9 +7,10 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
 {
-    public class RegisterGuestCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<RegisterGuestCommand, ErrorOr<Unit>>
+    public class RegisterGuestCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterGuestCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IPasswordHasher _passwordHasher = passwordHasher;
 
         public async Task<ErrorOr<Unit>> Handle(RegisterGuestCommand command, CancellationToken cancellationToken)
         {
@@ -16,7 +18,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
             if (await _unitOfWork.Users.GetByEmailAsync(email) is not null)
                 return Errors.User.DuplicateEmail;
 
-            var passwordHash = command.Password;
+            var passwordHash = _passwordHasher.HashPassword(command.Password);
 
             var user = User.CreateGuest(
                 email: email,
@@ -33,7 +35,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
             catch (Exception)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
-                return Errors.User.CreationFailed; 
+                return Errors.User.CreationFailed;
             }
 
             return Unit.Value;
