@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.UpdateEmail
+namespace AccommodationBooking.Application.Users.UpdateEmail
 {
     public record UpdateEmailCommand(
         Guid Id,

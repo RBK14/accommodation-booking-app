@@ -4,7 +4,7 @@ using AccommodationBooking.Domain.Users;
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.UpdateEmail
+namespace AccommodationBooking.Application.Users.UpdateEmail
 {
     public class UpdateEmailCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateEmailCommand, ErrorOr<Unit>>
     {
