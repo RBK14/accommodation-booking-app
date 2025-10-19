@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace AccomodationBooking.Application.Users
+namespace AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails
 {
     public record UpdatePersonaDetailsCommand(
         Guid Id,

@@ -1,9 +1,8 @@
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
-using AccomodationBooking.Application.Users;
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Users
+namespace AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails
 {
     public class UpdatePersonalDetailsCommandHandler(IUnitOfWork unitOfWork)
     {
