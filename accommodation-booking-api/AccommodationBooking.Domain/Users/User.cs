@@ -10,6 +10,10 @@ namespace AccommodationBooking.Domain.Users
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
 
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string Phone {  get; private set; }
+
         public UserRole Role { get; init; }
 
         public DateTime CreatedAt { get; init; }
@@ -23,6 +27,9 @@ namespace AccommodationBooking.Domain.Users
             Guid id,
             string email,
             string passwordHash,
+            string firstName,
+            string lastName,
+            string phone,
             UserRole role,
             GuestProfile? guestProfile,
             HostProfile? hostProfile,
@@ -31,6 +38,9 @@ namespace AccommodationBooking.Domain.Users
         {
             Email = email;
             PasswordHash = passwordHash;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
             Role = role;
             GuestProfile = guestProfile;
             HostProfile = hostProfile;
@@ -46,8 +56,11 @@ namespace AccommodationBooking.Domain.Users
                 id,
                 email,
                 passwordHash,
+                firstName,
+                lastName,
+                phone,
                 UserRole.Guest,
-                GuestProfile.Create(id, firstName, lastName, phone),
+                GuestProfile.Create(id),
                 null,
                 DateTime.UtcNow,
                 DateTime.UtcNow); 
@@ -61,19 +74,25 @@ namespace AccommodationBooking.Domain.Users
                 id,
                 email,
                 passwordHash,
+                firstName,
+                lastName,
+                phone,
                 UserRole.Host,
                 null,
-                HostProfile.Create(id, firstName, lastName, phone),
+                HostProfile.Create(id),
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
 
-        public static User CreateAdmin(string email, string passwordHash)
+        public static User CreateAdmin(string email, string passwordHash, string firstName, string lastName, string phone)
         {
             return new User(
                 Guid.NewGuid(),
                 email,
                 passwordHash,
+                firstName,
+                lastName,
+                phone,
                 UserRole.Admin,
                 null,
                 null,

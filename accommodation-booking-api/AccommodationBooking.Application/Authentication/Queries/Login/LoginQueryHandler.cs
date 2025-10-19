@@ -8,10 +8,14 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Authentication.Queries.Login
 {
-    public class LoginQueryHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<LoginQuery, ErrorOr<AuthResult>>
+    public class LoginQueryHandler(
+        IUnitOfWork unitOfWork,
+        IPasswordHasher passwordHasher,
+        IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<LoginQuery, ErrorOr<AuthResult>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
         public async Task<ErrorOr<AuthResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
@@ -22,9 +26,9 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
             if (!_passwordHasher.Verify(query.Password, user.PasswordHash))
                 return Errors.Auth.InvalidCredentials;
 
-            // TODO: Generowanie tokenu JWT
+            var accessToken = _jwtTokenGenerator.GenerateAccessToken(user);
 
-            return new AuthResult(user, default!);
+            return new AuthResult(user, accessToken);
         }
     }
 }

@@ -2,5 +2,5 @@
 {
     public record AuthResponse(
         string Id,
-        string Token);
+        string AccessToken);
 }

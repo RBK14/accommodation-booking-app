@@ -60,7 +60,7 @@ namespace AccommodationBooking.Api.Controllers
             var result = await _mediator.Send(query);
 
             return result.Match(
-                auth => Ok(new AuthResponse(auth.User.Id.ToString(), auth.Token)),
+                auth => Ok(new AuthResponse(auth.User.Id.ToString(), auth.AccessToken)),
                 errors => Problem(errors));
         }
     }
