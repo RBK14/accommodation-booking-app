@@ -4,7 +4,7 @@ using MediatR;
 namespace AccommodationBooking.Application.Authentication.Commands.UpdatePassword
 {
     public record UpdatePasswordCommand(
-        Guid Id,
+        Guid UserId,
         string Password,
         string NewPassword) : IRequest<ErrorOr<Unit>>;
 }

@@ -11,7 +11,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdateEmail
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<ErrorOr<Unit>> Handle(UpdateEmailCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.GetByIdAsync(command.Id) is not User user)
+            if (await _unitOfWork.Users.GetByIdAsync(command.UserId) is not User user)
                 return Errors.User.NotFound;
 
             try

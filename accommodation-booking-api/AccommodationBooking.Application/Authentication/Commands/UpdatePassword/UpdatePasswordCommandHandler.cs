@@ -16,7 +16,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdatePasswor
 
         public async Task<ErrorOr<Unit>> Handle(UpdatePasswordCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.GetByIdAsync(command.Id) is not User user)
+            if (await _unitOfWork.Users.GetByIdAsync(command.UserId) is not User user)
                 return Errors.User.NotFound;
 
             if (!_passwordHasher.Verify(command.Password, user.PasswordHash))
