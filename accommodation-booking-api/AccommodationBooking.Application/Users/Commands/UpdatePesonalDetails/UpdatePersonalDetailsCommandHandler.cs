@@ -2,19 +2,15 @@ using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using ErrorOr;
 using MediatR;
 
-<<<<<<<< HEAD:accommodation-booking-api/AccommodationBooking.Application/Users/UpdatePesonalDetails/UpdatePersonalDetailsCommandHandler.cs
-namespace AccommodationBooking.Application.Users.UpdatePesonalDetails
-========
 namespace AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails
->>>>>>>> 19e883eb578dc42fcd4c337d8850517a9f15d882:accommodation-booking-api/AccommodationBooking.Application/Users/Commands/UpdatePesonalDetails/UpdatePersonalDetailsCommandHandler.cs
 {
     public class UpdatePersonalDetailsCommandHandler(IUnitOfWork unitOfWork)
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-        public async Task<ErrorOr<Unit>> Handle(UpdatePersonaDetailsCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Unit>> Handle(UpdatePersonalDetailsCommand command, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByIdAsync(command.Id);
+            var user = await _unitOfWork.Users.GetByIdAsync(command.UserId);
             if (user is null)
                 return Error.NotFound();
 
