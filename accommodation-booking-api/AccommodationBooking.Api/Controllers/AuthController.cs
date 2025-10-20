@@ -4,7 +4,6 @@ using AccommodationBooking.Application.Authentication.Commands.UpdateEmail;
 using AccommodationBooking.Application.Authentication.Commands.UpdatePassword;
 using AccommodationBooking.Application.Authentication.Queries.Login;
 using AccommodationBooking.Contracts.Authentication;
-using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ using System.Security.Claims;
 namespace AccommodationBooking.Api.Controllers
 {
 
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [AllowAnonymous]
     public class AuthController(ISender mediator) : ApiController
     {
