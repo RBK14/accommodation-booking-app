@@ -25,12 +25,12 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 
         public void Update(User user)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void Delete(User user)
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace AccommodationBooking.Contracts.Authentication
 {
     public record AuthResponse(
-        string Id,
+        Guid Id,
         string AccessToken);
 }

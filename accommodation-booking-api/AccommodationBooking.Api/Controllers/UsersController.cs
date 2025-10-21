@@ -1,5 +1,6 @@
 ﻿using AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails;
 using AccommodationBooking.Contracts.Users;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -7,9 +8,12 @@ using System.Security.Claims;
 namespace AccommodationBooking.Api.Controllers
 {
     [Route("api/users")]
-    public class UsersController(ISender mediator) : ApiController
+    public class UsersController(
+        ISender mediator,
+        IMapper mapper) : ApiController
     {
         private readonly ISender _mediator = mediator;
+        private readonly IMapper _mapper = mapper;
 
         [HttpPost("update-personal-details")]
         public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request)
@@ -19,12 +23,7 @@ namespace AccommodationBooking.Api.Controllers
             if (!Guid.TryParse(userIdValue, out var userId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
 
-            var command = new UpdatePersonalDetailsCommand(
-                userId,
-                request.FirstName,
-                request.LastName,
-                request.Phone);
-
+            var command = _mapper.Map<UpdatePersonalDetailsCommand>((request, userId));
             var result = await _mediator.Send(command);
 
             return result.Match(
