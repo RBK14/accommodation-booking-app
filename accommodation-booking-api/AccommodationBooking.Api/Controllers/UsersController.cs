@@ -1,5 +1,6 @@
 ﻿using AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails;
 using AccommodationBooking.Contracts.Users;
+using AccommodationBooking.Domain.Users.Enums;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,18 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
-        [HttpPost("update-personal-details")]
-        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request)
+        [HttpPost("{userId:Guid}/update-personal-details")]
+        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid userId)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!Guid.TryParse(userIdValue, out var userId))
+            if (!Guid.TryParse(userIdValue, out var tokenUserId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
+
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            var isAdmin = roleValue.IsInRole(UserRole.Admin);
+
+            if (!isAdmin && tokenUserId != userId)
+                return Forbid("Nie posiadasz uprawnień do edycji danych innego użytkownika.");
 
             var command = _mapper.Map<UpdatePersonalDetailsCommand>((request, userId));
             var result = await _mediator.Send(command);

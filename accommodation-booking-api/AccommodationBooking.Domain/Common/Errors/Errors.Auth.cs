@@ -10,7 +10,7 @@ namespace AccommodationBooking.Domain.Common.Errors
                 code: "Auth.InvalidCredentials",
                 description: "Nieprawidłowy adres email lub hasło.");
 
-                public static Error InvalidPassword => Error.Validation(
+            public static Error InvalidPassword => Error.Validation(
                 code: "Auth.InvalidPassword",
                 description: "Nieprawidłowe hasło.");
         }

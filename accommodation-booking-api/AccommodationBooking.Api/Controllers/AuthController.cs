@@ -4,6 +4,7 @@ using AccommodationBooking.Application.Authentication.Commands.UpdateEmail;
 using AccommodationBooking.Application.Authentication.Commands.UpdatePassword;
 using AccommodationBooking.Application.Authentication.Queries.Login;
 using AccommodationBooking.Contracts.Authentication;
+using AccommodationBooking.Domain.Users.Enums;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -56,13 +57,18 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("update-email")]
-        public async Task<IActionResult> UpdateEmail(UpdateEmailRequest request)
+        [HttpPost("{userId:Guid}/update-email")]
+        public async Task<IActionResult> UpdateEmail(UpdateEmailRequest request, Guid userId)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!Guid.TryParse(userIdValue, out var userId))
+            if (!Guid.TryParse(userIdValue, out var tokenUserId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
+
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            var isAdmin = roleValue.IsInRole(UserRole.Admin);
+
+            if (!isAdmin && tokenUserId != userId)
+                return Forbid("Nie posiadasz uprawnień do zmiany adresu e-mail innego użytkownika.");
 
             var command = _mapper.Map<UpdateEmailCommand>((request, userId));
             var result = await _mediator.Send(command);
@@ -72,13 +78,15 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("update-password")]
-        public async Task<IActionResult> UpdatePassword(UpdatePasswordRequest request)
+        [HttpPost("{userId:Guid}/update-password")]
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordRequest request, Guid userId)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (!Guid.TryParse(userIdValue, out var userId))
+            if (!Guid.TryParse(userIdValue, out var tokenUserId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
+
+            if (tokenUserId != userId)
+                return Forbid("Nie posiadasz uprawnień do zmiany hasła innego użytkownika.");
 
             var command = _mapper.Map<UpdatePasswordCommand>((request, userId));
             var result = await _mediator.Send(command);
