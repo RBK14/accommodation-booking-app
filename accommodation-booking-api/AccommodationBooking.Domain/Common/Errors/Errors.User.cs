@@ -12,7 +12,7 @@ namespace AccommodationBooking.Domain.Common.Errors
 
             public static Error NotFound => Error.NotFound(
                 code: "User.NotFound",
-                description: "Nie znaleziono żadnego użytownika spełniającego wymagania");
+                description: "Nie znaleziono żadnego użytownika spełniającego wymagania.");
 
             public static Error CreationFailed => Error.Failure(
                 code: "User.CreationFailed",

@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
@@ -26,11 +27,12 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
                 lastName: command.LastName,
                 phone: command.Phone);
 
-            // TODO: Uwtorzyć HostProfile
-
+            var profile = HostProfile.Create(user.Id);
+            
             try
             {
                 _unitOfWork.Users.Add(user);
+                _unitOfWork.HostProfiles.Add(profile);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)

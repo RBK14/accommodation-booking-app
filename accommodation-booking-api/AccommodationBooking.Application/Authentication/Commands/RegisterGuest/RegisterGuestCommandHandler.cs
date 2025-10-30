@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
@@ -21,17 +22,18 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
             var passwordHash = _passwordHasher.HashPassword(command.Password);
 
             var user = User.CreateGuest(
-                email: email,
-                passwordHash: passwordHash,
-                firstName: command.FirstName,
-                lastName: command.LastName,
-                phone: command.Phone);
+            email: email,
+            passwordHash: passwordHash,
+            firstName: command.FirstName,
+            lastName: command.LastName,
+            phone: command.Phone);
 
-            // TODO: Utworzyć GuestProfile
+            var profile = GuestProfile.Create(user.Id);
 
             try
             {
                 _unitOfWork.Users.Add(user);
+                _unitOfWork.GuestProfiles.Add(profile);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)

@@ -64,7 +64,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
             string postalCode,
             string street,
             string buildingNumber,
-            decimal amount,
+            decimal amountPerDay,
             Currency currency)
         {
             var id = Guid.NewGuid();
@@ -78,7 +78,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
                 beds,
                 maxGuests,
                 Address.Create(country, city, postalCode, street, buildingNumber),
-                Price.Create(amount, currency),
+                Price.Create(amountPerDay, currency),
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
