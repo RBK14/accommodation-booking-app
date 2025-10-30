@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.Users;
+﻿using AccommodationBooking.Domain.UserAggregate;
 
 namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
 {

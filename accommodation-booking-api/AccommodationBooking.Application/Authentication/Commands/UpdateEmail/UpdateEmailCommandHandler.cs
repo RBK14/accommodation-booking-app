@@ -1,6 +1,6 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
-using AccommodationBooking.Domain.Users;
+using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 

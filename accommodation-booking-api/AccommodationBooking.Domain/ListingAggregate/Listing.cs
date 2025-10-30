@@ -1,13 +1,12 @@
 ﻿using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.Common.Models;
 using AccommodationBooking.Domain.Common.ValueObjects;
-using AccommodationBooking.Domain.Listings.Enums;
-using AccommodationBooking.Domain.Reservations;
-using AccommodationBooking.Domain.Schedules;
+using AccommodationBooking.Domain.ListingAggregate.Enums;
+using AccommodationBooking.Domain.ReservationAggregate;
 
-namespace AccommodationBooking.Domain.Listings
+namespace AccommodationBooking.Domain.ListingAggregate
 {
-    public class Listing : Entity<Guid>
+    public class Listing : AggregateRoot<Guid>
     {
         private readonly List<Reservation> _reservations = new();
 
@@ -26,9 +25,6 @@ namespace AccommodationBooking.Domain.Listings
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
-        // Nawigacje
-        public Schedule Schedule { get; init; }
-
         private Listing(
             Guid id,
             Guid hostProfileId,
@@ -39,7 +35,6 @@ namespace AccommodationBooking.Domain.Listings
             int maxGuests,
             Address address,
             Price pricePerDay,
-            Schedule schedule,
             DateTime createdAt,
             DateTime updatedAt) : base(id)
         {
@@ -51,7 +46,6 @@ namespace AccommodationBooking.Domain.Listings
             MaxGuests = maxGuests;
             Address = address;
             PricePerDay = pricePerDay;
-            Schedule = schedule;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
         }
@@ -83,7 +77,6 @@ namespace AccommodationBooking.Domain.Listings
                 maxGuests,
                 Address.Create(country, city, postalCode, street, buildingNumber),
                 Price.Create(amount, currency),
-                Schedule.Create(id),
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }

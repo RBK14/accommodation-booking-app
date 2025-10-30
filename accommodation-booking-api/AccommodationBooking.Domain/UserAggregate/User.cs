@@ -1,10 +1,9 @@
 ﻿using AccommodationBooking.Domain.Common.Models;
-using AccommodationBooking.Domain.Users.Entities;
-using AccommodationBooking.Domain.Users.Enums;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 
-namespace AccommodationBooking.Domain.Users
+namespace AccommodationBooking.Domain.UserAggregate
 {
-    public class User : Entity<Guid>
+    public class User : AggregateRoot<Guid>
     {
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
@@ -18,10 +17,6 @@ namespace AccommodationBooking.Domain.Users
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
-        // Nawigacje
-        public GuestProfile? GuestProfile { get; init; }
-        public HostProfile? HostProfile { get; init; }
-
         private User(
             Guid id,
             string email,
@@ -30,8 +25,6 @@ namespace AccommodationBooking.Domain.Users
             string lastName,
             string phone,
             UserRole role,
-            GuestProfile? guestProfile,
-            HostProfile? hostProfile,
             DateTime createdAt,
             DateTime updatedAt) : base(id)
         {
@@ -41,8 +34,6 @@ namespace AccommodationBooking.Domain.Users
             LastName = lastName;
             Phone = phone;
             Role = role;
-            GuestProfile = guestProfile;
-            HostProfile = hostProfile;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
         }
@@ -59,8 +50,6 @@ namespace AccommodationBooking.Domain.Users
                 lastName,
                 phone,
                 UserRole.Guest,
-                GuestProfile.Create(id),
-                null,
                 DateTime.UtcNow,
                 DateTime.UtcNow); 
         }
@@ -77,8 +66,6 @@ namespace AccommodationBooking.Domain.Users
                 lastName,
                 phone,
                 UserRole.Host,
-                null,
-                HostProfile.Create(id),
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }
@@ -93,8 +80,6 @@ namespace AccommodationBooking.Domain.Users
                 lastName,
                 phone,
                 UserRole.Admin,
-                null,
-                null,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
         }

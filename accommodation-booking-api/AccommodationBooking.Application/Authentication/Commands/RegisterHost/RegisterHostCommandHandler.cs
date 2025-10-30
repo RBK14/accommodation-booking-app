@@ -1,7 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
-using AccommodationBooking.Domain.Users;
+using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -25,6 +25,8 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
                 firstName: command.FirstName,
                 lastName: command.LastName,
                 phone: command.Phone);
+
+            // TODO: Uwtorzyć HostProfile
 
             try
             {

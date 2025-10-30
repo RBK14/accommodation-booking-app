@@ -1,5 +1,5 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
-using AccommodationBooking.Domain.Users;
+using AccommodationBooking.Domain.UserAggregate;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {

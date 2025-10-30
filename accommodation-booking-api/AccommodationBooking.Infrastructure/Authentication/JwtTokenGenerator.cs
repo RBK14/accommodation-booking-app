@@ -1,6 +1,6 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
-using AccommodationBooking.Domain.Users;
-using AccommodationBooking.Domain.Users.Enums;
+using AccommodationBooking.Domain.UserAggregate;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,7 +13,7 @@ namespace AccommodationBooking.Infrastructure.Authentication
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
-        public string GenerateAccessToken(User user)
+        public string GenerateAccessToken(User user, Guid profileId)
         {
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(
@@ -30,11 +30,11 @@ namespace AccommodationBooking.Infrastructure.Authentication
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
-            if (user.Role == UserRole.Guest && user.GuestProfile is not null)
-                claims.Add(new Claim("ProfileId", user.GuestProfile.Id.ToString()));
+            if (user.Role == UserRole.Guest)
+                claims.Add(new Claim("ProfileId", profileId.ToString()));
 
-            else if (user.Role == UserRole.Host && user.HostProfile is not null)
-                claims.Add(new Claim("ProfileId", user.HostProfile.Id.ToString()));
+            else if (user.Role == UserRole.Host)
+                claims.Add(new Claim("ProfileId", profileId.ToString()));
 
             var securityToken = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Domain.Reservations.Enums
+﻿namespace AccommodationBooking.Domain.ReservationAggregate.Enums
 {
     public enum ReservationStatus
     {

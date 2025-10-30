@@ -4,7 +4,7 @@ using AccommodationBooking.Application.Authentication.Commands.UpdateEmail;
 using AccommodationBooking.Application.Authentication.Commands.UpdatePassword;
 using AccommodationBooking.Application.Authentication.Queries.Login;
 using AccommodationBooking.Contracts.Authentication;
-using AccommodationBooking.Domain.Users.Enums;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

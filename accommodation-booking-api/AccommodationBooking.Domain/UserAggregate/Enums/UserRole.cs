@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Domain.Users.Enums
+﻿namespace AccommodationBooking.Domain.UserAggregate.Enums
 {
     public enum UserRole
     {

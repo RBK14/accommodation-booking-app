@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Domain.Listings.Enums
+﻿namespace AccommodationBooking.Domain.ListingAggregate.Enums
 {
     public enum AccommodationType
     {

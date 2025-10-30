@@ -1,6 +1,6 @@
 ﻿using AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails;
 using AccommodationBooking.Contracts.Users;
-using AccommodationBooking.Domain.Users.Enums;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

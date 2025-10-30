@@ -1,6 +1,8 @@
-﻿namespace AccommodationBooking.Domain.Schedules
+﻿using AccommodationBooking.Domain.Common.Models;
+
+namespace AccommodationBooking.Domain.ScheduleAggregate
 {
-    public class Schedule
+    public class Schedule : AggregateRoot<Guid>
     {
         public Guid Id { get; init; }
 

@@ -1,13 +1,14 @@
 ﻿using AccommodationBooking.Domain.Common.Models;
 using AccommodationBooking.Domain.Common.ValueObjects;
-using AccommodationBooking.Domain.Reservations.Enums;
+using AccommodationBooking.Domain.ReservationAggregate.Enums;
 
-namespace AccommodationBooking.Domain.Reservations
+namespace AccommodationBooking.Domain.ReservationAggregate
 {
-    public class Reservation : Entity<Guid>
+    public class Reservation : AggregateRoot<Guid>
     {
         public Guid ListingId { get; init; }
         public Guid GuestProfileId { get; init; }
+        public Guid HostProfileId { get; init; }
 
         public string ListingTitle { get; private set; }
         public Address ListingAddress { get; private set; }
@@ -26,6 +27,7 @@ namespace AccommodationBooking.Domain.Reservations
             Guid id,
             Guid listingId,
             Guid guestProfileId,
+            Guid hostProfileId,
             string listingTitle,
             Address listingAddress,
             Price listingPricePerDay,
@@ -38,6 +40,7 @@ namespace AccommodationBooking.Domain.Reservations
         {
             ListingId = listingId;
             GuestProfileId = guestProfileId;
+            HostProfileId = hostProfileId;
             ListingTitle = listingTitle;
             ListingAddress = listingAddress;
             ListingPricePerDay = listingPricePerDay;
@@ -49,12 +52,21 @@ namespace AccommodationBooking.Domain.Reservations
             UpdatedAt = updatedAt;
         }
 
-        public static Reservation Create(Guid listingId, Guid guestProfileId, string listingTitle, Address listingAddress, Price listingPricePerDay, DateTime checkIn, DateTime checkOut)
+        public static Reservation Create(
+            Guid listingId,
+            Guid guestProfileId,
+            Guid hostProfileId,
+            string listingTitle,
+            Address listingAddress,
+            Price listingPricePerDay,
+            DateTime checkIn,
+            DateTime checkOut)
         {
             return new Reservation(
                 Guid.NewGuid(),
                 listingId,
                 guestProfileId,
+                hostProfileId,
                 listingTitle,
                 listingAddress,
                 listingPricePerDay,
@@ -66,7 +78,10 @@ namespace AccommodationBooking.Domain.Reservations
                 DateTime.UtcNow);
         }
 
-        private static Price CalculateTotalPrice(DateTime checkIn, DateTime checkOut, Price pricePerDay)
+        private static Price CalculateTotalPrice(
+            DateTime checkIn,
+            DateTime checkOut,
+            Price pricePerDay)
         {
             var days = (checkOut - checkIn).Days;
             if (days <= 0)

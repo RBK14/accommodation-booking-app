@@ -1,9 +1,9 @@
 ﻿using AccommodationBooking.Domain.Common.Models;
-using AccommodationBooking.Domain.Reservations;
+using AccommodationBooking.Domain.ReservationAggregate;
 
-namespace AccommodationBooking.Domain.Users.Entities
+namespace AccommodationBooking.Domain.GuestProfileAggregate
 {
-    public class GuestProfile : Entity<Guid>
+    public class GuestProfile : AggregateRoot<Guid>
     {
         private readonly List<Reservation> _reservations = new();
 

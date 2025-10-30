@@ -2,7 +2,7 @@
 using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
-using AccommodationBooking.Domain.Users;
+using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -26,7 +26,10 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
             if (!_passwordHasher.Verify(query.Password, user.PasswordHash))
                 return Errors.Auth.InvalidCredentials;
 
-            var accessToken = _jwtTokenGenerator.GenerateAccessToken(user);
+            // TODO: Wyciągnąć ID profilu
+            var profileId = Guid.Empty;
+
+            var accessToken = _jwtTokenGenerator.GenerateAccessToken(user, profileId);
 
             return new AuthResult(user, accessToken);
         }
