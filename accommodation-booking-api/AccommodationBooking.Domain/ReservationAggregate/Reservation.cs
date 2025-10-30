@@ -128,9 +128,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
         }
 
 #pragma warning disable CS8618
-        private Reservation()
-        {
-        }
+        private Reservation() { }
 #pragma warning restore CS8618
     }
 }

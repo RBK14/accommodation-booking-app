@@ -1,15 +1,14 @@
 ﻿using AccommodationBooking.Domain.Common.Models;
-using AccommodationBooking.Domain.ListingAggregate;
 
 namespace AccommodationBooking.Domain.HostProfileAggregate
 {
     public class HostProfile : AggregateRoot<Guid>
     {
-        private readonly List<Listing> _listings = new();
+        private readonly List<Guid> _listingIds = new();
 
         public Guid UserId { get; init; }
 
-        public IReadOnlyCollection<Listing> Listings => _listings.AsReadOnly();
+        public IReadOnlyCollection<Guid> ListingIds => _listingIds.AsReadOnly();
 
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
@@ -35,9 +34,7 @@ namespace AccommodationBooking.Domain.HostProfileAggregate
         }
 
 #pragma warning disable CS8618
-        private HostProfile()
-        {
-        }
+        private HostProfile() { }
 #pragma warning restore CS8618
     }
 }

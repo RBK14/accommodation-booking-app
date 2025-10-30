@@ -1,15 +1,14 @@
 ﻿using AccommodationBooking.Domain.Common.Models;
-using AccommodationBooking.Domain.ReservationAggregate;
 
 namespace AccommodationBooking.Domain.GuestProfileAggregate
 {
     public class GuestProfile : AggregateRoot<Guid>
     {
-        private readonly List<Reservation> _reservations = new();
+        private readonly List<Guid> _reservationIds = new();
 
         public Guid UserId { get; init; }
 
-        public IReadOnlyCollection<Reservation> Reservations => _reservations.AsReadOnly();
+        public IReadOnlyCollection<Guid> ReservationIds => _reservationIds.AsReadOnly();
 
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
@@ -34,12 +33,8 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
                 DateTime.UtcNow);
         }
 
-        
-
 #pragma warning disable CS8618
-        private GuestProfile()
-        {
-        }
+        private GuestProfile() { }
 #pragma warning restore CS8618
     }
 }

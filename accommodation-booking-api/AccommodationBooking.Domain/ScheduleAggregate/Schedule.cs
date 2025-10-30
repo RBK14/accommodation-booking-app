@@ -4,16 +4,15 @@ namespace AccommodationBooking.Domain.ScheduleAggregate
 {
     public class Schedule : AggregateRoot<Guid>
     {
-        public Guid Id { get; init; }
+        private Schedule(Guid id) : base(id) { }
 
-        private Schedule(Guid id)
+        public static Schedule Create()
         {
-            Id = id;
+            return new Schedule(Guid.NewGuid());
         }
 
-        public static Schedule Create(Guid id)
-        {
-            return new Schedule(id);
-        }
+#pragma warning disable CS8618
+        private Schedule() { }
+#pragma warning restore CS8618
     }
 }

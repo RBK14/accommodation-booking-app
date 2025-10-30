@@ -1,14 +1,15 @@
 ﻿using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.Common.Models;
 using AccommodationBooking.Domain.Common.ValueObjects;
+using AccommodationBooking.Domain.ListingAggregate.Entities;
 using AccommodationBooking.Domain.ListingAggregate.Enums;
-using AccommodationBooking.Domain.ReservationAggregate;
 
 namespace AccommodationBooking.Domain.ListingAggregate
 {
     public class Listing : AggregateRoot<Guid>
     {
-        private readonly List<Reservation> _reservations = new();
+        private readonly List<Guid> _reservationIds = new();
+        private readonly List<Review> _reviews = new();
 
         public Guid HostProfileId { get; init; }
 
@@ -20,7 +21,8 @@ namespace AccommodationBooking.Domain.ListingAggregate
         public Address Address { get; private set; }
         public Price PricePerDay { get; private set; }
 
-        public IReadOnlyCollection<Reservation> Reservations => _reservations.AsReadOnly();
+        public IReadOnlyCollection<Guid> ReservationIds => _reservationIds.AsReadOnly();
+        public IReadOnlyCollection<Review> Reviews => _reviews.AsReadOnly();
 
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
@@ -135,9 +137,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
 
 
 #pragma warning disable CS8618
-        private Listing()
-        {
-        }
+        private Listing() { }
 #pragma warning restore CS8618
     }
 }
