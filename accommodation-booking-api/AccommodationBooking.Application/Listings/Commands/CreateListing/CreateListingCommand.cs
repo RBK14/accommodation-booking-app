@@ -2,7 +2,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Listings.Commands
+namespace AccommodationBooking.Application.Listings.Commands.CreateListing
 {
     public record CreateListingCommand(
         Guid HostProfileId,

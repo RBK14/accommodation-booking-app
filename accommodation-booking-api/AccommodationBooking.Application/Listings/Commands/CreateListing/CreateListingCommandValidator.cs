@@ -2,7 +2,7 @@
 using AccommodationBooking.Domain.ListingAggregate.Enums;
 using FluentValidation;
 
-namespace AccommodationBooking.Application.Listings.Commands
+namespace AccommodationBooking.Application.Listings.Commands.CreateListing
 {
     public class CreateListingCommandValidator : AbstractValidator<CreateListingCommand>
     {

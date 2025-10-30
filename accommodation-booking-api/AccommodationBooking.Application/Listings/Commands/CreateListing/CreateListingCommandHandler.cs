@@ -6,7 +6,7 @@ using AccommodationBooking.Domain.ListingAggregate.Enums;
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Listings.Commands
+namespace AccommodationBooking.Application.Listings.Commands.CreateListing
 {
     public class CreateListingCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateListingCommand, ErrorOr<Listing>>
     {

@@ -83,58 +83,51 @@ namespace AccommodationBooking.Domain.ListingAggregate
                 DateTime.UtcNow);
         }
 
-        public void UpdateTitle(string title)
+        public void UpdateListing(
+            string title,
+            string description,
+            AccommodationType accommodationType,
+            int beds,
+            int maxGuests,
+            Address address,
+            Price pricePerDay)
         {
-            if (string.IsNullOrWhiteSpace(title))
-                throw new Exception("Title cannot be empty.");
-
-            Title = title.Trim();
-            UpdatedAt = DateTime.UtcNow;
+            if (Title != title)
+            {
+                Title = title.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (Description != description)
+            {
+                Description = description.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (AccommodationType != accommodationType)
+            {
+                AccommodationType = accommodationType;
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (MaxGuests != maxGuests)
+            {
+                MaxGuests = maxGuests;
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (Beds != beds)
+            {
+                Beds = beds;
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (Address != address)
+            {
+                Address = address;
+                UpdatedAt = DateTime.UtcNow;
+            }
+            if (PricePerDay != pricePerDay)
+            {
+                PricePerDay = pricePerDay;
+                UpdatedAt = DateTime.UtcNow;
+            }
         }
-
-        public void UpdateDescription(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-                throw new Exception("Description cannot be empty.");
-
-            Description = description.Trim();
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void ChangeAccommodationType(AccommodationType type)
-        {
-            AccommodationType = type;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void UpdateCapacity(int beds, int maxGuests)
-        {
-            if (beds <= 0)
-                throw new Exception("Number of beds must be greater than zero.");
-
-            if (maxGuests <= 0)
-                throw new Exception("Maximum number of guests must be greater than zero.");
-
-            Beds = beds;
-            MaxGuests = maxGuests;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void ChangePrice(decimal amount, Currency currency)
-        {
-            if (amount <= 0)
-                throw new Exception("Price must be greater than zero.");
-
-            PricePerDay = Price.Create(amount, currency);
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void ChangeAddress(string country, string city, string postalCode, string street, string buildingNumber)
-        {
-            Address = Address.Create(country, city, postalCode, street, buildingNumber);
-            UpdatedAt = DateTime.UtcNow;
-        }
-
 
 #pragma warning disable CS8618
         private Listing() { }
