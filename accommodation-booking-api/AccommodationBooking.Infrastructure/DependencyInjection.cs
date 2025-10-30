@@ -58,6 +58,11 @@ namespace AccommodationBooking.Infrastructure
             // TODO: Zamienić na AddScoped po dodaniu DB
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IGuestProfileRepository, GuestProfileRepository>();
+            services.AddSingleton<IHostProfileRepository, HostProfileRepository>();
+            services.AddSingleton<IListingRepository, ListingRepository>();
+            services.AddSingleton<IReservationRepository, ReservationRepository>();
+            services.AddSingleton<IScheduleRepository, ScheduleRepository>();
 
             return services;
         }

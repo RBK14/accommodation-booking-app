@@ -2,9 +2,20 @@
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
-    public class UnitOfWork(IUserRepository users) : IUnitOfWork
+    public class UnitOfWork(
+        IUserRepository users,
+        IGuestProfileRepository guestProfiles,
+        IHostProfileRepository hostProfiles,
+        IListingRepository listings,
+        IReservationRepository reservations,
+        IScheduleRepository schedules) : IUnitOfWork
     {
         public IUserRepository Users { get; } = users;
+        public IGuestProfileRepository GuestProfiles { get; } = guestProfiles;
+        public IHostProfileRepository HostProfiles { get; } = hostProfiles;
+        public IListingRepository Listings { get; } = listings;
+        public IReservationRepository Reservations { get; } = reservations;
+        public IScheduleRepository Schedules { get; } = schedules;
 
         public Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {

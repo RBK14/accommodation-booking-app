@@ -12,12 +12,12 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
             _users.Add(user);
         }
 
-        public Task<User?> GetByIdAsync(Guid id)
+        public Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
             return Task.FromResult(user);
         }
-        public Task<User?> GetByEmailAsync(string email)
+        public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
             var user = _users.FirstOrDefault(u => u.Email == email);
             return Task.FromResult(user);
@@ -28,9 +28,9 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
             return;
         }
 
-        public void Delete(User user)
+        public void Remove(User user)
         {
-            return;
+            _users.Remove(user);
         }
     }
 }
