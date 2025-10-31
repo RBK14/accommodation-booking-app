@@ -14,19 +14,21 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
 
         public async Task<ErrorOr<Listing>> Handle(UpdateListingCommand command, CancellationToken cancellationToken)
         {
-            var listing = await _unitOfWork.Listings.GetByIdAsync(command.ListingId);
-            if (listing is null)
+            if (await _unitOfWork.Listings.GetByIdAsync(command.ListingId) is not Listing listing)
                 return Errors.Listing.NotFound;
+
             try
             {
                 var accommodationType = AccommodationTypeExtensions.ParseAccommodationType(command.AccommodationType);
                 var currency = CurrencyExtensions.ParseCurrency(command.Currency);
+
                 var address = Address.Create(
                     command.Country,
                     command.City,
                     command.PostalCode,
                     command.Street,
                     command.BuildingNumber);
+
                 var pricePerDay = Price.Create(command.AmountPerDay, currency);
 
                 listing.UpdateListing(
@@ -37,6 +39,7 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
                     command.MaxGuests,
                     address,
                     pricePerDay);
+
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)

@@ -97,31 +97,37 @@ namespace AccommodationBooking.Domain.ListingAggregate
                 Title = title.Trim();
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (Description != description)
             {
                 Description = description.Trim();
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (AccommodationType != accommodationType)
             {
                 AccommodationType = accommodationType;
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (MaxGuests != maxGuests)
             {
                 MaxGuests = maxGuests;
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (Beds != beds)
             {
                 Beds = beds;
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (Address != address)
             {
                 Address = address;
                 UpdatedAt = DateTime.UtcNow;
             }
+
             if (PricePerDay != pricePerDay)
             {
                 PricePerDay = pricePerDay;
