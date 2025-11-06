@@ -10,6 +10,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
     {
         private readonly List<Guid> _reservationIds = new();
         private readonly List<Review> _reviews = new();
+        private readonly List<ScheduleSlot> _scheduleSlots = new();
 
         public Guid HostProfileId { get; init; }
 
@@ -23,6 +24,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
 
         public IReadOnlyCollection<Guid> ReservationIds => _reservationIds.AsReadOnly();
         public IReadOnlyCollection<Review> Reviews => _reviews.AsReadOnly();
+        public IReadOnlyCollection<ScheduleSlot> ScheduleSlots => _scheduleSlots.AsReadOnly();
 
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
@@ -92,47 +94,69 @@ namespace AccommodationBooking.Domain.ListingAggregate
             Address address,
             Price pricePerDay)
         {
-            if (Title != title)
-            {
-                Title = title.Trim();
-                UpdatedAt = DateTime.UtcNow;
-            }
+            bool modified = false;
 
-            if (Description != description)
-            {
-                Description = description.Trim();
-                UpdatedAt = DateTime.UtcNow;
-            }
+            if (Title != title.Trim()) { Title = title.Trim(); modified = true; }
+            if (Description != description.Trim()) { Description = description.Trim(); modified = true; }
+            if (AccommodationType != accommodationType) { AccommodationType = accommodationType; modified = true; }
+            if (Beds != beds) { Beds = beds; modified = true; }
+            if (MaxGuests != maxGuests) { MaxGuests = maxGuests; modified = true; }
+            if (!Address.Equals(address)) { Address = address; modified = true; }
+            if (!PricePerDay.Equals(pricePerDay)) { PricePerDay = pricePerDay; modified = true; }
 
-            if (AccommodationType != accommodationType)
-            {
-                AccommodationType = accommodationType;
+            if (modified)
                 UpdatedAt = DateTime.UtcNow;
-            }
+        }
 
-            if (MaxGuests != maxGuests)
-            {
-                MaxGuests = maxGuests;
-                UpdatedAt = DateTime.UtcNow;
-            }
+        public void AddReview(Guid guestProfileId, int rating, string comment)
+        {
+            if (_reviews.Any(r => r.GuestProfileId == guestProfileId))
+                throw new Exception("Guest has already reviewed this listing.");
 
-            if (Beds != beds)
-            {
-                Beds = beds;
-                UpdatedAt = DateTime.UtcNow;
-            }
+            var review = Review.Create(guestProfileId, rating, comment);
+            _reviews.Add(review);
 
-            if (Address != address)
-            {
-                Address = address;
-                UpdatedAt = DateTime.UtcNow;
-            }
+            UpdatedAt = DateTime.UtcNow;
+        }
 
-            if (PricePerDay != pricePerDay)
-            {
-                PricePerDay = pricePerDay;
-                UpdatedAt = DateTime.UtcNow;
-            }
+        public void UpdateReview(Guid reviewId, Guid guestProfileId, string comment, int? rating = null)
+        {
+            var review = _reviews.FirstOrDefault(r => r.Id == reviewId);
+            if (review is null)
+                throw new Exception("Review not found.");
+
+            if (review.GuestProfileId != guestProfileId)
+                throw new Exception("Guest cannot edit this review.");
+
+            review.Update(comment, rating);
+            UpdatedAt = DateTime.UtcNow;
+        }
+        public void ReserveDates(Guid reservationId, DateTime start, DateTime end)
+        {
+            if (IsOverlapping(start, end))
+                throw new Exception("The specified time range is already reserved.");
+
+            var slot = ScheduleSlot.Create(reservationId, start, end);
+            _scheduleSlots.Add(slot);
+            _reservationIds.Add(reservationId);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void CancelReservation(Guid reservationId)
+        {
+            var slot = _scheduleSlots.FirstOrDefault(s => s.ReservationId == reservationId);
+            if (slot is null)
+                throw new Exception("Reservation not found for this listing.");
+
+            _scheduleSlots.Remove(slot);
+            _reservationIds.Remove(reservationId);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public bool IsOverlapping(DateTime start, DateTime end)
+        {
+            return _scheduleSlots.Any(s =>
+                start < s.End && end > s.Start);
         }
 
 #pragma warning disable CS8618
