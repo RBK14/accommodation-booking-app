@@ -1,4 +1,5 @@
-﻿using AccommodationBooking.Domain.Common.Models;
+﻿using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.Common.Models;
 using AccommodationBooking.Domain.Common.ValueObjects;
 using AccommodationBooking.Domain.ReservationAggregate.Enums;
 
@@ -50,6 +51,23 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             Status = status;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
+
+            if (listingId == Guid.Empty)
+                throw new DomainValidationException("Listing ID cannot be empty.");
+            if (guestProfileId == Guid.Empty)
+                throw new DomainValidationException("GuestProfile ID cannot be empty.");
+            if (hostProfileId == Guid.Empty)
+                throw new DomainValidationException("HostProfile ID cannot be empty.");
+            if (string.IsNullOrWhiteSpace(listingTitle))
+                throw new DomainValidationException("Listing title cannot be empty.");
+            if (listingAddress is null)
+                throw new DomainValidationException("Listing address cannot be null.");
+            if (listingPricePerDay is null)
+                throw new DomainValidationException("Listing price cannot be null.");
+            if (checkIn >= checkOut)
+                throw new DomainValidationException("Check-in date must be before check-out date.");
+            if (totalPrice is null)
+                throw new DomainValidationException("Total price cannot be null.");
         }
 
         public static Reservation Create(
@@ -83,9 +101,12 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             DateTime checkOut,
             Price pricePerDay)
         {
+            if (checkIn >= checkOut)
+                throw new DomainValidationException("Check-out date must be later than check-in date.");
+            if (pricePerDay is null)
+                throw new DomainValidationException("Price per day cannot be null.");
+
             var days = (checkOut - checkIn).Days;
-            if (days <= 0)
-                throw new Exception("Check-out date must be later than check-in date.");
 
             var totalAmount = pricePerDay.Amount * days;
             return Price.Create(totalAmount, pricePerDay.Currency);
@@ -94,7 +115,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
         public void MarkAsInProgress()
         {
             if (Status != ReservationStatus.Accepted)
-                throw new Exception("Reservation must be accepted to mark as in progress.");
+                throw new DomainIllegalStateException("Reservation must be accepted to start.");
 
             Status = ReservationStatus.InProgress;
             UpdatedAt = DateTime.UtcNow;
@@ -103,7 +124,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
         public void MarkAsCompleted()
         {
             if (Status != ReservationStatus.InProgress)
-                throw new Exception("Reservation must be in progress to complete.");
+                throw new DomainIllegalStateException("Reservation must be in progress to complete.");
 
             Status = ReservationStatus.Completed;
             UpdatedAt = DateTime.UtcNow;
@@ -112,7 +133,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
         public void Cancel()
         {
             if (Status == ReservationStatus.Completed)
-                throw new Exception("Cannot cancel a completed reservation.");
+                throw new DomainIllegalStateException("Cannot cancel a completed reservation.");
 
             Status = ReservationStatus.Cancelled;
             UpdatedAt = DateTime.UtcNow;
@@ -121,7 +142,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
         public void MarkAsNoShow()
         {
             if (Status != ReservationStatus.InProgress)
-                throw new Exception("Reservation must be in progress to mark as no-show.");
+                throw new DomainIllegalStateException("Reservation must be in progress to mark as no-show.");
 
             Status = ReservationStatus.Completed;
             UpdatedAt = DateTime.UtcNow;

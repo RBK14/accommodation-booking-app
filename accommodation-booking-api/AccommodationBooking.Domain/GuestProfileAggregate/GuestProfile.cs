@@ -1,4 +1,5 @@
-﻿using AccommodationBooking.Domain.Common.Models;
+﻿using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.GuestProfileAggregate
 {
@@ -19,6 +20,9 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
             DateTime createdAt,
             DateTime updatedAt) : base(id)
         {
+            if (userId == Guid.Empty)
+                throw new DomainValidationException("GuestProfile must be associated with a valid UserId.");
+
             UserId = userId;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
@@ -31,6 +35,18 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
                 userId,
                 DateTime.UtcNow,
                 DateTime.UtcNow);
+        }
+
+        public void AddReservationId(Guid reservationId)
+        {
+            if (reservationId == Guid.Empty)
+                throw new DomainValidationException("Reservation ID cannot be empty.");
+
+            if (_reservationIds.Contains(reservationId))
+                throw new DomainIllegalStateException("The reservation is already associated with this guest.");
+
+            _reservationIds.Add(reservationId);
+            UpdatedAt = DateTime.UtcNow;
         }
 
 #pragma warning disable CS8618

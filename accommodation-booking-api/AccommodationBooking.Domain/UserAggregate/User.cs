@@ -1,4 +1,5 @@
-﻿using AccommodationBooking.Domain.Common.Models;
+﻿using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.Common.Models;
 using AccommodationBooking.Domain.UserAggregate.Enums;
 
 namespace AccommodationBooking.Domain.UserAggregate
@@ -28,6 +29,11 @@ namespace AccommodationBooking.Domain.UserAggregate
             DateTime createdAt,
             DateTime updatedAt) : base(id)
         {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new DomainValidationException("Email cannot be empty.");
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new DomainValidationException("Password hash cannot be empty.");
+
             Email = email;
             PasswordHash = passwordHash;
             FirstName = firstName;
@@ -86,6 +92,9 @@ namespace AccommodationBooking.Domain.UserAggregate
 
         public void UpdateEmail(string email)
         {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new DomainValidationException("Email cannot be empty.");
+
             if (Email == email)
                 return;
 
@@ -95,6 +104,9 @@ namespace AccommodationBooking.Domain.UserAggregate
 
         public void UpdatePasswordHash(string passwordHash)
         {
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new DomainValidationException("Password hash cannot be empty.");
+
             if (PasswordHash == passwordHash)
                 return;
 
@@ -107,23 +119,14 @@ namespace AccommodationBooking.Domain.UserAggregate
             string lastName,
             string phone)
         {
-            if (FirstName != firstName)
-            {
-                FirstName = firstName;
-                UpdatedAt = DateTime.UtcNow;
-            }
+            bool modified = false;
 
-            if (LastName != lastName)
-            {
-                LastName = lastName;
-                UpdatedAt = DateTime.UtcNow;
-            }
+            if (FirstName != firstName) { FirstName = firstName; modified = true; }
+            if (LastName != lastName) { LastName = lastName; modified = true; }
+            if (Phone != phone) { Phone = phone; modified = true; }
 
-            if (Phone != phone)
-            {
-                Phone = phone;
+            if (modified)
                 UpdatedAt = DateTime.UtcNow;
-            }
         }
 
 #pragma warning disable CS8618

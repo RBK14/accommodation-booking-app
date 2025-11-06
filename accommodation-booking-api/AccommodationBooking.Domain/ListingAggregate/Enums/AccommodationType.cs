@@ -1,4 +1,6 @@
-﻿namespace AccommodationBooking.Domain.ListingAggregate.Enums
+﻿using AccommodationBooking.Domain.Common.Exceptions;
+
+namespace AccommodationBooking.Domain.ListingAggregate.Enums
 {
     public enum AccommodationType
     {
@@ -9,22 +11,29 @@
 
     public static class AccommodationTypeExtensions
     {
-        public static AccommodationType ParseAccommodationType(string? accommodationTypeValue)
+        public static bool TryParseAccommodationType(string? value, out AccommodationType type)
         {
-            Enum.TryParse(accommodationTypeValue, ignoreCase: true, out AccommodationType accommodationType);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                type = default;
+                return false;
+            }
 
-            return accommodationType;
+            return Enum.TryParse(value, ignoreCase: true, out type)
+                   && Enum.IsDefined(typeof(AccommodationType), type);
         }
 
-        public static bool TryParseAccommodationType(string? accommodationTypeValue, out AccommodationType accommodationType)
+        public static AccommodationType ParseAccommodationType(string value)
         {
-            return Enum.TryParse(accommodationTypeValue, ignoreCase: true, out accommodationType);
+            if (!TryParseAccommodationType(value, out var type))
+                throw new DomainValidationException($"Invalid accommodation type: {value}");
+
+            return type;
         }
 
-
-        public static bool IsValidAccommodationType(string? accommodationType)
+        public static bool IsValidAccommodationType(string? value)
         {
-            return TryParseAccommodationType(accommodationType, out _);
+            return TryParseAccommodationType(value, out _);
         }
     }
 }

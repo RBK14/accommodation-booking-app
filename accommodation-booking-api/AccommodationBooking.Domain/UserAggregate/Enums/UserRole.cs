@@ -11,7 +11,14 @@
     {
         public static bool TryParseRole(string? roleValue, out UserRole role)
         {
-            return Enum.TryParse(roleValue, ignoreCase: true, out role);
+            if (string.IsNullOrWhiteSpace(roleValue))
+            {
+                role = default;
+                return false;
+            }
+
+            return Enum.TryParse(roleValue, ignoreCase: true, out role)
+                   && Enum.IsDefined(typeof(UserRole), role);
         }
 
         public static bool IsValidRole(string? roleValue)

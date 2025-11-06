@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.UserAggregate.Enums;
+﻿using AccommodationBooking.Domain.Common.Exceptions;
 
 namespace AccommodationBooking.Domain.Common.Enums
 {
@@ -11,18 +11,25 @@ namespace AccommodationBooking.Domain.Common.Enums
 
     public static class CurrencyExtensions
     {
-        public static Currency ParseCurrency(string? currencyValue)
+        public static bool TryParseCurrency(string? currencyValue, out Currency currency)
         {
-            Enum.TryParse(currencyValue, ignoreCase: true, out Currency currency);
+            if (string.IsNullOrWhiteSpace(currencyValue))
+            {
+                currency = default;
+                return false;
+            }
+
+            return Enum.TryParse(currencyValue, ignoreCase: true, out currency)
+                   && Enum.IsDefined(typeof(Currency), currency);
+        }
+
+        public static Currency ParseCurrency(string currencyValue)
+        {
+            if (!TryParseCurrency(currencyValue, out var currency))
+                throw new DomainValidationException($"Invalid currency value: {currencyValue}");
 
             return currency;
         }
-
-        public static bool TryParseCurrency(string? currencyValue, out Currency currency)
-        {
-            return Enum.TryParse(currencyValue, ignoreCase: true, out currency);
-        }
-
 
         public static bool IsValidCurrency(string? currencyValue)
         {
