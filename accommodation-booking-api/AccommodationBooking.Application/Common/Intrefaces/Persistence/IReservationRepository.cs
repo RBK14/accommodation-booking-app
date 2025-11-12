@@ -6,6 +6,7 @@ namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
     {
         void Add(Reservation reservation);
         Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Reservation>> SearchAsync(IEnumerable<IFilterable<Reservation>> filters, CancellationToken cancellationToken = default);
         void Update(Reservation reservation);
         void Remove(Reservation reservation);
     }

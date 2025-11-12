@@ -1,5 +1,4 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
-using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
@@ -17,6 +16,20 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
         {
             var listing = _listings.FirstOrDefault(l => l.Id == id);
             return Task.FromResult(listing);
+        }
+        public Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default)
+        {
+            var listingQuery = _listings.AsQueryable();
+
+            if (filters is not null)
+            {
+                foreach (var filter in filters)
+                {
+                    listingQuery = filter.Apply(listingQuery);
+                }
+            }
+
+            return Task.FromResult<IEnumerable<Listing>>(listingQuery.ToList());
         }
 
         public void Update(Listing listing)
