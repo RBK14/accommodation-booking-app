@@ -7,15 +7,13 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
         IGuestProfileRepository guestProfiles,
         IHostProfileRepository hostProfiles,
         IListingRepository listings,
-        IReservationRepository reservations,
-        IScheduleRepository schedules) : IUnitOfWork
+        IReservationRepository reservations) : IUnitOfWork
     {
         public IUserRepository Users { get; } = users;
         public IGuestProfileRepository GuestProfiles { get; } = guestProfiles;
         public IHostProfileRepository HostProfiles { get; } = hostProfiles;
         public IListingRepository Listings { get; } = listings;
         public IReservationRepository Reservations { get; } = reservations;
-        public IScheduleRepository Schedules { get; } = schedules;
 
         public Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {

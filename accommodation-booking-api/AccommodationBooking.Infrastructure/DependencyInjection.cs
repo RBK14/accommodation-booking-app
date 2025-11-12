@@ -62,7 +62,6 @@ namespace AccommodationBooking.Infrastructure
             services.AddSingleton<IHostProfileRepository, HostProfileRepository>();
             services.AddSingleton<IListingRepository, ListingRepository>();
             services.AddSingleton<IReservationRepository, ReservationRepository>();
-            services.AddSingleton<IScheduleRepository, ScheduleRepository>();
 
             return services;
         }
