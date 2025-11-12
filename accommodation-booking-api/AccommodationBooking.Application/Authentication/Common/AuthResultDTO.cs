@@ -2,7 +2,7 @@
 
 namespace AccommodationBooking.Application.Authentication.Common
 {
-    public record AuthResult(
+    public record AuthResultDTO(
         User User,
         string AccessToken);
 }

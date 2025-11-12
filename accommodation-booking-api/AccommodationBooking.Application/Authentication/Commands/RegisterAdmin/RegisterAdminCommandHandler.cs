@@ -2,19 +2,17 @@
 using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
-using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
+namespace AccommodationBooking.Application.Authentication.Commands.RegisterAdmin
 {
-    public class RegisterHostCommandHandler(
-        IUnitOfWork unitOfWork,
-        IPasswordHasher passwordHasher) : IRequestHandler<RegisterUserCommand, ErrorOr<Unit>>
+    public class RegisterAdminCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterUserCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
+
         public async Task<ErrorOr<Unit>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
         {
             var email = command.Email;
@@ -23,19 +21,16 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
 
             var passwordHash = _passwordHasher.HashPassword(command.Password);
 
-            var user = User.CreateHost(
-                email: email,
-                passwordHash: passwordHash,
-                firstName: command.FirstName,
-                lastName: command.LastName,
-                phone: command.Phone);
+            var user = User.CreateAdmin(
+            email: email,
+            passwordHash: passwordHash,
+            firstName: command.FirstName,
+            lastName: command.LastName,
+            phone: command.Phone);
 
-            var profile = HostProfile.Create(user.Id);
-            
             try
             {
                 _unitOfWork.Users.Add(user);
-                _unitOfWork.HostProfiles.Add(profile);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (Exception)

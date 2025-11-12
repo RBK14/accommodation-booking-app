@@ -7,7 +7,6 @@
         IHostProfileRepository HostProfiles { get; }
         IListingRepository Listings { get; }
         IReservationRepository Reservations { get; }
-        IScheduleRepository Schedules { get; }
 
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
         Task RollbackAsync(CancellationToken cancellationToken = default);

@@ -1,5 +1,4 @@
-﻿using AccommodationBooking.Application.Authentication.Commands.RegisterGuest;
-using AccommodationBooking.Application.Authentication.Commands.RegisterHost;
+﻿using AccommodationBooking.Application.Authentication.Commands.Common;
 using AccommodationBooking.Application.Authentication.Commands.UpdateEmail;
 using AccommodationBooking.Application.Authentication.Commands.UpdatePassword;
 using AccommodationBooking.Application.Authentication.Common;
@@ -13,13 +12,11 @@ namespace AccommodationBooking.Api.Common.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<RegisterRequest, RegisterGuestCommand>();
-
-            config.NewConfig<RegisterRequest, RegisterHostCommand>();
+            config.NewConfig<RegisterRequest, RegisterUserCommand>();
 
             config.NewConfig<LoginRequest, LoginQuery>();
 
-            config.NewConfig<AuthResult, AuthResponse>()
+            config.NewConfig<AuthResultDTO, AuthResponse>()
                 .Map(dest => dest, src => src.User)
                 .Map(dest => dest.AccessToken, src => src.AccessToken);
 

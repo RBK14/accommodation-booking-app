@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
+namespace AccommodationBooking.Application.Authentication.Commands.Common
 {
-    public class RegisterGuestCommandValidator : AbstractValidator<RegisterGuestCommand>
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        public RegisterGuestCommandValidator()
+        public RegisterUserCommandValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Adres e-mail jest wymagany.")

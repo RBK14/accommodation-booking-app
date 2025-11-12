@@ -1,5 +1,4 @@
-﻿using AccommodationBooking.Application.Authentication.Commands.RegisterGuest;
-using AccommodationBooking.Application.Authentication.Commands.RegisterHost;
+﻿using AccommodationBooking.Application.Authentication.Commands.Common;
 using AccommodationBooking.Application.Authentication.Commands.UpdateEmail;
 using AccommodationBooking.Application.Authentication.Commands.UpdatePassword;
 using AccommodationBooking.Application.Authentication.Queries.Login;
@@ -26,7 +25,7 @@ namespace AccommodationBooking.Api.Controllers
         [HttpPost("register-guest")]
         public async Task<IActionResult> RegisterGuest(RegisterRequest request)
         {
-            var command = _mapper.Map<RegisterGuestCommand>(request);
+            var command = _mapper.Map<RegisterUserCommand>(request);
             var result = await _mediator.Send(command);
 
             return result.Match(
@@ -37,13 +36,23 @@ namespace AccommodationBooking.Api.Controllers
         [HttpPost("register-host")]
         public async Task<IActionResult> RegisterHost(RegisterRequest request)
         {
-            var command = _mapper.Map<RegisterHostCommand>(request);
+            var command = _mapper.Map<RegisterUserCommand>(request);
             var result = await _mediator.Send(command);
 
             return result.Match(
                 success => Ok(),
                 errors => Problem(errors));
+        }
 
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin(RegisterRequest request)
+        {
+            var command = _mapper.Map<RegisterUserCommand>(request);
+            var result = await _mediator.Send(command);
+
+            return result.Match(
+                success => Ok(),
+                errors => Problem(errors));
         }
 
         [HttpPost("login")]
