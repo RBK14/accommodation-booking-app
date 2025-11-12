@@ -11,12 +11,14 @@ namespace AccommodationBooking.Application.Users.Queries.GetUsers
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<IEnumerable<User>> Handle(GetUsersQuery query, CancellationToken cancellationToken)
         {
-            var filters = new List<IFilterable<User>>();
+            var role = UserRoleExtensions.TryParseRole(query.UserRole, out var parsedRole)
+                ? parsedRole
+                : (UserRole?)null;
 
-            if (UserRoleExtensions.TryParseRole(query.UserRole, out var role))
+            var filters = new List<IFilterable<User>>
             {
-                filters.Add(new UserRoleFilter(role));
-            }
+                new UserRoleFilter(role)
+            };
 
             return await _unitOfWork.Users.SearchAsync(filters, cancellationToken);
         }
