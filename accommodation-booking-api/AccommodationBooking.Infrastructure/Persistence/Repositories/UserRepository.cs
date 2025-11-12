@@ -23,6 +23,21 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
             return Task.FromResult(user);
         }
 
+        public Task<IEnumerable<User>> SearchAsync(IEnumerable<IFilterable<User>> filters, CancellationToken cancellationToken = default)
+        {
+            var usersQuery = _users.AsQueryable();
+
+            if (filters is not null)
+            {
+                foreach (var filter in filters)
+                {
+                    usersQuery = filter.Apply(usersQuery);
+                }
+            }
+
+            return Task.FromResult<IEnumerable<User>>(usersQuery.ToList());
+        }
+
         public void Update(User user)
         {
             return;
