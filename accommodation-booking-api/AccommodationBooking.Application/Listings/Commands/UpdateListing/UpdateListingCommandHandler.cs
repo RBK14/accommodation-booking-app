@@ -19,7 +19,7 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
 
             try
             {
-                var accommodationType = AccommodationTypeExtensions.ParseAccommodationType(command.AccommodationType);
+                var accommodationType = AccommodationTypeExtensions.Parse(command.AccommodationType);
                 var currency = CurrencyExtensions.Parse(command.Currency);
 
                 var address = Address.Create(

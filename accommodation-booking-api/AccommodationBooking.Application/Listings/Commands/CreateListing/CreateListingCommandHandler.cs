@@ -17,7 +17,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
             if (await _unitOfWork.HostProfiles.GetByIdAsync(command.HostProfileId) is null)
                 return Errors.HostProfile.NotFound;
 
-            var accommodationType = AccommodationTypeExtensions.ParseAccommodationType(command.AccommodationType);
+            var accommodationType = AccommodationTypeExtensions.Parse(command.AccommodationType);
             var currency = CurrencyExtensions.Parse(command.Currency);
 
             var listing = Listing.Create(

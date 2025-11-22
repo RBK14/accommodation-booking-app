@@ -1,8 +1,10 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Infrastructure.Authentication;
+using AccommodationBooking.Infrastructure.Persistence;
 using AccommodationBooking.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -55,6 +57,9 @@ namespace AccommodationBooking.Infrastructure
 
         public static IServiceCollection AddPersistence(this IServiceCollection services, ConfigurationManager configuration)
         {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+
             // TODO: Zamienić na AddScoped po dodaniu DB
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IUserRepository, UserRepository>();

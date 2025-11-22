@@ -6,8 +6,8 @@ namespace AccommodationBooking.Domain.ListingAggregate.Entities
     public class ScheduleSlot : Entity<Guid>
     {
         public Guid ReservationId { get; init; }
-        public DateTime Start { get; init; }
-        public DateTime End { get; init; }
+        public DateTime StartDate { get; init; }
+        public DateTime EndDate { get; init; }
 
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
@@ -15,22 +15,22 @@ namespace AccommodationBooking.Domain.ListingAggregate.Entities
         private ScheduleSlot(
             Guid id,
             Guid reservationId,
-            DateTime start,
-            DateTime end,
+            DateTime startDate,
+            DateTime endDate,
             DateTime createdAt,
             DateTime updatedAt)
             : base(id)
         {
             if (reservationId == Guid.Empty)
                 throw new DomainValidationException("Reservation ID cannot be empty.");
-            if (start < DateTime.UtcNow)
+            if (startDate < DateTime.UtcNow)
                 throw new DomainValidationException("Start date cannot be in the past.");
-            if (end <= start)
+            if (endDate <= startDate)
                 throw new DomainValidationException("End date must be after start date.");
 
             ReservationId = reservationId;
-            Start = start;
-            End = end;
+            StartDate = startDate;
+            EndDate = endDate;
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
         }

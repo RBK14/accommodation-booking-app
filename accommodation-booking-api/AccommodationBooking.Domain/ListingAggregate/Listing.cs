@@ -168,7 +168,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
         public bool IsOverlapping(DateTime start, DateTime end)
         {
             return _scheduleSlots.Any(s =>
-                start < s.End && end > s.Start);
+                start < s.EndDate && end > s.StartDate);
         }
 
         public void AddReview(Guid guestProfileId, int rating, string comment)
