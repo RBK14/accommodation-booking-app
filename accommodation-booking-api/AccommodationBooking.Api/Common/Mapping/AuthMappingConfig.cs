@@ -16,7 +16,7 @@ namespace AccommodationBooking.Api.Common.Mapping
 
             config.NewConfig<LoginRequest, LoginQuery>();
 
-            config.NewConfig<AuthResultDTO, AuthResponse>()
+            config.NewConfig<AuthResultDto, AuthResponse>()
                 .Map(dest => dest, src => src.User)
                 .Map(dest => dest.AccessToken, src => src.AccessToken);
 

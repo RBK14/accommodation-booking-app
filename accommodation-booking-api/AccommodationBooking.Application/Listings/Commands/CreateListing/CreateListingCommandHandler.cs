@@ -18,7 +18,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
                 return Errors.HostProfile.NotFound;
 
             var accommodationType = AccommodationTypeExtensions.ParseAccommodationType(command.AccommodationType);
-            var currency = CurrencyExtensions.ParseCurrency(command.Currency);
+            var currency = CurrencyExtensions.Parse(command.Currency);
 
             var listing = Listing.Create(
                 command.HostProfileId,

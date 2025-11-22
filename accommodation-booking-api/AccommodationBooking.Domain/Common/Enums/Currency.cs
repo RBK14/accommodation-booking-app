@@ -11,7 +11,7 @@ namespace AccommodationBooking.Domain.Common.Enums
 
     public static class CurrencyExtensions
     {
-        public static bool TryParseCurrency(string? currencyValue, out Currency currency)
+        public static bool TryParse(string? currencyValue, out Currency currency)
         {
             if (string.IsNullOrWhiteSpace(currencyValue))
             {
@@ -23,9 +23,9 @@ namespace AccommodationBooking.Domain.Common.Enums
                    && Enum.IsDefined(typeof(Currency), currency);
         }
 
-        public static Currency ParseCurrency(string currencyValue)
+        public static Currency Parse(string currencyValue)
         {
-            if (!TryParseCurrency(currencyValue, out var currency))
+            if (!TryParse(currencyValue, out var currency))
                 throw new DomainValidationException($"Invalid currency value: {currencyValue}");
 
             return currency;
@@ -33,7 +33,7 @@ namespace AccommodationBooking.Domain.Common.Enums
 
         public static bool IsValidCurrency(string? currencyValue)
         {
-            return TryParseCurrency(currencyValue, out _);
+            return TryParse(currencyValue, out _);
         }
     }
 }

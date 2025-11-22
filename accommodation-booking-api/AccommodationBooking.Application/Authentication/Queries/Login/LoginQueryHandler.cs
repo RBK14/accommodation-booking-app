@@ -11,13 +11,13 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
     public class LoginQueryHandler(
         IUnitOfWork unitOfWork,
         IPasswordHasher passwordHasher,
-        IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<LoginQuery, ErrorOr<AuthResultDTO>>
+        IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<LoginQuery, ErrorOr<AuthResultDto>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
-        public async Task<ErrorOr<AuthResultDTO>> Handle(LoginQuery query, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthResultDto>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
             var email = query.Email;
             if (await _unitOfWork.Users.GetByEmailAsync(email) is not User user)
@@ -31,7 +31,7 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
 
             var accessToken = _jwtTokenGenerator.GenerateAccessToken(user, profileId);
 
-            return new AuthResultDTO(user, accessToken);
+            return new AuthResultDto(user, accessToken);
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using AccommodationBooking.Domain.Common.Enums;
-using AccommodationBooking.Domain.Common.Models;
+﻿using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.Common.ValueObjects
 {
     public sealed class Address : ValueObject
     {
-        string Country { get; init; }
-        string City { get; init; }
-        string PostalCode { get; init; }
-        string Street { get; init; }
-        string BuildingNumber { get; init; }
+        public string Country { get; init; }
+        public string City { get; init; }
+        public string PostalCode { get; init; }
+        public string Street { get; init; }
+        public string BuildingNumber { get; init; }
     
         private Address(
             string country,

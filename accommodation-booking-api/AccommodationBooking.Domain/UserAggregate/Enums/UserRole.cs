@@ -1,4 +1,6 @@
-﻿namespace AccommodationBooking.Domain.UserAggregate.Enums
+﻿using AccommodationBooking.Domain.Common.Exceptions;
+
+namespace AccommodationBooking.Domain.UserAggregate.Enums
 {
     public enum UserRole
     {
@@ -9,7 +11,7 @@
 
     public static class UserRoleExtensions
     {
-        public static bool TryParseRole(string? roleValue, out UserRole role)
+        public static bool TryParse(string? roleValue, out UserRole role)
         {
             if (string.IsNullOrWhiteSpace(roleValue))
             {
@@ -21,14 +23,22 @@
                    && Enum.IsDefined(typeof(UserRole), role);
         }
 
+        public static UserRole Parse(string value)
+        {
+            if (!TryParse(value, out var role))
+                throw new DomainValidationException($"Invalid user role: {value}");
+
+            return role;
+        }
+
         public static bool IsValidRole(string? roleValue)
         {
-            return TryParseRole(roleValue, out _);
+            return TryParse(roleValue, out _);
         }
 
         public static bool IsInRole(this string? roleValue, UserRole expectedRole)
         {
-            return TryParseRole(roleValue, out var role) && role == expectedRole;
+            return TryParse(roleValue, out var role) && role == expectedRole;
         }
     }
 }

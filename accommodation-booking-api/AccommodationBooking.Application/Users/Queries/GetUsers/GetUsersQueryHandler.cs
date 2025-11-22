@@ -11,7 +11,7 @@ namespace AccommodationBooking.Application.Users.Queries.GetUsers
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<IEnumerable<User>> Handle(GetUsersQuery query, CancellationToken cancellationToken)
         {
-            var role = UserRoleExtensions.TryParseRole(query.UserRole, out var parsedRole)
+            var role = UserRoleExtensions.TryParse(query.UserRole, out var parsedRole)
                 ? parsedRole
                 : (UserRole?)null;
 
