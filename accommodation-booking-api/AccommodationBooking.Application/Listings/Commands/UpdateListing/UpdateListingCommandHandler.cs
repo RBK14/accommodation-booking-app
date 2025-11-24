@@ -15,8 +15,15 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
 
         public async Task<ErrorOr<Listing>> Handle(UpdateListingCommand command, CancellationToken cancellationToken)
         {
+
             if (await _unitOfWork.Listings.GetByIdAsync(command.ListingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
+
+            // TODO: Przenieść Errors do Domain
+            if (command.HostProfileId != listing.HostProfileId && command.HostProfileId != Guid.Empty)
+                return Error.Forbidden(
+                    "Reservation.ForbiddenUpdate",
+                    "Nie posiadasz uprawnień do edycji tej oferty.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 

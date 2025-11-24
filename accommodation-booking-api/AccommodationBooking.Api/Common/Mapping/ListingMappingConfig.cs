@@ -24,8 +24,9 @@ namespace AccommodationBooking.Api.Common.Mapping
                 .Map(dest => dest.HostProfileId, src => src.HostProfileId)
                 .Map(dest => dest, src => src.Request);
 
-            config.NewConfig<(UpdateListingRequest Request, Guid ListingId), UpdateListingCommand>()
+            config.NewConfig<(UpdateListingRequest Request, Guid ListingId, Guid HostProfileId), UpdateListingCommand>()
                 .Map(dest => dest.ListingId, src => src.ListingId)
+                .Map(dest => dest.HostProfileId, src => src.HostProfileId)
                 .Map(dest => dest, src => src.Request);
         }
     }

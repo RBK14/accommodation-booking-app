@@ -6,6 +6,7 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
 {
     public record UpdateListingCommand(
         Guid ListingId,
+        Guid HostProfileId,
         string Title,
         string Description,
         string AccommodationType,
