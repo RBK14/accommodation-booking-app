@@ -1,44 +1,39 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.ReservationAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
-    public class ReservationRepository : IReservationRepository
+    public class ReservationRepository(AppDbContext context) : IReservationRepository
     {
-        private readonly List<Reservation> _reservations = new();
+        private readonly AppDbContext _context = context;
 
         public void Add(Reservation reservation)
         {
-            _reservations.Add(reservation);
+            _context.Reservations.Add(reservation);
         }
 
-        public Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Reservation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var reservation = _reservations.FirstOrDefault(r => r.Id == id);
-            return Task.FromResult(reservation);
+            return await _context.Reservations
+                .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
         }
-        public Task<IEnumerable<Reservation>> SearchAsync(IEnumerable<IFilterable<Reservation>> filters, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Reservation>> SearchAsync(IEnumerable<IFilterable<Reservation>> filters, CancellationToken cancellationToken = default)
         {
-            var reservationsQuery = _reservations.AsQueryable();
+            var query = _context.Reservations.AsQueryable();
 
             if (filters is not null)
             {
                 foreach (var filter in filters)
-                {
-                    reservationsQuery = filter.Apply(reservationsQuery);
-                }
+                    query = filter.Apply(query);
             }
 
-            return Task.FromResult <IEnumerable<Reservation>>(reservationsQuery.ToList());
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public void Update(Reservation reservation)
-        {
-            return;
-        }
         public void Remove(Reservation reservation)
         {
-            return;
+            _context.Reservations.Remove(reservation);
         }
     }
 }

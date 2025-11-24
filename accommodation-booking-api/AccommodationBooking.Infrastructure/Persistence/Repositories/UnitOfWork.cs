@@ -1,33 +1,51 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
     public class UnitOfWork(
+        AppDbContext context,
         IUserRepository users,
         IGuestProfileRepository guestProfiles,
         IHostProfileRepository hostProfiles,
         IListingRepository listings,
         IReservationRepository reservations) : IUnitOfWork
     {
+        private readonly AppDbContext _context = context;
+        private IDbContextTransaction? _transaction;
+
         public IUserRepository Users { get; } = users;
         public IGuestProfileRepository GuestProfiles { get; } = guestProfiles;
         public IHostProfileRepository HostProfiles { get; } = hostProfiles;
         public IListingRepository Listings { get; } = listings;
         public IReservationRepository Reservations { get; } = reservations;
 
-        public Task<int> CommitAsync(CancellationToken cancellationToken = default)
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(0);
+            _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
         }
 
-        public Task RollbackAsync(CancellationToken cancellationToken = default)
+        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
-            return Task.CompletedTask;
+            var result = await _context.SaveChangesAsync(cancellationToken);
+            if (_transaction != null)
+                await _transaction.CommitAsync(cancellationToken);
+
+            return result;
         }
 
-        public ValueTask DisposeAsync()
+        public async Task RollbackAsync(CancellationToken cancellationToken = default)
         {
-            return ValueTask.CompletedTask;
+            if (_transaction != null)
+                await _transaction.RollbackAsync(cancellationToken);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_transaction != null)
+                await _transaction.DisposeAsync();
+
+            await _context.DisposeAsync();
         }
     }
 }

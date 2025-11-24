@@ -7,7 +7,6 @@ namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
         void Add(GuestProfile guestProfile);
         Task<GuestProfile?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<GuestProfile?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
-        void Update(GuestProfile guestProfile);
         void Remove(GuestProfile guestProfile);
     }
 }

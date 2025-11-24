@@ -1,5 +1,6 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ReservationAggregate;
@@ -15,34 +16,38 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
         public async Task<ErrorOr<Reservation>> Handle(CreateReservationCommand command, CancellationToken cancellationToken)
         {
             var listingId = command.ListingId;
-            if (await _unitOfWork.Listings.GetByIdAsync(listingId) is not Listing listing)
+            if (await _unitOfWork.Listings.GetByIdAsync(listingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
 
             var guestProfileId = command.GuestProfileId;
-            if (await _unitOfWork.GuestProfiles.GetByIdAsync(guestProfileId) is not GuestProfile guest)
+            if (await _unitOfWork.GuestProfiles.GetByIdAsync(guestProfileId, cancellationToken) is not GuestProfile guest)
                 return Errors.GuestProfile.NotFound;
 
             var checkIn = command.CheckIn;
             var checkOut = command.CheckOut;
 
-            var reservation = Reservation.Create(
-                listingId,
-                guestProfileId,
-                listing.HostProfileId,
-                listing.Title,
-                listing.Address,
-                listing.PricePerDay,
-                checkIn,
-                checkOut);
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+
+            Reservation reservation;
 
             try
             {
+                reservation = Reservation.Create(
+                    listingId,
+                    guestProfileId,
+                    listing.HostProfileId,
+                    listing.Title,
+                    listing.Address,
+                    listing.PricePerDay,
+                    checkIn,
+                    checkOut);
+
                 guest.AddReservationId(reservation.Id);
                 listing.ReserveDates(reservation.Id, checkIn, checkOut);
                 _unitOfWork.Reservations.Add(reservation);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Errors.Reservation.CreationFailed;

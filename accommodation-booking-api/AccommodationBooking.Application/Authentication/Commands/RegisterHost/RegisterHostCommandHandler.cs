@@ -17,22 +17,24 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterHost
         public async Task<ErrorOr<Unit>> Handle(RegisterHostCommand command, CancellationToken cancellationToken)
         {
             var email = command.Email;
-            if (await _unitOfWork.Users.GetByEmailAsync(email) is not null)
+            if (await _unitOfWork.Users.GetByEmailAsync(email, cancellationToken) is not null)
                 return Errors.User.DuplicateEmail;
 
             var passwordHash = _passwordHasher.HashPassword(command.Password);
 
-            var user = User.CreateHost(
-                email: email,
-                passwordHash: passwordHash,
-                firstName: command.FirstName,
-                lastName: command.LastName,
-                phone: command.Phone);
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-            var profile = HostProfile.Create(user.Id);
-            
             try
             {
+                var user = User.CreateHost(
+                email,
+                passwordHash,
+                command.FirstName,
+                command.LastName,
+                command.Phone);
+
+                var profile = HostProfile.Create(user.Id);
+
                 _unitOfWork.Users.Add(user);
                 _unitOfWork.HostProfiles.Add(profile);
                 await _unitOfWork.CommitAsync(cancellationToken);

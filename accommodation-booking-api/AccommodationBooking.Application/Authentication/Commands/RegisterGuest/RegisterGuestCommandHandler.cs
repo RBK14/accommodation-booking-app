@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
@@ -16,27 +17,29 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
         public async Task<ErrorOr<Unit>> Handle(RegisterGuestCommand command, CancellationToken cancellationToken)
         {
             var email = command.Email;
-            if (await _unitOfWork.Users.GetByEmailAsync(email) is not null)
+            if (await _unitOfWork.Users.GetByEmailAsync(email, cancellationToken) is not null)
                 return Errors.User.DuplicateEmail;
 
             var passwordHash = _passwordHasher.HashPassword(command.Password);
 
-            var user = User.CreateGuest(
-            email: email,
-            passwordHash: passwordHash,
-            firstName: command.FirstName,
-            lastName: command.LastName,
-            phone: command.Phone);
-
-            var profile = GuestProfile.Create(user.Id);
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             try
             {
+                var user = User.CreateGuest(
+                email,
+                passwordHash,
+                command.FirstName,
+                command.LastName,
+                command.Phone);
+
+                var profile = GuestProfile.Create(user.Id);
+
                 _unitOfWork.Users.Add(user);
                 _unitOfWork.GuestProfiles.Add(profile);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Errors.User.CreationFailed;

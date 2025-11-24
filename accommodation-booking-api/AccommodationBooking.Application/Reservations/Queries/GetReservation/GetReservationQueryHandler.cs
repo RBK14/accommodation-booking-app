@@ -12,7 +12,7 @@ namespace AccommodationBooking.Application.Reservations.Queries.GetReservation
 
         public async Task<ErrorOr<Reservation>> Handle(GetReservationQuery query, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Reservations.GetByIdAsync(query.ReservationId) is not Reservation reservation)
+            if (await _unitOfWork.Reservations.GetByIdAsync(query.ReservationId, cancellationToken) is not Reservation reservation)
                 return Errors.Reservation.NotFound;
 
             return reservation;
