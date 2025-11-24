@@ -68,7 +68,8 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("{userId:Guid}/update-email")]
+        [HttpPost("{userId:guid}/update-email")]
+        [Authorize]
         public async Task<IActionResult> UpdateEmail(UpdateEmailRequest request, Guid userId)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -89,7 +90,8 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("{userId:Guid}/update-password")]
+        [HttpPost("{userId:guid}/update-password")]
+        [Authorize]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordRequest request, Guid userId)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
