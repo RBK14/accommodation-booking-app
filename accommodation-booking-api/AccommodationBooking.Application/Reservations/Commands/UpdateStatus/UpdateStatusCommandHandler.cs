@@ -14,10 +14,12 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateStatus
 
         public async Task<ErrorOr<Unit>> Handle(UpdateStatusCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Reservations.GetByIdAsync(command.ReservationId) is not Reservation reservation)
+            if (await _unitOfWork.Reservations.GetByIdAsync(command.ReservationId, cancellationToken) is not Reservation reservation)
                 return Errors.Reservation.NotFound;
 
             var newStatus = ReservationStatusExtensions.Parse(command.Status);
+
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             try
             {

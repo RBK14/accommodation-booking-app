@@ -8,6 +8,7 @@
         IListingRepository Listings { get; }
         IReservationRepository Reservations { get; }
 
+        Task BeginTransactionAsync(CancellationToken cancellationToken = default);
         Task<int> CommitAsync(CancellationToken cancellationToken = default);
         Task RollbackAsync(CancellationToken cancellationToken = default);
     }

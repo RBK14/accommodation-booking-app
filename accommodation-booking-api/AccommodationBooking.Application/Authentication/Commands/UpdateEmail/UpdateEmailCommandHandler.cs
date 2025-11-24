@@ -1,5 +1,6 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
@@ -11,16 +12,20 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdateEmail
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         public async Task<ErrorOr<Unit>> Handle(UpdateEmailCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.GetByIdAsync(command.UserId) is not User user)
+            if (await _unitOfWork.Users.GetByIdAsync(command.UserId, cancellationToken) is not User user)
                 return Errors.User.NotFound;
+
+            if (await _unitOfWork.Users.GetByEmailAsync(command.Email, cancellationToken) is not null)
+                return Errors.User.DuplicateEmail;
+
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             try
             {
                 user.UpdateEmail(command.Email);
-                _unitOfWork.Users.Update(user);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Errors.User.UpdateFailed;

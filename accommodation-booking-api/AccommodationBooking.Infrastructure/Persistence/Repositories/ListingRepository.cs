@@ -1,44 +1,42 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.ListingAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
-    public class ListingRepository : IListingRepository
+    public class ListingRepository(AppDbContext context) : IListingRepository
     {
-        private readonly List<Listing> _listings = new();
+        private readonly AppDbContext _context = context;
 
         public void Add(Listing listing)
         {
-            _listings.Add(listing);
+            _context.Listings.Add(listing);
         }
 
-        public Task<Listing?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Listing?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var listing = _listings.FirstOrDefault(l => l.Id == id);
-            return Task.FromResult(listing);
+            return await _context.Listings
+                .Include(l => l.ScheduleSlots)
+                .Include(l => l.Reviews)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
         }
-        public Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default)
         {
-            var listingQuery = _listings.AsQueryable();
+            var query = _context.Listings.AsQueryable();
 
             if (filters is not null)
             {
                 foreach (var filter in filters)
-                {
-                    listingQuery = filter.Apply(listingQuery);
-                }
+                    query = filter.Apply(query);
             }
 
-            return Task.FromResult<IEnumerable<Listing>>(listingQuery.ToList());
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public void Update(Listing listing)
-        {
-            return;
-        }
         public void Remove(Listing listing)
         {
-            return;
+            _context.Listings.Remove(listing);
         }
     }
 }

@@ -1,4 +1,7 @@
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -10,19 +13,21 @@ namespace AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails
 
         public async Task<ErrorOr<Unit>> Handle(UpdatePersonalDetailsCommand command, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByIdAsync(command.UserId);
-            if (user is null)
-                return Error.NotFound();
+            if (await _unitOfWork.Users.GetByIdAsync(command.UserId, cancellationToken) is not User user)
+                return Errors.User.NotFound;
+            
+
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             try 
             {
                 user.UpdatePersonalDetails(command.FirstName, command.LastName, command.Phone);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
-                return Error.Failure();
+                return Errors.User.UpdateFailed;
             }
 
             return Unit.Value;

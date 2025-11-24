@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
@@ -16,7 +17,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdatePasswor
 
         public async Task<ErrorOr<Unit>> Handle(UpdatePasswordCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Users.GetByIdAsync(command.UserId) is not User user)
+            if (await _unitOfWork.Users.GetByIdAsync(command.UserId, cancellationToken) is not User user)
                 return Errors.User.NotFound;
 
             if (!_passwordHasher.Verify(command.Password, user.PasswordHash))
@@ -24,13 +25,14 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdatePasswor
 
             var newPasswordHash = _passwordHasher.HashPassword(command.NewPassword);
 
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+
             try
             {
                 user.UpdatePasswordHash(newPasswordHash);
-                _unitOfWork.Users.Update(user);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            catch (Exception)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Errors.User.UpdateFailed;

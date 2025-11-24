@@ -2,7 +2,10 @@
 using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
+using AccommodationBooking.Domain.GuestProfileAggregate;
+using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.UserAggregate;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 using ErrorOr;
 using MediatR;
 
@@ -20,14 +23,24 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
         public async Task<ErrorOr<AuthResultDto>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
             var email = query.Email;
-            if (await _unitOfWork.Users.GetByEmailAsync(email) is not User user)
+            if (await _unitOfWork.Users.GetByEmailAsync(email, cancellationToken) is not User user)
                 return Errors.Auth.InvalidCredentials;
 
             if (!_passwordHasher.Verify(query.Password, user.PasswordHash))
                 return Errors.Auth.InvalidCredentials;
 
-            // TODO: Wyciągnąć ID profilu
             var profileId = Guid.Empty;
+
+            if (user.Role == UserRole.Guest)
+            {
+                if (await _unitOfWork.GuestProfiles.GetByUserIdAsync(user.Id, cancellationToken) is GuestProfile profile)
+                    profileId = profile.Id;
+            }
+            else if (user.Role == UserRole.Host)
+            {
+                if (await _unitOfWork.HostProfiles.GetByUserIdAsync(user.Id, cancellationToken) is HostProfile profile)
+                    profileId = profile.Id;
+            }
 
             var accessToken = _jwtTokenGenerator.GenerateAccessToken(user, profileId);
 

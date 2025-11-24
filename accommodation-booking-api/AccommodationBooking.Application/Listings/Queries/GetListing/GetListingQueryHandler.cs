@@ -12,7 +12,7 @@ namespace AccommodationBooking.Application.Listings.Queries.GetListing
 
         public async Task<ErrorOr<Listing>> Handle(GetListingQuery query, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.Listings.GetByIdAsync(query.ListingId) is not Listing listing)
+            if (await _unitOfWork.Listings.GetByIdAsync(query.ListingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
 
             return listing;

@@ -1,36 +1,33 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.GuestProfileAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
-    public class GuestProfileRepository : IGuestProfileRepository
+    public class GuestProfileRepository(AppDbContext context) : IGuestProfileRepository
     {
-        private readonly List<GuestProfile> _guestProfiles = new();
+        private readonly AppDbContext _context = context;
 
         public void Add(GuestProfile guestProfile)
         {
-            _guestProfiles.Add(guestProfile);
+            _context.GuestProfiles.Add(guestProfile);
         }
 
-        public Task<GuestProfile?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<GuestProfile?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var guestProfile = _guestProfiles.FirstOrDefault(p => p.Id == id);
-            return Task.FromResult(guestProfile);
+            return await _context.GuestProfiles
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
-        public Task<GuestProfile?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<GuestProfile?> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
         {
-            var guestProfile = _guestProfiles.FirstOrDefault(p => p.UserId == userId);
-            return Task.FromResult(guestProfile);
+            return await _context.GuestProfiles
+                .FirstOrDefaultAsync(p => p.UserId == userId, cancellationToken);
         }
 
-        public void Update(GuestProfile guestProfile)
-        {
-            return;
-        }
         public void Remove(GuestProfile guestProfile)
         {
-            return;
+            _context.GuestProfiles.Remove(guestProfile);
         }
     }
 }

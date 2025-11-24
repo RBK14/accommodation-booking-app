@@ -60,13 +60,12 @@ namespace AccommodationBooking.Infrastructure
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
 
-            // TODO: Zamienić na AddScoped po dodaniu DB
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IGuestProfileRepository, GuestProfileRepository>();
-            services.AddSingleton<IHostProfileRepository, HostProfileRepository>();
-            services.AddSingleton<IListingRepository, ListingRepository>();
-            services.AddSingleton<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IGuestProfileRepository, GuestProfileRepository>();
+            services.AddScoped<IHostProfileRepository, HostProfileRepository>();
+            services.AddScoped<IListingRepository, ListingRepository>();
+            services.AddScoped<IReservationRepository, ReservationRepository>();
 
             return services;
         }

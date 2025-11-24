@@ -4,6 +4,7 @@ using AccommodationBooking.Application.Listings.Queries.GetAvailableDates;
 using AccommodationBooking.Application.Listings.Queries.GetListing;
 using AccommodationBooking.Application.Listings.Queries.GetListings;
 using AccommodationBooking.Contracts.Listings;
+using AccommodationBooking.Domain.UserAggregate.Enums;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,7 @@ namespace AccommodationBooking.Api.Controllers
         [Authorize(Roles = "Host")]
         public async Task<IActionResult> CreateListing(CreateListingRequest request)
         {
-            var profileIdValue = User.FindFirstValue("PrfileId");
+            var profileIdValue = User.FindFirstValue("ProfileId");
             if (!Guid.TryParse(profileIdValue, out var profileId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
 
@@ -70,9 +71,17 @@ namespace AccommodationBooking.Api.Controllers
             if (id == Guid.Empty)
                 return ValidationProblem("Identyfikator oferty jest nieprawidłowy.");
 
-            // TODO: Walidacja id profilu gospodarza (podać do Application i sprawdzić w Application)
+            var profileId = Guid.Empty;
 
-            var command = _mapper.Map<UpdateListingCommand>((request, id));
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            if (roleValue.IsInRole(UserRole.Host))
+            {
+                var profileIdValue = User.FindFirstValue("ProfileId");
+                if (Guid.TryParse(profileIdValue, out var tokenProfileId))
+                    profileId = tokenProfileId;
+            }
+
+            var command = _mapper.Map<UpdateListingCommand>((request, id, profileId));
             var result = await _mediator.Send(command);
 
             return result.Match(
