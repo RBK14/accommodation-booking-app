@@ -1,5 +1,4 @@
 ﻿namespace AccommodationBooking.Contracts.Reservations
 {
-    public record UpdateReservationStatusRequest(
-        string Status);
+    public record UpdateReservationStatusRequest(string Status);
 }

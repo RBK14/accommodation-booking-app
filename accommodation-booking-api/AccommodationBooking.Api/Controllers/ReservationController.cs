@@ -1,5 +1,5 @@
 ﻿using AccommodationBooking.Application.Reservations.Commands.CreateReservation;
-using AccommodationBooking.Application.Reservations.Commands.UpdateStatus;
+using AccommodationBooking.Application.Reservations.Commands.UpdateReservationStatus;
 using AccommodationBooking.Application.Reservations.Queries.GetReservation;
 using AccommodationBooking.Application.Reservations.Queries.GetReservations;
 using AccommodationBooking.Contracts.Reservations;
@@ -14,7 +14,8 @@ using System.Security.Claims;
 namespace AccommodationBooking.Api.Controllers
 {
     [Route("api/reservations")]
-    public class ReservationController(ISender mediator,
+    public class ReservationController(
+        ISender mediator,
         IMapper mapper) : ApiController
     {
         private readonly ISender _mediator = mediator;
@@ -24,7 +25,11 @@ namespace AccommodationBooking.Api.Controllers
         [Authorize(Roles = "Guest")]
         public async Task<IActionResult> CreateReservation(CreateReservationRequest request)
         {
-            var command = _mapper.Map<CreateReservationCommand>(request);
+            var profileIdValue = User.FindFirstValue("ProfileId");
+            if (!Guid.TryParse(profileIdValue, out var profileId))
+                return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
+
+            var command = _mapper.Map<CreateReservationCommand>((request, profileId));
             var result = await _mediator.Send(command);
 
             return result.Match(
@@ -33,9 +38,7 @@ namespace AccommodationBooking.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetReservations(Guid? listingId,
-            Guid? guestProfileId,
-            Guid? hostProfileId)
+        public async Task<IActionResult> GetReservations(Guid? listingId, Guid? guestProfileId, Guid? hostProfileId)
         {
             var query = new GetReservationsQuery(listingId, guestProfileId, hostProfileId);
             var result = await _mediator.Send(query);
@@ -43,6 +46,7 @@ namespace AccommodationBooking.Api.Controllers
             var response = result
                 .Select(reservation => _mapper.Map<ReservationResponse>(reservation))
                 .ToList();
+
             return Ok(response);
         }
 
@@ -52,7 +56,7 @@ namespace AccommodationBooking.Api.Controllers
             if (id == Guid.Empty)
                 return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
 
-            var query = new GetReservationQuery(ReservationId: id);
+            var query = new GetReservationQuery(id);
             var result = await _mediator.Send(query);
 
             return result.Match(
@@ -62,19 +66,20 @@ namespace AccommodationBooking.Api.Controllers
 
         [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Host")]
-        public async Task<IActionResult> UpdateStatus(UpdateReservationStatusRequest request,
-            Guid id)
+        public async Task<IActionResult> UpdateStatus(UpdateReservationStatusRequest request, Guid id)
         {
             if (id == Guid.Empty)
                 return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
 
             var roleValue = User.FindFirstValue(ClaimTypes.Role);
             var isHost = roleValue.IsInRole(UserRole.Host);
-            Enum.TryParse<ReservationStatus>(request.Status, out var requestStatusEnum);
-            if (isHost && requestStatusEnum != ReservationStatus.NoShow)
-                return Forbid("Nie posiadasz uprawnień do zmiany statusu .");
 
-            var command = _mapper.Map<UpdateStatusCommand>((request, id));
+            ReservationStatusExtensions.TryParse(request.Status, out var status);
+
+            if (isHost && status != ReservationStatus.NoShow)
+                return Forbid("Nie posiadasz uprawnień do zmiany statusu.");
+
+            var command = _mapper.Map<UpdateReservationStatusCommand>((request, id));
             var result = await _mediator.Send(command);
 
             return result.Match(

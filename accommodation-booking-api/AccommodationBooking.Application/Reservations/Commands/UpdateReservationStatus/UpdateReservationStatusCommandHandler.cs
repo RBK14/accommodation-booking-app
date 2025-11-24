@@ -6,13 +6,13 @@ using AccommodationBooking.Domain.ReservationAggregate.Enums;
 using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Reservations.Commands.UpdateStatus
+namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservationStatus
 {
-    public class UpdateStatusCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateStatusCommand, ErrorOr<Unit>>
+    public class UpdateReservationStatusCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateReservationStatusCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-        public async Task<ErrorOr<Unit>> Handle(UpdateStatusCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Unit>> Handle(UpdateReservationStatusCommand command, CancellationToken cancellationToken)
         {
             if (await _unitOfWork.Reservations.GetByIdAsync(command.ReservationId, cancellationToken) is not Reservation reservation)
                 return Errors.Reservation.NotFound;
