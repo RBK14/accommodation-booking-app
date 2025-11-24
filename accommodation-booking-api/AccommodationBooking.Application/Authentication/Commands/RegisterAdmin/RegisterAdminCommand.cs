@@ -1,9 +1,9 @@
 ﻿using ErrorOr;
 using MediatR;
 
-namespace AccommodationBooking.Application.Authentication.Commands.Common
+namespace AccommodationBooking.Application.Authentication.Commands.RegisterAdmin
 {
-    public record RegisterUserCommand(
+    public record RegisterAdminCommand(
         string Email,
         string Password,
         string FirstName,

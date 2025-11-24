@@ -1,5 +1,4 @@
-﻿using AccommodationBooking.Application.Authentication.Commands.Common;
-using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.GuestProfileAggregate;
@@ -9,12 +8,12 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
 {
-    public class RegisterGuestCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterUserCommand, ErrorOr<Unit>>
+    public class RegisterGuestCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterGuestCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
 
-        public async Task<ErrorOr<Unit>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Unit>> Handle(RegisterGuestCommand command, CancellationToken cancellationToken)
         {
             var email = command.Email;
             if (await _unitOfWork.Users.GetByEmailAsync(email) is not null)
