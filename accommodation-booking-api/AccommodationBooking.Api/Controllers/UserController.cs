@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AccommodationBooking.Api.Controllers
 {
     [Route("api/users")]
-    public class UsersController(
+    public class UserController(
         ISender mediator,
         IMapper mapper) : ApiController
     {
@@ -55,8 +55,8 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("{userId:guid}/update-personal-details")]
-        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid userId)
+        [HttpPost("{id:guid}/update-personal-details")]
+        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid id)
         {
             var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!Guid.TryParse(userIdValue, out var tokenUserId))
@@ -65,10 +65,10 @@ namespace AccommodationBooking.Api.Controllers
             var roleValue = User.FindFirstValue(ClaimTypes.Role);
             var isAdmin = roleValue.IsInRole(UserRole.Admin);
 
-            if (!isAdmin && tokenUserId != userId)
+            if (!isAdmin && tokenUserId != id)
                 return Forbid("Nie posiadasz uprawnień do edycji danych innego użytkownika.");
 
-            var query = _mapper.Map<UpdatePersonalDetailsCommand>((request, userId));
+            var query = _mapper.Map<UpdatePersonalDetailsCommand>((request, id));
             var result = await _mediator.Send(query);
 
             return result.Match(

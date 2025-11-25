@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ReservationAggregate;
 using AccommodationBooking.Domain.ReservationAggregate.Enums;
 using ErrorOr;
@@ -16,6 +17,9 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
         {
             if (await _unitOfWork.Reservations.GetByIdAsync(command.ReservationId, cancellationToken) is not Reservation reservation)
                 return Errors.Reservation.NotFound;
+
+            if (await _unitOfWork.Listings.GetByIdAsync(reservation.ListingId, cancellationToken) is not Listing listing)
+                return Errors.Listing.NotFound;
 
             var newStatus = ReservationStatusExtensions.Parse(command.Status);
 
@@ -35,16 +39,18 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
 
                     case ReservationStatus.Cancelled:
                         reservation.Cancel();
+                        listing.CancelReservation(reservation.Id);
                         break;
 
                     case ReservationStatus.NoShow:
                         reservation.MarkAsNoShow();
+                        listing.CancelReservation(reservation.Id);
                         break;
 
                     case ReservationStatus.Accepted:
                         return Error.Validation(
                             "Reservation.InvalidTransition",
-                            "Cannot manually transition to 'Accepted' status.");
+                            "Nie możesz zmienić statusu rezerwacji na zaakceptowana.");
 
                 }
 

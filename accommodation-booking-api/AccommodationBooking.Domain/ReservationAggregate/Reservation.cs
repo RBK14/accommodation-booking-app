@@ -106,7 +106,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             if (pricePerDay is null)
                 throw new DomainValidationException("Price per day cannot be null.");
 
-            var days = (checkOut - checkIn).Days;
+            var days = (checkOut - checkIn).Days + 1;
 
             var totalAmount = pricePerDay.Amount * days;
             return Price.Create(totalAmount, pricePerDay.Currency);

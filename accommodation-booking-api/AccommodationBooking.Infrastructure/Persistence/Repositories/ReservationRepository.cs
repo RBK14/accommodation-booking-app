@@ -35,5 +35,11 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
         {
             _context.Reservations.Remove(reservation);
         }
+
+        public void RemoveRange(IEnumerable<Reservation> reservations)
+        {
+            if (reservations.Any())
+                _context.Reservations.RemoveRange(reservations);
+        }
     }
 }

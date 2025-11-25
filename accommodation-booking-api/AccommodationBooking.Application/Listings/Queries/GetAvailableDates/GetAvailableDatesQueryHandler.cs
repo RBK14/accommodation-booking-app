@@ -15,10 +15,7 @@ namespace AccommodationBooking.Application.Listings.Queries.GetAvailableDates
             if (await _unitOfWork.Listings.GetByIdAsync(query.ListingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
 
-            var searchStart = query.From.HasValue
-                ? DateOnly.FromDateTime(query.From.Value)
-                : DateOnly.FromDateTime(DateTime.UtcNow);
-
+            var searchStart = query.From ?? DateOnly.FromDateTime(DateTime.UtcNow);
             var searchEnd = searchStart.AddDays(query.Days);
 
             var occupiedDates = new HashSet<DateOnly>();

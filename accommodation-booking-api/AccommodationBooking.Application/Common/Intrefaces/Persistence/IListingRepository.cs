@@ -8,6 +8,7 @@ namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
         Task<Listing?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default);
         void Remove(Listing listing);
+        void RemoveRange(IEnumerable<Listing> listings);
 
         // TODO: Ewentaulne wyszukiwanie tylko slotów lub rezerwacji
         // Task<IEnumerable<ScheduleSlot>> GetListingSlotsAsync(Guid id, CancellationToken cancellationToken);

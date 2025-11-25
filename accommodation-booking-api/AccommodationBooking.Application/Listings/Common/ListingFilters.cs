@@ -15,4 +15,19 @@ namespace AccommodationBooking.Application.Listings.Common
             return query;
         }
     }
+
+    public class ListingIdsFilter(IEnumerable<Guid>? listingIds) : IFilterable<Listing>
+    {
+        private readonly IEnumerable<Guid>? _listingIds = listingIds;
+
+        public IQueryable<Listing> Apply(IQueryable<Listing> query)
+        {
+            if (_listingIds is not null && _listingIds.Any())
+            {
+                query = query.Where(l => _listingIds.Contains(l.Id));
+            }
+
+            return query;
+        }
+    }
 }

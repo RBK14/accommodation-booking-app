@@ -21,6 +21,10 @@ namespace AccommodationBooking.Domain.Common.Errors
             public static Error UpdateFailed => Error.Failure(
                 code: "User.UpdateFailed",
                 description: "Nie udało się zaktualizować użytkownika.");
+
+            public static Error DeleteFailed => Error.Failure(
+                code: "User.DeleteFailed",
+                description: "Nie udało się usunąć użytkownika.");
         }
     }
 }

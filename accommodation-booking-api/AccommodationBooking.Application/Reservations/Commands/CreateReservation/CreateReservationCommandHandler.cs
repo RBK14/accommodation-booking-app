@@ -23,8 +23,8 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
             if (await _unitOfWork.GuestProfiles.GetByIdAsync(guestProfileId, cancellationToken) is not GuestProfile guest)
                 return Errors.GuestProfile.NotFound;
 
-            var checkIn = command.CheckIn;
-            var checkOut = command.CheckOut;
+            var checkIn = command.CheckIn.ToDateTime(new TimeOnly(13, 0));
+            var checkOut = command.CheckOut.ToDateTime(new TimeOnly(9, 0));
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 

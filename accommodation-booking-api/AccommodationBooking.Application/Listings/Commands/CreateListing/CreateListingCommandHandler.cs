@@ -2,6 +2,7 @@
 using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
+using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ListingAggregate.Enums;
 using ErrorOr;
@@ -15,7 +16,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
 
         public async Task<ErrorOr<Listing>> Handle(CreateListingCommand command, CancellationToken cancellationToken)
         {
-            if (await _unitOfWork.HostProfiles.GetByIdAsync(command.HostProfileId, cancellationToken) is null)
+            if (await _unitOfWork.HostProfiles.GetByIdAsync(command.HostProfileId, cancellationToken) is not HostProfile hostProfile)
                 return Errors.HostProfile.NotFound;
 
             var accommodationType = AccommodationTypeExtensions.Parse(command.AccommodationType);
@@ -42,6 +43,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
                     command.AmountPerDay,
                     currency);
 
+                hostProfile.AddListingId(listing.Id);
                 _unitOfWork.Listings.Add(listing);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }

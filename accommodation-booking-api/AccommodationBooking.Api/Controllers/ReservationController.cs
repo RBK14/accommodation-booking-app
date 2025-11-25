@@ -72,12 +72,16 @@ namespace AccommodationBooking.Api.Controllers
                 return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
 
             var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            var isGuest = roleValue.IsInRole(UserRole.Guest);
             var isHost = roleValue.IsInRole(UserRole.Host);
 
             ReservationStatusExtensions.TryParse(request.Status, out var status);
 
+            if ((isGuest || isHost) && status != ReservationStatus.Cancelled)
+                return Forbid("Nie posiadasz uprawnień do zmiany statusu na anulowana.");
+
             if (isHost && status != ReservationStatus.NoShow)
-                return Forbid("Nie posiadasz uprawnień do zmiany statusu.");
+                return Forbid("Nie posiadasz uprawnień do zmiany statusu na nieobyta.");
 
             var command = _mapper.Map<UpdateReservationStatusCommand>((request, id));
             var result = await _mediator.Send(command);

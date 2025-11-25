@@ -49,6 +49,15 @@ namespace AccommodationBooking.Domain.HostProfileAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void RemoveListingId(Guid listingId)
+        {
+            if (_listingIds.Contains(listingId))
+            {
+                _listingIds.Remove(listingId);
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
 #pragma warning disable CS8618
         private HostProfile() { }
 #pragma warning restore CS8618

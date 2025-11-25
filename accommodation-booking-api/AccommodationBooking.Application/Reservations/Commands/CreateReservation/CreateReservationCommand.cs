@@ -7,6 +7,6 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
     public record CreateReservationCommand(
         Guid ListingId,
         Guid GuestProfileId,
-        DateTime CheckIn,
-        DateTime CheckOut) : IRequest<ErrorOr<Reservation>>;
+        DateOnly CheckIn,
+        DateOnly CheckOut) : IRequest<ErrorOr<Reservation>>;
 }

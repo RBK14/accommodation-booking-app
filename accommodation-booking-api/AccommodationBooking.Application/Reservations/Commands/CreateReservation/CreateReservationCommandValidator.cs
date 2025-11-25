@@ -7,9 +7,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
         public CreateReservationCommandValidator()
         {
             RuleFor(x => x.CheckIn)
-                .NotEmpty().WithMessage("Data zameldowania jest wymagana.")
-                .GreaterThanOrEqualTo(DateTime.UtcNow)
-                .WithMessage("Data zameldowania nie może być datą z przeszłości.");
+                .NotEmpty().WithMessage("Data zameldowania jest wymagana.");
 
             RuleFor(x => x.CheckOut)
                 .NotEmpty().WithMessage("Data wymeldowania jest wymagana.")

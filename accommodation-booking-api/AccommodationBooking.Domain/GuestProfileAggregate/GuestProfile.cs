@@ -49,6 +49,15 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void RemoveReservationId(Guid reservationId)
+        {
+            if (_reservationIds.Contains(reservationId))
+            {
+                _reservationIds.Remove(reservationId);
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
 #pragma warning disable CS8618
         private GuestProfile() { }
 #pragma warning restore CS8618

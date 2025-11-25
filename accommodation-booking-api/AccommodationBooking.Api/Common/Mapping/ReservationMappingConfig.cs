@@ -11,6 +11,7 @@ namespace AccommodationBooking.Api.Common.Mapping
         public void Register(TypeAdapterConfig config)
         {
             config.NewConfig<Reservation, ReservationResponse>()
+                .Map(dest => dest.Title, src => src.ListingTitle)
                 .Map(dest => dest.Country, src => src.ListingAddress.Country)
                 .Map(dest => dest.City, src => src.ListingAddress.City)
                 .Map(dest => dest.PostalCode, src => src.ListingAddress.PostalCode)

@@ -42,60 +42,18 @@ namespace AccommodationBooking.Application.Reservations.Common
         }
     }
 
-    public class CheckInRangeFilter(
-        DateTime? from,
-        DateTime? to) : IFilterable<Reservation>
+    public class ListingIdsFilter(IEnumerable<Guid>? listingIds) : IFilterable<Reservation>
     {
-        private readonly DateTime? _from = from;
-        private readonly DateTime? _to = to;
+        private readonly IEnumerable<Guid>? _listingIds = listingIds;
 
         public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
         {
-            if (_from.HasValue)
-                query = query.Where(r => r.CheckIn >= _from.Value);
-
-            if (_to.HasValue)
-                query = query.Where(r => r.CheckIn <= _to.Value);
+            if (_listingIds is not null && _listingIds.Any())
+            {
+                query = query.Where(r => _listingIds.Contains(r.ListingId));
+            }
 
             return query;
-        }
-    }
-
-    public class CheckOutRangeFilter(
-        DateTime? from,
-        DateTime? to) : IFilterable<Reservation>
-    {
-        private readonly DateTime? _from = from;
-        private readonly DateTime? _to = to;
-
-        public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
-        {
-            if (_from.HasValue)
-                query = query.Where(r => r.CheckOut >= _from.Value);
-
-            if (_to.HasValue)
-                query = query.Where(r => r.CheckOut <= _to.Value);
-
-            return query;
-        }
-    }
-
-    public class ReservationDateRangeFilter(
-        DateTime? from,
-        DateTime? to) : IFilterable<Reservation>
-    {
-        private readonly DateTime? _from = from;
-        private readonly DateTime? _to = to;
-
-        public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
-        {
-            if (_from is null && _to is null)
-                return query;
-
-            return query.Where(r =>
-                (!_from.HasValue || r.CheckOut >= _from.Value) &&
-                (!_to.HasValue || r.CheckIn <= _to.Value)
-            );
         }
     }
 }   

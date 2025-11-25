@@ -90,12 +90,12 @@ namespace AccommodationBooking.Api.Controllers
         }
 
         [HttpGet("{id:guid}/get-dates")]
-        public async Task<IActionResult> GetAvailableDates(Guid id)
+        public async Task<IActionResult> GetAvailableDates(Guid id, DateOnly? from, int days = 14)
         {
             if (id == Guid.Empty)
                 return ValidationProblem("Identyfikator oferty jest nieprawidłowy.");
 
-            var query = new GetAvailableDatesQuery(id);
+            var query = new GetAvailableDatesQuery(id, from, days);
             var result = await _mediator.Send(query);
 
             return result.Match(
