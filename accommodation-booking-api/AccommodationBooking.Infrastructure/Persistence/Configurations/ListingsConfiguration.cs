@@ -117,7 +117,7 @@ namespace AccommodationBooking.Infrastructure.Persistence.Configurations
             builder.OwnsMany(l => l.Reviews, rb =>
             {
                 rb.ToTable("Reviews");
-                rb.WithOwner().HasForeignKey("ListingId");
+                rb.WithOwner().HasForeignKey(r => r.ListingId);
                 rb.HasKey("Id");
                 rb.Property(r => r.Id).ValueGeneratedNever();
 
