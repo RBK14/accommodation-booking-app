@@ -5,7 +5,7 @@ using Mapster;
 
 namespace AccommodationBooking.Api.Common.Mapping
 {
-    public class UsersMappingConfig : IRegister
+    public class UserMappingConfig : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

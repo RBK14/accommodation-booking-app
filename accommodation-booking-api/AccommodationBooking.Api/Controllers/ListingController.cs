@@ -1,4 +1,6 @@
 ﻿using AccommodationBooking.Application.Listings.Commands.CreateListing;
+using AccommodationBooking.Application.Listings.Commands.DeleteListing;
+using AccommodationBooking.Application.Listings.Commands.DeleteReview;
 using AccommodationBooking.Application.Listings.Commands.UpdateListing;
 using AccommodationBooking.Application.Listings.Queries.GetAvailableDates;
 using AccommodationBooking.Application.Listings.Queries.GetListing;
@@ -37,6 +39,56 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        [HttpPost("{id:guid}")]
+        [Authorize(Roles = "Admin, Host")]
+        public async Task<IActionResult> UpdateListing(UpdateListingRequest request, Guid id)
+        {
+            if (id == Guid.Empty)
+                return ValidationProblem("Identyfikator oferty jest nieprawidłowy.");
+
+            var profileId = Guid.Empty;
+
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            if (roleValue.IsInRole(UserRole.Host))
+            {
+                var profileIdValue = User.FindFirstValue("ProfileId");
+                if (Guid.TryParse(profileIdValue, out var tokenProfileId))
+                    profileId = tokenProfileId;
+            }
+
+            var command = _mapper.Map<UpdateListingCommand>((request, id, profileId));
+            var result = await _mediator.Send(command);
+
+            return result.Match(
+                listing => Ok(_mapper.Map<ListingResponse>(listing)),
+                errors => Problem(errors));
+        }
+
+        [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin, Host")]
+        public async Task<IActionResult> DeleteListing(Guid id)
+        {
+            if (id == Guid.Empty)
+                return ValidationProblem("Identyfikator oferty jest nieprawidłowy.");
+
+            var profileId = Guid.Empty;
+
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            if (roleValue.IsInRole(UserRole.Host))
+            {
+                var profileIdValue = User.FindFirstValue("ProfileId");
+                if (Guid.TryParse(profileIdValue, out var tokenProfileId))
+                    profileId = tokenProfileId;
+            }
+
+            var command = new DeleteListingCommand(id, profileId);
+            var result = await _mediator.Send(command);
+
+            return result.Match(
+                success => Ok(),
+                errors => Problem(errors));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetListings(Guid? hostProfileId)
         {
@@ -64,30 +116,7 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("{id:guid}")]
-        [Authorize(Roles = "Admin, Host")]
-        public async Task<IActionResult> UpdateListing(UpdateListingRequest request, Guid id)
-        {
-            if (id == Guid.Empty)
-                return ValidationProblem("Identyfikator oferty jest nieprawidłowy.");
-
-            var profileId = Guid.Empty;
-
-            var roleValue = User.FindFirstValue(ClaimTypes.Role);
-            if (roleValue.IsInRole(UserRole.Host))
-            {
-                var profileIdValue = User.FindFirstValue("ProfileId");
-                if (Guid.TryParse(profileIdValue, out var tokenProfileId))
-                    profileId = tokenProfileId;
-            }
-
-            var command = _mapper.Map<UpdateListingCommand>((request, id, profileId));
-            var result = await _mediator.Send(command);
-
-            return result.Match(
-                listing => Ok(_mapper.Map<ListingResponse>(listing)),
-                errors => Problem(errors));
-        }
+        
 
         [HttpGet("{id:guid}/get-dates")]
         public async Task<IActionResult> GetAvailableDates(Guid id, DateOnly? from, int days = 14)

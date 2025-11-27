@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Contracts.Listings
+﻿namespace AccommodationBooking.Contracts.Reviews
 {
     public record ReviewResponse(
         Guid ListingId,

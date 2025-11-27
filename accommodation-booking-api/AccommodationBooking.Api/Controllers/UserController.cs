@@ -18,6 +18,29 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        [HttpPost("{id:guid}/update-personal-details")]
+        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid id)
+        {
+            var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!Guid.TryParse(userIdValue, out var tokenUserId))
+                return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
+
+            var roleValue = User.FindFirstValue(ClaimTypes.Role);
+            var isAdmin = roleValue.IsInRole(UserRole.Admin);
+
+            if (!isAdmin && tokenUserId != id)
+                return Forbid("Nie posiadasz uprawnień do edycji danych innego użytkownika.");
+
+            var query = _mapper.Map<UpdatePersonalDetailsCommand>((request, id));
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+                success => Ok(),
+                errors => Problem(errors));
+        }
+
+        // TODO: DeleteGuest, DeleteHost, DeleteAdmin
+
         [HttpGet]
         public async Task<IActionResult> GetUsers(string? userRole)
         {
@@ -52,27 +75,6 @@ namespace AccommodationBooking.Api.Controllers
 
             return result.Match(
                 user => Ok(_mapper.Map<UserResponse>(user)),
-                errors => Problem(errors));
-        }
-
-        [HttpPost("{id:guid}/update-personal-details")]
-        public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid id)
-        {
-            var userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!Guid.TryParse(userIdValue, out var tokenUserId))
-                return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
-
-            var roleValue = User.FindFirstValue(ClaimTypes.Role);
-            var isAdmin = roleValue.IsInRole(UserRole.Admin);
-
-            if (!isAdmin && tokenUserId != id)
-                return Forbid("Nie posiadasz uprawnień do edycji danych innego użytkownika.");
-
-            var query = _mapper.Map<UpdatePersonalDetailsCommand>((request, id));
-            var result = await _mediator.Send(query);
-
-            return result.Match(
-                success => Ok(),
                 errors => Problem(errors));
         }
     }

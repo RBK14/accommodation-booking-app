@@ -1,4 +1,6 @@
-﻿using AccommodationBooking.Application.Reservations.Commands.CreateReservation;
+﻿using AccommodationBooking.Application.Listings.Commands.DeleteReview;
+using AccommodationBooking.Application.Reservations.Commands.CreateReservation;
+using AccommodationBooking.Application.Reservations.Commands.DeleteReservation;
 using AccommodationBooking.Application.Reservations.Commands.UpdateReservationStatus;
 using AccommodationBooking.Application.Reservations.Queries.GetReservation;
 using AccommodationBooking.Application.Reservations.Queries.GetReservations;
@@ -37,33 +39,6 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetReservations(Guid? listingId, Guid? guestProfileId, Guid? hostProfileId)
-        {
-            var query = new GetReservationsQuery(listingId, guestProfileId, hostProfileId);
-            var result = await _mediator.Send(query);
-
-            var response = result
-                .Select(reservation => _mapper.Map<ReservationResponse>(reservation))
-                .ToList();
-
-            return Ok(response);
-        }
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetReservation(Guid id)
-        {
-            if (id == Guid.Empty)
-                return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
-
-            var query = new GetReservationQuery(id);
-            var result = await _mediator.Send(query);
-
-            return result.Match(
-                reservation => Ok(_mapper.Map<ReservationResponse>(reservation)),
-                errors => Problem(errors));
-        }
-
         [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Host")]
         public async Task<IActionResult> UpdateStatus(UpdateReservationStatusRequest request, Guid id)
@@ -85,6 +60,48 @@ namespace AccommodationBooking.Api.Controllers
 
             var command = _mapper.Map<UpdateReservationStatusCommand>((request, id));
             var result = await _mediator.Send(command);
+
+            return result.Match(
+                reservation => Ok(_mapper.Map<ReservationResponse>(reservation)),
+                errors => Problem(errors));
+        }
+
+        [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteReservation(Guid id)
+        {
+            if (id == Guid.Empty)
+                return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
+
+            var command = new DeleteReservationCommand(id);
+            var result = await _mediator.Send(command);
+
+            return result.Match(
+                success => Ok(),
+                errors => Problem(errors));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetReservations(Guid? listingId, Guid? guestProfileId, Guid? hostProfileId)
+        {
+            var query = new GetReservationsQuery(listingId, guestProfileId, hostProfileId);
+            var result = await _mediator.Send(query);
+
+            var response = result
+                .Select(reservation => _mapper.Map<ReservationResponse>(reservation))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetReservation(Guid id)
+        {
+            if (id == Guid.Empty)
+                return ValidationProblem("Identyfikator rezerwacji jest nieprawidłowy.");
+
+            var query = new GetReservationQuery(id);
+            var result = await _mediator.Send(query);
 
             return result.Match(
                 reservation => Ok(_mapper.Map<ReservationResponse>(reservation)),

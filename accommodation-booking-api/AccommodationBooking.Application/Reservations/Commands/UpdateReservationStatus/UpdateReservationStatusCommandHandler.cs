@@ -56,16 +56,10 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
 
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
-            // TODO: Przenieść Errors do Domain
-            catch (DomainIllegalStateException ex)
+            catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
-                return Error.Conflict("Reservation.IllegalState", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                await _unitOfWork.RollbackAsync(cancellationToken);
-                return Error.Failure("Reservation.UpdateFailed", ex.Message);
+                return Error.Failure("Reservation.UpdateFailed", "Nie udało się zaktualizować rezerwacji.");
             }
 
             return Unit.Value;
