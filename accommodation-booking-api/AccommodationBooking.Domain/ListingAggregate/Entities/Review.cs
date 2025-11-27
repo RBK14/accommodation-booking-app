@@ -5,6 +5,7 @@ namespace AccommodationBooking.Domain.ListingAggregate.Entities
 {
     public class Review : Entity<Guid>
     {
+        public Guid ListingId { get; init; }
         public Guid GuestProfileId { get; init; }
         public int Rating { get; private set; }
         public string Comment { get; private set; }
@@ -13,6 +14,7 @@ namespace AccommodationBooking.Domain.ListingAggregate.Entities
 
         private Review(
             Guid id,
+            Guid listingId,
             Guid guestProfileId,
             int rating,
             string comment,
@@ -35,10 +37,11 @@ namespace AccommodationBooking.Domain.ListingAggregate.Entities
             UpdatedAt = updatedAt;
         }
 
-        internal static Review Create(Guid guestProfileId, int rating, string comment)
+        internal static Review Create(Guid listingId, Guid guestProfileId, int rating, string comment)
         {
             return new Review(
                 Guid.NewGuid(),
+                listingId,
                 guestProfileId,
                 rating,
                 comment.Trim(),

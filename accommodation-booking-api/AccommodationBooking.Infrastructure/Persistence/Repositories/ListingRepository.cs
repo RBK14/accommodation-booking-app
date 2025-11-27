@@ -1,5 +1,6 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.ListingAggregate;
+using AccommodationBooking.Domain.ListingAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
@@ -43,6 +44,30 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
         {
             if (listings.Any())
                 _context.Listings.RemoveRange(listings);
+        }
+
+        public async Task<Review?> GetReviewByIdAsync(Guid reviewId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Listings
+                .AsNoTracking()
+                .SelectMany(l => l.Reviews)
+                .FirstOrDefaultAsync(r => r.Id == reviewId, cancellationToken);
+        }
+
+
+        public async Task<IEnumerable<Review>> SearchReviewsAsync(IEnumerable<IFilterable<Review>> filters, CancellationToken cancellationToken = default)
+        {
+            var query = _context.Listings
+                .AsNoTracking()
+                .SelectMany(l => l.Reviews);
+
+            if (filters is not null)
+            {
+                foreach (var filter in filters)
+                    query = filter.Apply(query);
+            }
+
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }

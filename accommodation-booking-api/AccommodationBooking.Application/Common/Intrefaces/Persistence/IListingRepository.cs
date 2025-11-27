@@ -1,4 +1,5 @@
 ﻿using AccommodationBooking.Domain.ListingAggregate;
+using AccommodationBooking.Domain.ListingAggregate.Entities;
 
 namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
 {
@@ -9,9 +10,7 @@ namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
         Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default);
         void Remove(Listing listing);
         void RemoveRange(IEnumerable<Listing> listings);
-
-        // TODO: Ewentaulne wyszukiwanie tylko slotów lub rezerwacji
-        // Task<IEnumerable<ScheduleSlot>> GetListingSlotsAsync(Guid id, CancellationToken cancellationToken);
-        // Task<IEnumerable<ScheduleSlot>> GetListingReviewAsync(Guid id, CancellationToken cancellationToken);
+        Task<Review?> GetReviewByIdAsync(Guid reviewId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Review>> SearchReviewsAsync(IEnumerable<IFilterable<Review>> filters, CancellationToken cancellationToken = default);
     }
 }

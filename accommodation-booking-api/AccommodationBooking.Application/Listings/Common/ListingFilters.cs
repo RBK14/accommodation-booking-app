@@ -16,6 +16,19 @@ namespace AccommodationBooking.Application.Listings.Common
         }
     }
 
+    public class ReviewIdFilter(Guid? reviewId) : IFilterable<Listing>
+    {
+        private readonly Guid? _reviewId = reviewId;
+
+        public IQueryable<Listing> Apply(IQueryable<Listing> query)
+        {
+            if (_reviewId is not null && !string.IsNullOrWhiteSpace(_reviewId.ToString()))
+                query = query.Where(l => l.Reviews.Any(r => r.Id == _reviewId));
+
+            return query;
+        }
+    }
+
     public class ListingIdsFilter(IEnumerable<Guid>? listingIds) : IFilterable<Listing>
     {
         private readonly IEnumerable<Guid>? _listingIds = listingIds;

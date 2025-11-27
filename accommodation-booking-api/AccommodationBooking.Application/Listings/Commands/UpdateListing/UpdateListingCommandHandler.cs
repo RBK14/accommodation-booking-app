@@ -19,10 +19,12 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
             if (await _unitOfWork.Listings.GetByIdAsync(command.ListingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
 
-            // TODO: Przenieść Errors do Domain
-            if (command.HostProfileId != listing.HostProfileId && command.HostProfileId != Guid.Empty)
+            var isAdmin = command.ProfileId == Guid.Empty;
+            var isOwner = command.ProfileId == listing.HostProfileId;
+
+            if (!isAdmin && !isOwner)
                 return Error.Forbidden(
-                    "Reservation.ForbiddenUpdate",
+                    "Reservation.InvalidOwner",
                     "Nie posiadasz uprawnień do edycji tej oferty.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);

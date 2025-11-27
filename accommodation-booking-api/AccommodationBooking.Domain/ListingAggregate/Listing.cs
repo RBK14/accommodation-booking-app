@@ -176,19 +176,30 @@ namespace AccommodationBooking.Domain.ListingAggregate
             if (_reviews.Any(r => r.GuestProfileId == guestProfileId))
                 throw new DomainIllegalStateException("Guest has already reviewed this listing.");
 
-            var review = Review.Create(guestProfileId, rating, comment);
+            var review = Review.Create(this.Id, guestProfileId, rating, comment);
             _reviews.Add(review);
 
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void UpdateReview(Guid reviewId, Guid guestProfileId, string comment, int? rating = null)
+        public void UpdateReview(Guid reviewId, string comment, int? rating = null)
         {
             var review = _reviews.FirstOrDefault(r => r.Id == reviewId);
             if (review is null)
                 throw new DomainIllegalStateException("Review not found.");
 
             review.Update(comment, rating);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void DeleteReview(Guid reviewId)
+        {
+            var review = _reviews.FirstOrDefault(r => r.Id == reviewId);
+            if (review is null)
+                throw new DomainIllegalStateException("Review not found.");
+
+            _reviews.Remove(review);
+
             UpdatedAt = DateTime.UtcNow;
         }
 
