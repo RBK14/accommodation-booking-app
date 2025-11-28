@@ -1,6 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
 using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Infrastructure.Authentication;
+using AccommodationBooking.Infrastructure.BackgroundJobs;
 using AccommodationBooking.Infrastructure.Persistence;
 using AccommodationBooking.Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -66,6 +67,8 @@ namespace AccommodationBooking.Infrastructure
             services.AddScoped<IHostProfileRepository, HostProfileRepository>();
             services.AddScoped<IListingRepository, ListingRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            services.AddHostedService<ReservationStatusUpdaterService>();
 
             return services;
         }

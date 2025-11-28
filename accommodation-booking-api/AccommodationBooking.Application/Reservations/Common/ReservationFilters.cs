@@ -1,5 +1,7 @@
 ﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
 using AccommodationBooking.Domain.ReservationAggregate;
+using AccommodationBooking.Domain.ReservationAggregate.Enums;
+using System.Linq;
 
 namespace AccommodationBooking.Application.Reservations.Common
 {
@@ -52,6 +54,45 @@ namespace AccommodationBooking.Application.Reservations.Common
             {
                 query = query.Where(r => _listingIds.Contains(r.ListingId));
             }
+
+            return query;
+        }
+    }
+
+    public class ReservationStatusFilter(ReservationStatus? status) : IFilterable<Reservation>
+    {
+        private readonly ReservationStatus? _status = status;
+
+        public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
+        {
+            if (_status is not null)
+                query = query.Where(r => r.Status.Equals(_status));
+
+            return query;
+        }
+    }
+
+    public class CheckInFilter(DateTime? dateLimit) : IFilterable<Reservation>
+    {
+        private readonly DateTime? _dateLimit = dateLimit;
+
+        public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
+        {
+            if (_dateLimit is not null)
+                query = query.Where(r => r.CheckIn <= _dateLimit);
+
+            return query;
+        }
+    }
+
+    public class CheckOutFilter(DateTime? dateLimit) : IFilterable<Reservation>
+    {
+        private readonly DateTime? _dateLimit = dateLimit;
+
+        public IQueryable<Reservation> Apply(IQueryable<Reservation> query)
+        {
+            if (_dateLimit is not null)
+                query = query.Where(r => r.CheckOut < _dateLimit);
 
             return query;
         }
