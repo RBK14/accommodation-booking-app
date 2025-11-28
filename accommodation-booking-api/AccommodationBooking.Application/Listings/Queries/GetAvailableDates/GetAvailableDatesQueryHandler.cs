@@ -16,7 +16,7 @@ namespace AccommodationBooking.Application.Listings.Queries.GetAvailableDates
                 return Errors.Listing.NotFound;
 
             var searchStart = query.From ?? DateOnly.FromDateTime(DateTime.UtcNow);
-            var searchEnd = searchStart.AddDays(query.Days);
+            var searchEnd = searchStart.AddDays(query.Days ?? 14);
 
             var occupiedDates = new HashSet<DateOnly>();
 

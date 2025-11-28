@@ -14,7 +14,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.SystemUpdateRes
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly ILogger<SystemUpdateReservationStatusesCommandHandler> _logger = logger;
 
-        public async Task<Unit> Handle(SystemUpdateReservationStatusesCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SystemUpdateReservationStatusesCommand command, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Processing automatic reservation status updates...");
 

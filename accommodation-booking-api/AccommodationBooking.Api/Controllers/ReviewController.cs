@@ -35,7 +35,7 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Guest")]
         public async Task<IActionResult> UpdateReview(UpdateReviewRequest request, Guid id)
         {
@@ -81,12 +81,12 @@ namespace AccommodationBooking.Api.Controllers
             var result = await _mediator.Send(command);
 
             return result.Match(
-                success => Ok(),
+                _ => NoContent(),
                 errors => Problem(errors));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetListingReviews(Guid? listingId, Guid? guestProfileId)
+        public async Task<IActionResult> GetReviews(Guid? listingId, Guid? guestProfileId)
         {
             var query = new GetReviewsQuery(listingId, guestProfileId);
             var result = await _mediator.Send(query);
