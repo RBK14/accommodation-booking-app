@@ -3,5 +3,5 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Users.Commands.DeleteGuest
 {
-    public record DeleteGuestCommand(Guid UserId, Guid GuestProfileId) : IRequest<ErrorOr<Unit>>;
+    public record DeleteGuestCommand(Guid UserId) : IRequest<ErrorOr<Unit>>;
 }

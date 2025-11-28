@@ -20,7 +20,7 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteGuest
             if (await _unitOfWork.Users.GetByIdAsync(command.UserId, cancellationToken) is not User user)
                 return Errors.User.NotFound;
 
-            if (await _unitOfWork.GuestProfiles.GetByIdAsync(command.GuestProfileId, cancellationToken) is not GuestProfile guestProfile)
+            if (await _unitOfWork.GuestProfiles.GetByUserIdAsync(user.Id, cancellationToken) is not GuestProfile guestProfile)
                 return Errors.GuestProfile.NotFound;
 
             if (user.Id != guestProfile.UserId)

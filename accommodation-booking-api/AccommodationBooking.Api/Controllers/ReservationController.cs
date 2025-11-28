@@ -77,7 +77,7 @@ namespace AccommodationBooking.Api.Controllers
             var result = await _mediator.Send(command);
 
             return result.Match(
-                success => Ok(),
+                _ => NoContent(),
                 errors => Problem(errors));
         }
 
