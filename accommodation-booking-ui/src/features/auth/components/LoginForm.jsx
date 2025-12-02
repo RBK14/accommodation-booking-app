@@ -1,17 +1,6 @@
-import useAuth from '../../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
-
-const LoginForm = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSimulateLogin = (role) => {
-    login(role);
-
-    // if (role === 'Admin') navigate('/admin');
-    // if (role === 'Host') navigate('/host');
-
-    console.log(`Zalogowano jako: ${role}`);
+const LoginForm = ({ onSuccess }) => {
+  const handleSubmit = (role) => {
+    onSuccess({ role });
   };
 
   return (
@@ -19,7 +8,20 @@ const LoginForm = () => {
       <h2>Symulacja Logowania</h2>
 
       <button
-        onClick={() => handleSimulateLogin('Host')}
+        onClick={() => handleSubmit('Guest')}
+        style={{
+          padding: '15px',
+          margin: '10px',
+          background: '#0d6efd',
+          color: 'white',
+          border: 'none',
+        }}
+      >
+        Zaloguj jako GOŚĆ
+      </button>
+
+      <button
+        onClick={() => handleSubmit('Host')}
         style={{
           padding: '15px',
           margin: '10px',
@@ -32,7 +34,7 @@ const LoginForm = () => {
       </button>
 
       <button
-        onClick={() => handleSimulateLogin('Admin')}
+        onClick={() => handleSubmit('Admin')}
         style={{
           padding: '15px',
           margin: '10px',
