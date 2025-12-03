@@ -5,11 +5,18 @@ import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 import HostLayout from './layouts/HostLayout';
 
+import ProtectedRoute from './router/ProtectedRoute';
+
 import HomePage from './pages/guest/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import HostDashboard from './pages/host/HostDashboard';
-import ProtectedRoute from './router/ProtectedRoute';
+import HostOffersPage from './pages/host/HostOffersPage';
+import HostOfferPage from './pages/host/HostOfferPage';
+import HostEditOfferPage from './pages/host/HostEditOfferPage';
+import HostNewOfferPage from './pages/host/HostNewOfferPage';
+import HostReservationsPage from './pages/host/HostReservationsPage';
+import HostReviewPage from './pages/host/HostReviewPage';
+import HostAccountPage from './pages/host/HostAccountPage';
 
 function App() {
   return (
@@ -28,7 +35,13 @@ function App() {
         {/* HOST */}
         <Route element={<ProtectedRoute allowedRoles={['Host']} />}>
           <Route path="/host" element={<HostLayout />}>
-            <Route index element={<HostDashboard />} />
+            <Route index element={<HostOffersPage />} />
+            <Route path="new-offer" element={<HostNewOfferPage />} />
+            <Route path="offer/:id" element={<HostOfferPage />} />
+            <Route path="offer/:id/edit" element={<HostEditOfferPage />} />
+            <Route path="reservations" element={<HostReservationsPage />} />
+            <Route path="review" element={<HostReviewPage />} />
+            <Route path="account" element={<HostAccountPage />} />
           </Route>
         </Route>
 
