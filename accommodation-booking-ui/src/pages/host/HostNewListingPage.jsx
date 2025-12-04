@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -24,9 +24,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
 
-const HostEditOfferPage = () => {
+const HostNewListingPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -42,20 +41,6 @@ const HostEditOfferPage = () => {
     currency: 'PLN',
   });
   const [images, setImages] = useState([]);
-
-  // Pobierz dane z state (jeśli przesłane z HostOfferPage)
-  useEffect(() => {
-    if (location.state?.listing) {
-      setFormData(location.state.listing);
-    }
-  }, [location.state]);
-
-  // Pobierz zdjęcia z state (jeśli przesłane)
-  useEffect(() => {
-    if (location.state?.images) {
-      setImages(location.state.images);
-    }
-  }, [location.state?.images]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,13 +63,13 @@ const HostEditOfferPage = () => {
 
   const handleSave = () => {
     // TODO: Wysłanie danych na backend
-    console.log('Zapisywanie oferty:', formData);
+    console.log('Tworzenie nowego ogłoszenia:', formData);
     console.log('Zdjęcia:', images);
-    navigate(-1); // Wróć na poprzednią stronę
+    navigate(-1);
   };
 
   const handleCancel = () => {
-    navigate(-1); // Wróć bez zapisywania
+    navigate(-1);
   };
 
   return (
@@ -92,14 +77,13 @@ const HostEditOfferPage = () => {
       <Card>
         <CardContent>
           <Box sx={{ display: 'flex', gap: 3 }}>
-            {/* Lewa strona - Formularz */}
             <Box
               sx={{ display: 'flex', flexDirection: 'column', width: 450, minWidth: 300, gap: 2 }}
             >
               <Stack spacing={2}>
                 <TextField
                   fullWidth
-                  label="Nazwa oferty"
+                  label="Nazwa ogłoszenia"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
@@ -269,7 +253,7 @@ const HostEditOfferPage = () => {
               </Stack>
             </Box>
 
-            {/* Prawa strona - Galeria */}
+            {/* Galeria */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{
@@ -363,4 +347,4 @@ const HostEditOfferPage = () => {
   );
 };
 
-export default HostEditOfferPage;
+export default HostNewListingPage;

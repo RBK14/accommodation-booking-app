@@ -11,10 +11,10 @@ import HomePage from './pages/guest/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import HostOffersPage from './pages/host/HostOffersPage';
-import HostOfferPage from './pages/host/HostOfferPage';
-import HostEditOfferPage from './pages/host/HostEditOfferPage';
-import HostNewOfferPage from './pages/host/HostNewOfferPage';
+import HostListingsPage from './pages/host/HostListingsPage';
+import HostListingPage from './pages/host/HostListingPage';
+import HostEditListingPage from './pages/host/HostEditListingPage';
+import HostNewListingPage from './pages/host/HostNewListingPage';
 import HostReservationsPage from './pages/host/HostReservationsPage';
 import HostReviewPage from './pages/host/HostReviewPage';
 import HostAccountPage from './pages/host/HostAccountPage';
@@ -37,10 +37,10 @@ function App() {
         {/* HOST */}
         <Route element={<ProtectedRoute allowedRoles={['Host']} />}>
           <Route path="/host" element={<HostLayout />}>
-            <Route index element={<HostOffersPage />} />
-            <Route path="new-offer" element={<HostNewOfferPage />} />
-            <Route path="offer/:id" element={<HostOfferPage />} />
-            <Route path="offer/:id/edit" element={<HostEditOfferPage />} />
+            <Route index element={<HostListingsPage />} />
+            <Route path="new-listing" element={<HostNewListingPage />} />
+            <Route path="listing/:id" element={<HostListingPage />} />
+            <Route path="listing/:id/edit" element={<HostEditListingPage />} />
             <Route path="reservations" element={<HostReservationsPage />} />
             <Route path="review" element={<HostReviewPage />} />
             <Route path="account" element={<HostAccountPage />} />

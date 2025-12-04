@@ -13,9 +13,9 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 
-const HostOffersPage = () => {
+const HostListingsPage = () => {
   const navigate = useNavigate();
-  const [offers, setOffers] = useState([
+  const [listings, setListings] = useState([
     {
       id: 1,
       title: 'Apartament w centrum miasta',
@@ -93,7 +93,7 @@ const HostOffersPage = () => {
   ]);
 
   const handleView = (id) => {
-    navigate(`/host/offer/${id}`);
+    navigate(`/host/listing/${id}`);
   };
 
   return (
@@ -116,8 +116,8 @@ const HostOffersPage = () => {
           justifyContent: 'center',
         }}
       >
-        {offers.map((offer) => (
-          <Grid item sx={{ width: '30%', minWidth: '300px' }} key={offer.id}>
+        {listings.map((listing) => (
+          <Grid item sx={{ width: '30%', minWidth: '300px' }} key={listing.id}>
             <Card
               sx={{
                 display: 'flex',
@@ -134,8 +134,8 @@ const HostOffersPage = () => {
               <CardMedia
                 component="img"
                 height="200"
-                image={offer.image}
-                alt={offer.title}
+                image={listing.image}
+                alt={listing.title}
                 sx={{
                   objectFit: 'cover',
                 }}
@@ -155,7 +155,7 @@ const HostOffersPage = () => {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  {offer.title}
+                  {listing.title}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -166,7 +166,7 @@ const HostOffersPage = () => {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  📍 {offer.address}
+                  📍 {listing.address}
                 </Typography>
               </CardContent>
 
@@ -183,7 +183,7 @@ const HostOffersPage = () => {
                       backgroundColor: '#0a58ca',
                     },
                   }}
-                  onClick={() => handleView(offer.id)}
+                    onClick={() => handleView(listing.id)}
                 >
                   Przeglądaj
                 </Button>
@@ -196,4 +196,4 @@ const HostOffersPage = () => {
   );
 };
 
-export default HostOffersPage;
+export default HostListingsPage;
