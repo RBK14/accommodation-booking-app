@@ -9,6 +9,7 @@ import ProtectedRoute from './router/ProtectedRoute';
 
 import HomePage from './pages/guest/HomePage';
 import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import HostOffersPage from './pages/host/HostOffersPage';
 import HostOfferPage from './pages/host/HostOfferPage';
@@ -30,6 +31,7 @@ function App() {
         {/* AUTH */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Route>
 
         {/* HOST */}
