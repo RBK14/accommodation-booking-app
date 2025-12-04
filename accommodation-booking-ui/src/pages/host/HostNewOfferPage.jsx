@@ -38,7 +38,7 @@ const HostNewOfferPage = () => {
     street: '',
     buildingNumber: '',
     amountPerDay: '',
-    currency: '',
+    currency: 'PLN',
   });
   const [images, setImages] = useState([]);
 
@@ -253,7 +253,7 @@ const HostNewOfferPage = () => {
               </Stack>
             </Box>
 
-            {/* Prawa strona - Galeria */}
+            {/* Galeria */}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{

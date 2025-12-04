@@ -7,7 +7,8 @@ export const AuthProvider = ({ children }) => {
 
   const login = (role) => {
     const fakeAuth = {
-      name: 'John Doe',
+      firstName: 'John',
+      lastName: 'Doe',
       role: role,
     };
     setAuth(fakeAuth);

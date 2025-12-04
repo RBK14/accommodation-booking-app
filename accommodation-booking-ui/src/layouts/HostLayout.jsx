@@ -1,4 +1,5 @@
 import { useNavigate, Outlet } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -9,26 +10,51 @@ import {
   ListItemText,
   Box,
   Container,
+  IconButton,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import StarIcon from '@mui/icons-material/Star';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AuthContext from '../context/AuthProvider';
 import { PRIMARY_BLUE, DARK_GRAY, LIGHT_GRAY, TEXT_WHITE } from '../assets/styles/colors';
 
 const DRAWER_WIDTH = 240;
 
 const HostLayout = () => {
   const navigate = useNavigate();
+  const { auth, logout } = useContext(AuthContext);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const menuItems = [
     { label: 'Oferty', icon: <HomeIcon />, path: '/host' },
     { label: 'Nowa oferta', icon: <AddIcon />, path: '/host/new-offer' },
     { label: 'Rezerwacje', icon: <DateRangeIcon />, path: '/host/reservations' },
     { label: 'Opinie', icon: <StarIcon />, path: '/host/review' },
-    { label: 'Moje konto', icon: <AccountCircleIcon />, path: '/host/account' },
   ];
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleAccountClick = () => {
+    navigate('/host/account');
+    handleMenuClose();
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleMenuClose();
+    navigate('/login');
+  };
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: LIGHT_GRAY }}>
@@ -41,7 +67,7 @@ const HostLayout = () => {
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box
             sx={{
               fontSize: '1.5rem',
@@ -50,6 +76,53 @@ const HostLayout = () => {
             }}
           >
             Panel gospodarza
+          </Box>
+
+          {/* Profile Menu */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Box
+              sx={{
+                color: TEXT_WHITE,
+                fontSize: '0.95rem',
+                fontFamily: ['Roboto', 'Arial', 'sans-serif'].join(','),
+              }}
+            >
+              {auth?.firstName}
+            </Box>
+            <IconButton
+              onClick={handleMenuOpen}
+              sx={{
+                color: TEXT_WHITE,
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                },
+              }}
+            >
+              <AccountCircleIcon fontSize="large" />
+            </IconButton>
+
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <MenuItem onClick={handleAccountClick} sx={{ gap: 1 }}>
+                <AccountCircleIcon fontSize="small" />
+                Moje konto
+              </MenuItem>
+              <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
+                <LogoutIcon fontSize="small" />
+                Wyloguj się
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>
