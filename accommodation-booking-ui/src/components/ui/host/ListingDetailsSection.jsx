@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../../assets/styles/colors';
 import { translateAccommodationType } from '../../../utils/accommodationTypeMapper';
 
-const ListingDetailsSection = ({ listing, onEdit, onDelete }) => {
+const ListingDetailsSection = ({ listing, onEdit, onDelete, showActions = true }) => {
   return (
     <Box
       sx={{
@@ -74,36 +74,38 @@ const ListingDetailsSection = ({ listing, onEdit, onDelete }) => {
         </Box>
       </Box>
 
-      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        <Button
-          variant="contained"
-          startIcon={<EditIcon />}
-          sx={{
-            backgroundColor: PRIMARY_BLUE,
-            '&:hover': {
-              backgroundColor: '#0a58ca',
-            },
-          }}
-          onClick={onEdit}
-        >
-          Edytuj
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          sx={{
-            borderColor: DARK_GRAY,
-            color: DARK_GRAY,
-            '&:hover': {
+      {showActions && (
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            startIcon={<EditIcon />}
+            sx={{
+              backgroundColor: PRIMARY_BLUE,
+              '&:hover': {
+                backgroundColor: '#0a58ca',
+              },
+            }}
+            onClick={onEdit}
+          >
+            Edytuj
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            sx={{
               borderColor: DARK_GRAY,
-              backgroundColor: 'rgba(33, 37, 41, 0.04)',
-            },
-          }}
-          onClick={onDelete}
-        >
-          Usuń
-        </Button>
-      </Stack>
+              color: DARK_GRAY,
+              '&:hover': {
+                borderColor: DARK_GRAY,
+                backgroundColor: 'rgba(33, 37, 41, 0.04)',
+              },
+            }}
+            onClick={onDelete}
+          >
+            Usuń
+          </Button>
+        </Stack>
+      )}
     </Box>
   );
 };
