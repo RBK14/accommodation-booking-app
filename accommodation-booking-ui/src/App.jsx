@@ -1,4 +1,4 @@
-import { Outlet, BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Outlet, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
@@ -10,7 +10,10 @@ import ProtectedRoute from './router/ProtectedRoute';
 import HomePage from './pages/guest/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminOffersPage from './pages/admin/AdminOffersPage';
+import AdminOfferPage from './pages/admin/AdminOfferPage';
+import AdminEditOfferPage from './pages/admin/AdminEditOfferPage';
 import HostOffersPage from './pages/host/HostOffersPage';
 import HostOfferPage from './pages/host/HostOfferPage';
 import HostEditOfferPage from './pages/host/HostEditOfferPage';
@@ -50,7 +53,11 @@ function App() {
         {/* ADMIN */}
         <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
+            <Route index element={<AdminUsersPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="offers" element={<AdminOffersPage />} />
+            <Route path="offer/:id" element={<AdminOfferPage />} />
+            <Route path="offer/:id/edit" element={<AdminEditOfferPage />} />
           </Route>
         </Route>
 
