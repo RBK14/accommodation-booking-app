@@ -32,7 +32,7 @@ const HostLayout = () => {
 
   const menuItems = [
     { label: 'Oferty', icon: <HomeIcon />, path: '/host' },
-    { label: 'Nowa oferta', icon: <AddIcon />, path: '/host/new-offer' },
+    { label: 'Nowe ogłoszenie', icon: <AddIcon />, path: '/host/new-listing' },
     { label: 'Rezerwacje', icon: <DateRangeIcon />, path: '/host/reservations' },
     { label: 'Opinie', icon: <StarIcon />, path: '/host/review' },
   ];
