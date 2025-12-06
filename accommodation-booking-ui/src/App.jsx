@@ -8,6 +8,7 @@ import HostLayout from './layouts/HostLayout';
 import ProtectedRoute from './router/ProtectedRoute';
 
 import HomePage from './pages/guest/HomePage';
+import ListingsPage from './pages/guest/ListingsPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -26,6 +27,7 @@ function App() {
         {/* PUBLIC */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/listings" element={<ListingsPage />} />
         </Route>
 
         {/* AUTH */}
