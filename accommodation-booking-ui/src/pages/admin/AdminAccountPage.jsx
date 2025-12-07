@@ -5,7 +5,7 @@ import { DARK_GRAY } from '../../assets/styles/colors';
 import AuthContext from '../../context/AuthProvider';
 import { useAuthApi } from '../../features/auth/hooks';
 
-const HostAccountPage = () => {
+const AdminAccountPage = () => {
   const { auth, userData } = useContext(AuthContext);
   const { updateEmail, updatePassword, loading, error } = useAuthApi();
 
@@ -56,4 +56,4 @@ const HostAccountPage = () => {
   );
 };
 
-export default HostAccountPage;
+export default AdminAccountPage;

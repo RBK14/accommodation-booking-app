@@ -8,7 +8,7 @@ import { PRIMARY_BLUE, TEXT_WHITE } from '../../assets/styles/colors';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, userData, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -20,7 +20,13 @@ const Navbar = () => {
   };
 
   const handleAccountClick = () => {
-    navigate('/host/account');
+    if (auth?.role === 'Guest') {
+      navigate('/account');
+    } else if (auth?.role === 'Host') {
+      navigate('/host/account');
+    } else if (auth?.role === 'Admin') {
+      navigate('/admin/account');
+    }
     handleMenuClose();
   };
 
@@ -70,7 +76,7 @@ const Navbar = () => {
                   fontFamily: ['Roboto', 'Arial', 'sans-serif'].join(','),
                 }}
               >
-                {auth.firstName}
+                {userData?.firstName}
               </Box>
               <IconButton
                 onClick={handleMenuOpen}

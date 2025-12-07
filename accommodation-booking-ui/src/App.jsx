@@ -11,7 +11,10 @@ import HomePage from './pages/guest/HomePage';
 import ListingsPage from './pages/guest/ListingsPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
-import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminListingsPage from './pages/admin/AdminListingsPage';
+import AdminListingPage from './pages/admin/AdminListingPage';
+import AdminEditListingPage from './pages/admin/AdminEditListingPage';
 import HostListingsPage from './pages/host/HostListingsPage';
 import HostListingPage from './pages/host/HostListingPage';
 import HostEditListingPage from './pages/host/HostEditListingPage';
@@ -19,6 +22,8 @@ import HostNewListingPage from './pages/host/HostNewListingPage';
 import HostReservationsPage from './pages/host/HostReservationsPage';
 import HostReviewPage from './pages/host/HostReviewPage';
 import HostAccountPage from './pages/host/HostAccountPage';
+import AccountPage from './pages/guest/AccountPage';
+import AdminAccountPage from './pages/admin/AdminAccountPage';
 
 function App() {
   return (
@@ -36,10 +41,18 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
+        {/* GUEST */}
+        <Route element={<ProtectedRoute allowedRoles={['Guest']} />}>
+          <Route element={<MainLayout />}>
+            <Route path="/account" element={<AccountPage />} />
+          </Route>
+        </Route>
+
         {/* HOST */}
         <Route element={<ProtectedRoute allowedRoles={['Host']} />}>
           <Route path="/host" element={<HostLayout />}>
             <Route index element={<HostListingsPage />} />
+            <Route path="listings" element={<HostListingsPage />} />
             <Route path="new-listing" element={<HostNewListingPage />} />
             <Route path="listing/:id" element={<HostListingPage />} />
             <Route path="listing/:id/edit" element={<HostEditListingPage />} />
@@ -54,9 +67,10 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminUsersPage />} />
             <Route path="users" element={<AdminUsersPage />} />
-            <Route path="offers" element={<AdminOffersPage />} />
-            <Route path="offer/:id" element={<AdminOfferPage />} />
-            <Route path="offer/:id/edit" element={<AdminEditOfferPage />} />
+            <Route path="listings" element={<AdminListingsPage />} />
+            <Route path="listing/:id" element={<AdminListingPage />} />
+            <Route path="listing/:id/edit" element={<AdminEditListingPage />} />
+            <Route path="account" element={<AdminAccountPage />} />
           </Route>
         </Route>
 

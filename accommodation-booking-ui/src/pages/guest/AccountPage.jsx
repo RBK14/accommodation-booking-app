@@ -1,11 +1,10 @@
 import { useContext } from 'react';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/ui/shared';
-import { DARK_GRAY } from '../../assets/styles/colors';
 import AuthContext from '../../context/AuthProvider';
 import { useAuthApi } from '../../features/auth/hooks';
 
-const HostAccountPage = () => {
+const AccountPage = () => {
   const { auth, userData } = useContext(AuthContext);
   const { updateEmail, updatePassword, loading, error } = useAuthApi();
 
@@ -37,8 +36,8 @@ const HostAccountPage = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Stack spacing={3} sx={{ maxWidth: '800px', width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 3 }}>
+      <Stack spacing={3} sx={{ maxWidth: '800px', width: '100%', px: 2 }}>
         <ContactInfoForm
           initialData={{
             firstName: userData?.firstName || '',
@@ -56,4 +55,4 @@ const HostAccountPage = () => {
   );
 };
 
-export default HostAccountPage;
+export default AccountPage;

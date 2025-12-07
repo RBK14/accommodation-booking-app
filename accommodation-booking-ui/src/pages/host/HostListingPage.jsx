@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Card, CardContent } from '@mui/material';
 import {
-  ListingDetailsSection,
   ListingGallerySection,
   ReservationsSection,
   ReviewsSection,
 } from '../../components/ui/host';
+import { ListingDetailsSection } from '../../components/ui/shared';
 
 const HostListingPage = () => {
   const navigate = useNavigate();

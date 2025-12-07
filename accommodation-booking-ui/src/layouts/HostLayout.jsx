@@ -27,11 +27,11 @@ const DRAWER_WIDTH = 240;
 
 const HostLayout = () => {
   const navigate = useNavigate();
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, userData, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const menuItems = [
-    { label: 'Oferty', icon: <HomeIcon />, path: '/host' },
+    { label: 'Ogłoszenia', icon: <HomeIcon />, path: '/host/listings' },
     { label: 'Nowe ogłoszenie', icon: <AddIcon />, path: '/host/new-listing' },
     { label: 'Rezerwacje', icon: <DateRangeIcon />, path: '/host/reservations' },
     { label: 'Opinie', icon: <StarIcon />, path: '/host/review' },
@@ -87,7 +87,7 @@ const HostLayout = () => {
                 fontFamily: ['Roboto', 'Arial', 'sans-serif'].join(','),
               }}
             >
-              {auth?.firstName}
+              {userData?.firstName}
             </Box>
             <IconButton
               onClick={handleMenuOpen}

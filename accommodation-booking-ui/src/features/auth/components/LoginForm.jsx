@@ -1,51 +1,79 @@
+import { useState } from 'react';
+import { useAuthApi } from '../hooks';
+import { Box, TextField, Button, Typography, Alert, Paper } from '@mui/material';
+import { Login as LoginIcon } from '@mui/icons-material';
+
 const LoginForm = ({ onSuccess }) => {
-  const handleSubmit = (role) => {
-    onSuccess({ role });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, loading, error } = useAuthApi();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await login({ email, password });
+
+    if (result.success) {
+      onSuccess(result.data);
+    }
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <h2>Symulacja Logowania</h2>
+    <Box
+      sx={{
+        maxWidth: 400,
+        margin: '0 auto',
+        padding: 3,
+      }}
+    >
+      <Paper elevation={3} sx={{ padding: 4 }}>
+        <Typography variant="h4" component="h2" align="center" gutterBottom>
+          Logowanie
+        </Typography>
 
-      <button
-        onClick={() => handleSubmit('Guest')}
-        style={{
-          padding: '15px',
-          margin: '10px',
-          background: '#0d6efd',
-          color: 'white',
-          border: 'none',
-        }}
-      >
-        Zaloguj jako GOŚĆ
-      </button>
+        <Box component="form" onSubmit={handleSubmit} noValidate>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+            autoComplete="email"
+            autoFocus
+          />
 
-      <button
-        onClick={() => handleSubmit('Host')}
-        style={{
-          padding: '15px',
-          margin: '10px',
-          background: '#0d6efd',
-          color: 'white',
-          border: 'none',
-        }}
-      >
-        Zaloguj jako GOSPODARZ
-      </button>
+          <TextField
+            label="Hasło"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+            margin="normal"
+            autoComplete="current-password"
+          />
 
-      <button
-        onClick={() => handleSubmit('Admin')}
-        style={{
-          padding: '15px',
-          margin: '10px',
-          background: '#212529',
-          color: 'white',
-          border: 'none',
-        }}
-      >
-        Zaloguj jako ADMIN
-      </button>
-    </div>
+          {error && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {error}
+            </Alert>
+          )}
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            disabled={loading}
+            startIcon={<LoginIcon />}
+            sx={{ mt: 3, mb: 2, py: 1.5 }}
+          >
+            {loading ? 'Logowanie...' : 'Zaloguj się'}
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
 
