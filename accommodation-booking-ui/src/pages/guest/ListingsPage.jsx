@@ -1,13 +1,67 @@
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Box, Container, Typography, Card, CardContent } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { DARK_GRAY } from '../../assets/styles/colors';
-import { SearchBar } from '../../components/guest';
+import { SearchBar, ListingsList } from '../../components/guest';
+import { useListingsApi } from '../../hooks';
+import { useAuth } from '../../hooks';
 
 const ListingsPage = () => {
   const [searchParams] = useSearchParams();
+  const { auth } = useAuth();
+  const { getListings, loading, error } = useListingsApi();
+  const [allListings, setAllListings] = useState([]);
 
   const location = searchParams.get('location') || '';
   const guests = searchParams.get('guests') || '';
+
+  // Pobierz wszystkie oferty
+  useEffect(() => {
+    const fetchListings = async () => {
+      if (!auth?.token) return;
+
+      const result = await getListings(null, auth.token);
+      if (result.success) {
+        setAllListings(result.data);
+      }
+    };
+
+    fetchListings();
+  }, [auth?.token]);
+
+  // Filtrowanie ofert
+  const filteredListings = useMemo(() => {
+    let filtered = [...allListings];
+
+    // Filtrowanie po lokalizacji (miasto, ulica)
+    if (location) {
+      const locationLower = location.toLowerCase().trim();
+      filtered = filtered.filter((listing) => {
+        const city = (listing.city || '').toLowerCase();
+        const street = (listing.street || '').toLowerCase();
+        const country = (listing.country || '').toLowerCase();
+
+        // Sprawdź czy lokalizacja zawiera się w którymkolwiek polu
+        return (
+          city.includes(locationLower) ||
+          street.includes(locationLower) ||
+          country.includes(locationLower) ||
+          `${city} ${street}`.includes(locationLower) ||
+          `${street} ${city}`.includes(locationLower)
+        );
+      });
+    }
+
+    // Filtrowanie po liczbie gości
+    if (guests) {
+      const guestsNumber = parseInt(guests, 10);
+      if (!isNaN(guestsNumber)) {
+        filtered = filtered.filter((listing) => listing.maxGuests >= guestsNumber);
+      }
+    }
+
+    return filtered;
+  }, [allListings, location, guests]);
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -21,13 +75,7 @@ const ListingsPage = () => {
         </Box>
       </Box>
 
-      <Card>
-        <CardContent>
-          <Typography variant="body1" sx={{ color: 'textSecondary', textAlign: 'center', py: 4 }}>
-            Tutaj pojawi się lista ogłoszeń na podstawie parametrów wyszukiwania
-          </Typography>
-        </CardContent>
-      </Card>
+      <ListingsList listings={filteredListings} loading={loading} error={error} />
     </Container>
   );
 };
