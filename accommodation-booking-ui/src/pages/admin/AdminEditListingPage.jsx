@@ -22,7 +22,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
-import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
+import { translateAccommodationType, getAccommodationTypes } from '../../utils';
 
 const AdminEditListingPage = () => {
   const navigate = useNavigate();
@@ -125,9 +125,11 @@ const AdminEditListingPage = () => {
                     onChange={handleChange}
                     label="Typ zakwaterowania"
                   >
-                    <MenuItem value="Apartment">{translateAccommodationType('Apartment')}</MenuItem>
-                    <MenuItem value="House">{translateAccommodationType('House')}</MenuItem>
-                    <MenuItem value="Hotel">{translateAccommodationType('Hotel')}</MenuItem>
+                    {getAccommodationTypes().map((type) => (
+                      <MenuItem key={type} value={type}>
+                        {translateAccommodationType(type)}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
 

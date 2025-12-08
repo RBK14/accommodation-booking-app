@@ -13,6 +13,7 @@ import {
   Chip,
 } from '@mui/material';
 import { DARK_GRAY, PRIMARY_BLUE } from '../../assets/styles/colors';
+import { translateReservationStatus } from '../../utils';
 
 const ReservationsSection = ({
   reservations = [],
@@ -32,19 +33,17 @@ const ReservationsSection = ({
   };
 
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'confirmed':
-      case 'potwierdzona':
+    switch (status) {
+      case 'Accepted':
         return 'success';
-      case 'pending':
-      case 'oczekuj�ca':
-        return 'warning';
-      case 'cancelled':
-      case 'anulowana':
-        return 'error';
-      case 'completed':
-      case 'zako�czona':
+      case 'InProgress':
         return 'info';
+      case 'Completed':
+        return 'default';
+      case 'Cancelled':
+        return 'error';
+      case 'NoShow':
+        return 'warning';
       default:
         return 'default';
     }
@@ -113,7 +112,7 @@ const ReservationsSection = ({
                         </Typography>
                       </Box>
                       <Chip
-                        label={reservation.status}
+                        label={translateReservationStatus(reservation.status)}
                         color={getStatusColor(reservation.status)}
                         size="small"
                       />

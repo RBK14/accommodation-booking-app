@@ -5,6 +5,10 @@ const ACCOMMODATION_TYPE_MAP = {
   Apartment: 'Apartament',
   House: 'Dom',
   Hotel: 'Pokój hotelowy',
+  Villa: 'Willa',
+  Room: 'Pokój',
+  Loft: 'Loft',
+  Studio: 'Studio',
 };
 
 /**
@@ -26,6 +30,22 @@ export const reverseTranslateAccommodationType = (type) => {
     Object.entries(ACCOMMODATION_TYPE_MAP).map(([en, pl]) => [pl, en])
   );
   return reverseMap[type] || type;
+};
+
+/**
+ * Zwraca wszystkie dostępne typy zakwaterowania (angielskie klucze)
+ * @returns {string[]} Tablica z typami zakwaterowania w języku angielskim
+ */
+export const getAccommodationTypes = () => {
+  return Object.keys(ACCOMMODATION_TYPE_MAP);
+};
+
+/**
+ * Zwraca wszystkie dostępne typy zakwaterowania (polskie wartości)
+ * @returns {string[]} Tablica z typami zakwaterowania w języku polskim
+ */
+export const getAccommodationTypesTranslated = () => {
+  return Object.values(ACCOMMODATION_TYPE_MAP);
 };
 
 export default ACCOMMODATION_TYPE_MAP;
