@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Stack } from '@mui/material';
+import { toast } from 'react-toastify';
 import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
 import { DARK_GRAY } from '../../assets/styles/colors';
 import AuthContext from '../../context/AuthProvider';
@@ -29,21 +30,20 @@ const HostAccountPage = () => {
         lastName: data.lastName,
         phone: data.phone,
       });
-      console.log('Dane kontaktowe zaktualizowane pomyślnie');
+      toast.success('Dane kontaktowe zaktualizowane pomyślnie');
     } else {
-      console.error('Błąd aktualizacji danych kontaktowych:', result.error);
+      toast.error(result.error || 'Błąd aktualizacji danych kontaktowych');
     }
   };
 
   const handleSaveEmail = async (data) => {
     const result = await updateEmail(auth.id, data.email, auth.token);
     if (result.success) {
-      console.log('Email zaktualizowany pomyślnie - wylogowywanie...');
-      // Wyloguj użytkownika po zmianie email
+      toast.success('Email zaktualizowany pomyślnie - wylogowywanie...');
       logout();
       navigate('/auth/login');
     } else {
-      console.error('Błąd aktualizacji email:', result.error);
+      toast.error(result.error || 'Błąd aktualizacji email');
     }
   };
 
@@ -54,12 +54,11 @@ const HostAccountPage = () => {
       auth.token
     );
     if (result.success) {
-      console.log('Hasło zmienione pomyślnie - wylogowywanie...');
-      // Wyloguj użytkownika po zmianie hasła
+      toast.success('Hasło zmienione pomyślnie - wylogowywanie...');
       logout();
       navigate('/auth/login');
     } else {
-      console.error('Błąd zmiany hasła:', result.error);
+      toast.error(result.error || 'Błąd zmiany hasła');
     }
   };
 

@@ -15,7 +15,6 @@ const decodeToken = (token) => {
     );
     return JSON.parse(jsonPayload);
   } catch (error) {
-    console.error('Błąd dekodowania tokena:', error);
     return null;
   }
 };

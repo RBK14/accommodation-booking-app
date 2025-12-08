@@ -16,7 +16,6 @@ const RegisterPage = () => {
 
   const handleRegister = () => {
     // TODO: Implementacja rejestracji
-    console.log('Rejestracja');
   };
 
   return (

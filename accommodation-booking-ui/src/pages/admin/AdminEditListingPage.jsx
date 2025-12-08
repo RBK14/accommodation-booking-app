@@ -78,8 +78,6 @@ const AdminEditListingPage = () => {
 
   const handleSave = () => {
     // TODO: Wysłanie danych na backend
-    console.log('Zapisywanie ogłoszenia:', formData);
-    console.log('Zdjęcia:', images);
     navigate(-1); // Wróć na poprzednią stronę
   };
 

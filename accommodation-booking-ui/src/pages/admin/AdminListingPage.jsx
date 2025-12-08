@@ -33,7 +33,7 @@ const AdminListingPage = () => {
   };
 
   const handleDelete = () => {
-    console.log(`Usuwanie ogłoszenia: ${id}`);
+    // TODO: Implementacja usuwania ogłoszenia
   };
 
   return (
