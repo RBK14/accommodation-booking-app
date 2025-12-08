@@ -12,7 +12,7 @@ import {
   FormControl,
   InputLabel,
 } from '@mui/material';
-import { DARK_GRAY, PRIMARY_BLUE } from '../../../assets/styles/colors';
+import { DARK_GRAY, PRIMARY_BLUE } from '../../assets/styles/colors';
 
 const ReviewsSection = ({ reviews = [], showListingTitle = false, title = 'Opinie' }) => {
   const [page, setPage] = useState(1);

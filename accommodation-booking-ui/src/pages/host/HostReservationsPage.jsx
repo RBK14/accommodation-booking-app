@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import { ReservationsSection } from '../../components/ui/host';
+import { ReservationsSection } from '../../components/host';
 
 const HostReservationsPage = () => {
   // Przykładowe rezerwacje ze wszystkich ogłoszeń

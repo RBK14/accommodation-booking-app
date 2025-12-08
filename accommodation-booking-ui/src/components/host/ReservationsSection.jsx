@@ -12,7 +12,7 @@ import {
   InputLabel,
   Chip,
 } from '@mui/material';
-import { DARK_GRAY, PRIMARY_BLUE } from '../../../assets/styles/colors';
+import { DARK_GRAY, PRIMARY_BLUE } from '../../assets/styles/colors';
 
 const ReservationsSection = ({
   reservations = [],
@@ -37,13 +37,13 @@ const ReservationsSection = ({
       case 'potwierdzona':
         return 'success';
       case 'pending':
-      case 'oczekuj¹ca':
+      case 'oczekujï¿½ca':
         return 'warning';
       case 'cancelled':
       case 'anulowana':
         return 'error';
       case 'completed':
-      case 'zakoñczona':
+      case 'zakoï¿½czona':
         return 'info';
       default:
         return 'default';

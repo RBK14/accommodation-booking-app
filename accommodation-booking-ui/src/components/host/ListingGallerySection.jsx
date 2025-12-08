@@ -1,7 +1,7 @@
 import { Box, Typography, ImageList, ImageListItem } from '@mui/material';
-import { DARK_GRAY } from '../../../assets/styles/colors';
+import { DARK_GRAY } from '../../assets/styles/colors';
 
-const OfferGallerySection = ({ images }) => {
+const ListingGallerySection = ({ images }) => {
   return (
     <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Typography variant="subtitle2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 2 }}>
@@ -33,4 +33,4 @@ const OfferGallerySection = ({ images }) => {
   );
 };
 
-export default OfferGallerySection;
+export default ListingGallerySection;

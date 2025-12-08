@@ -1,10 +1,10 @@
 import { Box, Typography, Button, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { PRIMARY_BLUE, DARK_GRAY } from '../../../assets/styles/colors';
-import { translateAccommodationType } from '../../../utils/accommodationTypeMapper';
+import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
+import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
 
-const OfferDetailsSection = ({ listing, onEdit, onDelete }) => {
+const ListingDetailsSection = ({ listing, onEdit, onDelete }) => {
   return (
     <Box
       sx={{
@@ -108,4 +108,4 @@ const OfferDetailsSection = ({ listing, onEdit, onDelete }) => {
   );
 };
 
-export default OfferDetailsSection;
+export default ListingDetailsSection;

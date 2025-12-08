@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { Box, Stack } from '@mui/material';
-import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/ui/shared';
+import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
 import AuthContext from '../../context/AuthProvider';
-import { useAuthApi } from '../../features/auth/hooks';
+import { useAuthApi } from '../../hooks/useAuthApi';
 
 const AccountPage = () => {
   const { auth, userData } = useContext(AuthContext);

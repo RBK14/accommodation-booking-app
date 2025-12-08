@@ -1,5 +1,5 @@
 import { Box, Container, Typography } from '@mui/material';
-import SearchBar from '../../components/guest/SearchBar';
+import { SearchBar } from '../../components/guest';
 import { PRIMARY_BLUE } from '../../assets/styles/colors';
 
 const HomePage = () => {

@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { Box, Container, Typography, Card, CardContent } from '@mui/material';
 import { DARK_GRAY } from '../../assets/styles/colors';
-import SearchBar from '../../components/guest/SearchBar';
+import { SearchBar } from '../../components/guest';
 
 const ListingsPage = () => {
   const [searchParams] = useSearchParams();

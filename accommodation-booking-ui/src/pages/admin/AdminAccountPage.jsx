@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Box, Typography, Stack } from '@mui/material';
-import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/ui/shared';
+import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
 import { DARK_GRAY } from '../../assets/styles/colors';
 import AuthContext from '../../context/AuthProvider';
-import { useAuthApi } from '../../features/auth/hooks';
+import { useAuthApi } from '../../hooks/useAuthApi';
 
 const AdminAccountPage = () => {
   const { auth, userData } = useContext(AuthContext);

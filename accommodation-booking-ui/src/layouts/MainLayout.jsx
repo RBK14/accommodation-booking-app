@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
-import Navbar from '../components/shared/Navbar';
-import Footer from '../components/shared/Footer';
+import { Footer, Navbar } from '../components';
 import { LIGHT_GRAY } from '../assets/styles/colors';
 
 const MainLayout = () => {

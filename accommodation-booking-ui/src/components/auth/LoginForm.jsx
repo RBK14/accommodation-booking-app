@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuthApi } from '../hooks';
+import { useAuthApi } from '../../hooks';
 import { Box, TextField, Button, Typography, Alert, Paper } from '@mui/material';
 import { Login as LoginIcon } from '@mui/icons-material';
 

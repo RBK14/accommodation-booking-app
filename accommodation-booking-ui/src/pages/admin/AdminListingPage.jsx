@@ -1,12 +1,8 @@
 ﻿import { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Box, Card, CardContent } from '@mui/material';
-import {
-  ListingGallerySection,
-  ReservationsSection,
-  ReviewsSection,
-} from '../../components/ui/host';
-import { ListingDetailsSection } from '../../components/ui/shared';
+import { ListingGallerySection, ReservationsSection, ReviewsSection } from '../../components/host';
+import { ListingDetailsSection } from '../../components/shared';
 
 const AdminListingPage = () => {
   const navigate = useNavigate();

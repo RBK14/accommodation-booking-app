@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Card, CardContent, TextField, Button, Typography, Stack } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-import { PRIMARY_BLUE, DARK_GRAY } from '../../../assets/styles/colors';
+import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 
 const ContactInfoForm = ({ initialData = {}, onSave }) => {
   const [formData, setFormData] = useState({

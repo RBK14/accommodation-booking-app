@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Box, Container } from '@mui/material';
-import Footer from '../components/shared/Footer';
+import { Footer } from '../components/shared';
 import { LIGHT_GRAY } from '../assets/styles/colors';
 
 const AuthLayout = () => {

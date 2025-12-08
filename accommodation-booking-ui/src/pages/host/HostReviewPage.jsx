@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import { ReviewsSection } from '../../components/ui/host';
+import { ReviewsSection } from '../../components/host';
 
 const HostReviewPage = () => {
   const [reviews, setReviews] = useState([

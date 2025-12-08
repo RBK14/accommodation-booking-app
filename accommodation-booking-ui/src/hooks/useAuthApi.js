@@ -10,7 +10,7 @@ export const useAuthApi = () => {
   const [error, setError] = useState(null);
 
   /**
-   * Logowanie użytkownika - tylko wywołuje API
+   * Logowanie użytkownika
    */
   const handleLogin = async (credentials) => {
     setLoading(true);
