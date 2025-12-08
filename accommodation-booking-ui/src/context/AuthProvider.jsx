@@ -52,18 +52,25 @@ export const AuthProvider = ({ children }) => {
       role: user?.role,
     };
     setAuth(authData);
-    localStorage.setItem('auth', JSON.stringify(authData));
+    sessionStorage.setItem('auth', JSON.stringify(authData));
     setUserData(user);
   };
 
   const logout = () => {
     setAuth(null);
     setUserData(null);
-    localStorage.removeItem('auth');
+    sessionStorage.removeItem('auth');
+  };
+
+  const updateUserData = (newData) => {
+    setUserData((prev) => ({
+      ...prev,
+      ...newData,
+    }));
   };
 
   useEffect(() => {
-    const storedAuth = localStorage.getItem('auth');
+    const storedAuth = sessionStorage.getItem('auth');
     if (storedAuth) {
       const authData = JSON.parse(storedAuth);
       setAuth(authData);
@@ -77,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, userData, login, logout, decodeToken }}>
+    <AuthContext.Provider value={{ auth, userData, login, logout, updateUserData, decodeToken }}>
       {children}
     </AuthContext.Provider>
   );

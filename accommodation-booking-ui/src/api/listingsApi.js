@@ -80,11 +80,13 @@ export const deleteListing = async (id, token) => {
 /**
  * Pobranie listy ofert
  * @param {string|null} hostProfileId - Opcjonalne ID profilu gospodarza do filtrowania
+ * @param {string} token - Token autoryzacyjny
  */
-export const getListings = async (hostProfileId = null) => {
+export const getListings = async (hostProfileId = null, token) => {
   try {
+    const authClient = createAuthClient(token);
     const params = hostProfileId ? { hostProfileId } : {};
-    const response = await apiClient.get('/listings', { params });
+    const response = await authClient.get('/listings', { params });
     return response.data;
   } catch (error) {
     throw new Error(
@@ -96,10 +98,12 @@ export const getListings = async (hostProfileId = null) => {
 /**
  * Pobranie szczegółów oferty
  * @param {string} id - ID oferty
+ * @param {string} token - Token autoryzacyjny
  */
-export const getListing = async (id) => {
+export const getListing = async (id, token) => {
   try {
-    const response = await apiClient.get(`/listings/${id}`);
+    const authClient = createAuthClient(token);
+    const response = await authClient.get(`/listings/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(
@@ -113,14 +117,16 @@ export const getListing = async (id) => {
  * @param {string} id - ID oferty
  * @param {string|null} from - Data początkowa (opcjonalna)
  * @param {number|null} days - Liczba dni (opcjonalna)
+ * @param {string} token - Token autoryzacyjny
  */
-export const getAvailableDates = async (id, from = null, days = null) => {
+export const getAvailableDates = async (id, from = null, days = null, token) => {
   try {
+    const authClient = createAuthClient(token);
     const params = {};
     if (from) params.from = from;
     if (days) params.days = days;
 
-    const response = await apiClient.get(`/listings/${id}/get-dates`, { params });
+    const response = await authClient.get(`/listings/${id}/get-dates`, { params });
     return response.data;
   } catch (error) {
     throw new Error(

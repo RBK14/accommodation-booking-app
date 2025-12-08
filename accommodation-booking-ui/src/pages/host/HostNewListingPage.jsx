@@ -16,6 +16,8 @@ import {
   ImageList,
   ImageListItem,
   IconButton,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -23,9 +25,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
+import { useAuth, useListingsApi } from '../../hooks';
 
 const HostNewListingPage = () => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+  const { createListing, loading, error } = useListingsApi();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -40,7 +45,8 @@ const HostNewListingPage = () => {
     amountPerDay: '',
     currency: 'PLN',
   });
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]); // Pomijamy na razie
+  const [submitError, setSubmitError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,11 +67,37 @@ const HostNewListingPage = () => {
     setImages(images.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
-    // TODO: Wysłanie danych na backend
-    console.log('Tworzenie nowego ogłoszenia:', formData);
-    console.log('Zdjęcia:', images);
-    navigate(-1);
+  const handleSave = async () => {
+    setSubmitError(null);
+
+    // Walidacja
+    if (!formData.title || !formData.description || !formData.accommodationType) {
+      setSubmitError('Wypełnij wszystkie wymagane pola');
+      return;
+    }
+
+    // Przygotuj dane do wysłania
+    const data = {
+      title: formData.title,
+      description: formData.description,
+      accommodationType: formData.accommodationType,
+      beds: parseInt(formData.beds) || 0,
+      maxGuests: parseInt(formData.maxGuests) || 0,
+      country: formData.country,
+      city: formData.city,
+      postalCode: formData.postalCode,
+      street: formData.street,
+      buildingNumber: formData.buildingNumber,
+      amountPerDay: parseFloat(formData.amountPerDay) || 0,
+      currency: formData.currency,
+    };
+
+    const result = await createListing(data, auth.token);
+    if (result.success) {
+      navigate('/host/listings');
+    } else {
+      setSubmitError(result.error);
+    }
   };
 
   const handleCancel = () => {
@@ -74,6 +106,16 @@ const HostNewListingPage = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      {submitError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {submitError}
+        </Alert>
+      )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
       <Card>
         <CardContent>
           <Box sx={{ display: 'flex', gap: 3 }}>
@@ -224,7 +266,10 @@ const HostNewListingPage = () => {
               <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
                 <Button
                   variant="contained"
-                  startIcon={<SaveIcon />}
+                  startIcon={
+                    loading ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />
+                  }
+                  disabled={loading}
                   sx={{
                     backgroundColor: PRIMARY_BLUE,
                     '&:hover': {
@@ -238,6 +283,7 @@ const HostNewListingPage = () => {
                 <Button
                   variant="outlined"
                   startIcon={<CancelIcon />}
+                  disabled={loading}
                   sx={{
                     borderColor: DARK_GRAY,
                     color: DARK_GRAY,

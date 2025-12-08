@@ -68,12 +68,12 @@ export const useReviewsApi = () => {
   /**
    * Pobranie listy opinii
    */
-  const handleGetReviews = async (filters = {}) => {
+  const handleGetReviews = async (filters = {}, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await reviewsApi.getReviews(filters);
+      const response = await reviewsApi.getReviews(filters, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać opinii';
@@ -87,12 +87,12 @@ export const useReviewsApi = () => {
   /**
    * Pobranie szczegółów opinii
    */
-  const handleGetReview = async (id) => {
+  const handleGetReview = async (id, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await reviewsApi.getReview(id);
+      const response = await reviewsApi.getReview(id, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać opinii';

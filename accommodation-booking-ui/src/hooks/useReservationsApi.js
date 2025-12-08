@@ -68,12 +68,12 @@ export const useReservationsApi = () => {
   /**
    * Pobranie listy rezerwacji
    */
-  const handleGetReservations = async (filters = {}) => {
+  const handleGetReservations = async (filters = {}, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await reservationsApi.getReservations(filters);
+      const response = await reservationsApi.getReservations(filters, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać rezerwacji';
@@ -87,12 +87,12 @@ export const useReservationsApi = () => {
   /**
    * Pobranie szczegółów rezerwacji
    */
-  const handleGetReservation = async (id) => {
+  const handleGetReservation = async (id, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await reservationsApi.getReservation(id);
+      const response = await reservationsApi.getReservation(id, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać rezerwacji';

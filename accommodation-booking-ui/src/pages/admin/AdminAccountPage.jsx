@@ -1,23 +1,47 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Stack } from '@mui/material';
 import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
 import { DARK_GRAY } from '../../assets/styles/colors';
 import AuthContext from '../../context/AuthProvider';
-import { useAuthApi } from '../../hooks/useAuthApi';
+import { useAuthApi, useUsersApi } from '../../hooks';
 
 const AdminAccountPage = () => {
-  const { auth, userData } = useContext(AuthContext);
-  const { updateEmail, updatePassword, loading, error } = useAuthApi();
+  const navigate = useNavigate();
+  const { auth, userData, updateUserData, logout } = useContext(AuthContext);
+  const { updateEmail, updatePassword } = useAuthApi();
+  const { updatePersonalDetails } = useUsersApi();
 
-  const handleSaveContactInfo = (data) => {
-    // TODO: Wysłanie danych do backendu
-    console.log('Zapisywanie danych kontaktowych:', data);
+  const handleSaveContactInfo = async (data) => {
+    const result = await updatePersonalDetails(
+      auth.id,
+      {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+      },
+      auth.token
+    );
+    if (result.success) {
+      // Zaktualizuj dane użytkownika w kontekście
+      updateUserData({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+      });
+      console.log('Dane kontaktowe zaktualizowane pomyślnie');
+    } else {
+      console.error('Błąd aktualizacji danych kontaktowych:', result.error);
+    }
   };
 
   const handleSaveEmail = async (data) => {
     const result = await updateEmail(auth.id, data.email, auth.token);
     if (result.success) {
-      console.log('Email zaktualizowany pomyślnie');
+      console.log('Email zaktualizowany pomyślnie - wylogowywanie...');
+      // Wyloguj użytkownika po zmianie email
+      logout();
+      navigate('/auth/login');
     } else {
       console.error('Błąd aktualizacji email:', result.error);
     }
@@ -30,7 +54,10 @@ const AdminAccountPage = () => {
       auth.token
     );
     if (result.success) {
-      console.log('Hasło zmienione pomyślnie');
+      console.log('Hasło zmienione pomyślnie - wylogowywanie...');
+      // Wyloguj użytkownika po zmianie hasła
+      logout();
+      navigate('/auth/login');
     } else {
       console.error('Błąd zmiany hasła:', result.error);
     }

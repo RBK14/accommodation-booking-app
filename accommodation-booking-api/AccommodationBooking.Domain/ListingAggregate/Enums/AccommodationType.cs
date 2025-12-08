@@ -6,7 +6,11 @@ namespace AccommodationBooking.Domain.ListingAggregate.Enums
     {
         Apartment,
         House,
-        Hotel
+        Hotel,
+        Villa,
+        Room,
+        Loft,
+        Studio
     }
 
     public static class AccommodationTypeExtensions

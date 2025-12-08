@@ -68,12 +68,12 @@ export const useListingsApi = () => {
   /**
    * Pobranie listy ofert
    */
-  const handleGetListings = async (hostProfileId = null) => {
+  const handleGetListings = async (hostProfileId = null, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await listingsApi.getListings(hostProfileId);
+      const response = await listingsApi.getListings(hostProfileId, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać ofert';
@@ -87,12 +87,12 @@ export const useListingsApi = () => {
   /**
    * Pobranie szczegółów oferty
    */
-  const handleGetListing = async (id) => {
+  const handleGetListing = async (id, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await listingsApi.getListing(id);
+      const response = await listingsApi.getListing(id, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać oferty';
@@ -106,12 +106,12 @@ export const useListingsApi = () => {
   /**
    * Pobranie dostępnych dat dla oferty
    */
-  const handleGetAvailableDates = async (id, from = null, days = null) => {
+  const handleGetAvailableDates = async (id, from = null, days = null, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await listingsApi.getAvailableDates(id, from, days);
+      const response = await listingsApi.getAvailableDates(id, from, days, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać dostępnych dat';

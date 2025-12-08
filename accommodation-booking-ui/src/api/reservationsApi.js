@@ -80,15 +80,17 @@ export const deleteReservation = async (id, token) => {
 /**
  * Pobranie listy rezerwacji
  * @param {Object} filters - { listingId?, guestProfileId?, hostProfileId? }
+ * @param {string} token - Token autoryzacyjny
  */
-export const getReservations = async (filters = {}) => {
+export const getReservations = async (filters = {}, token) => {
   try {
+    const authClient = createAuthClient(token);
     const params = {};
     if (filters.listingId) params.listingId = filters.listingId;
     if (filters.guestProfileId) params.guestProfileId = filters.guestProfileId;
     if (filters.hostProfileId) params.hostProfileId = filters.hostProfileId;
 
-    const response = await apiClient.get('/reservations', { params });
+    const response = await authClient.get('/reservations', { params });
     return response.data;
   } catch (error) {
     throw new Error(
@@ -100,10 +102,12 @@ export const getReservations = async (filters = {}) => {
 /**
  * Pobranie szczegółów rezerwacji
  * @param {string} id - ID rezerwacji
+ * @param {string} token - Token autoryzacyjny
  */
-export const getReservation = async (id) => {
+export const getReservation = async (id, token) => {
   try {
-    const response = await apiClient.get(`/reservations/${id}`);
+    const authClient = createAuthClient(token);
+    const response = await authClient.get(`/reservations/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(

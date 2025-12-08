@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -9,92 +9,52 @@ import {
   Typography,
   Button,
   Grid,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
+import { useAuth } from '../../hooks';
+import { useListingsApi } from '../../hooks';
 
 const HostListingsPage = () => {
   const navigate = useNavigate();
-  const [listings, setListings] = useState([
-    {
-      id: 1,
-      title: 'Apartament w centrum miasta',
-      address: 'ul. Marszałkowska 50, 00-545 Warszawa',
-      image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=300&fit=crop',
-    },
-    {
-      id: 2,
-      title: 'Przytulny studio z widokiem',
-      address: 'ul. Szewska 10, 31-009 Kraków',
-      image:
-        'https://images.unsplash.com/photo-1702014862053-946a122b920d?q=80&w=1170?w=500&h=300&fit=crop',
-    },
-    {
-      id: 3,
-      title: 'Luksusowy penthouse',
-      address: 'al. Jerozolimskie 96, 02-201 Warszawa',
-      image: 'https://images.unsplash.com/photo-1565623833408-d77e39b88af6?w=500&h=300&fit=crop',
-    },
-    {
-      id: 4,
-      title: 'Domek nad jeziorem',
-      address: 'Stęczno, 87-148 Nowa Wieś',
-      image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&h=300&fit=crop',
-    },
-    {
-      id: 5,
-      title: 'Willa na wsi z ogrodem',
-      address: 'Gostchorze, 43-500 Chrzanów',
-      image: 'https://images.unsplash.com/photo-1599932904184-02a07911e629?w=500&h=300&fit=crop',
-    },
-    {
-      id: 6,
-      title: 'Nowoczesny apartament nad morzem',
-      address: 'ul. Słoneczna 15, 80-287 Gdańsk',
-      image: 'https://images.unsplash.com/photo-1542928658-22251e208ac1?w=500&h=300&fit=crop',
-    },
-    {
-      id: 7,
-      title: 'Apartament w centrum miasta',
-      address: 'ul. Marszałkowska 50, 00-545 Warszawa',
-      image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=300&fit=crop',
-    },
-    {
-      id: 8,
-      title: 'Przytulny studio z widokiem',
-      address: 'ul. Szewska 10, 31-009 Kraków',
-      image:
-        'https://images.unsplash.com/photo-1702014862053-946a122b920d?q=80&w=1170?w=500&h=300&fit=crop',
-    },
-    {
-      id: 9,
-      title: 'Luksusowy penthouse',
-      address: 'al. Jerozolimskie 96, 02-201 Warszawa',
-      image: 'https://images.unsplash.com/photo-1565623833408-d77e39b88af6?w=500&h=300&fit=crop',
-    },
-    {
-      id: 10,
-      title: 'Domek nad jeziorem',
-      address: 'Stęczno, 87-148 Nowa Wieś',
-      image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500&h=300&fit=crop',
-    },
-    {
-      id: 11,
-      title: 'Willa na wsi z ogrodem',
-      address: 'Gostchorze, 43-500 Chrzanów',
-      image: 'https://images.unsplash.com/photo-1599932904184-02a07911e629?w=500&h=300&fit=crop',
-    },
-    {
-      id: 12,
-      title: 'Nowoczesny apartament nad morzem',
-      address: 'ul. Słoneczna 15, 80-287 Gdańsk',
-      image: 'https://images.unsplash.com/photo-1542928658-22251e208ac1?w=500&h=300&fit=crop',
-    },
-  ]);
+  const { auth, userData } = useAuth();
+  const { getListings, loading, error } = useListingsApi();
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      if (!userData?.profileId || !auth?.token) return;
+
+      const result = await getListings(userData.profileId, auth.token);
+      if (result.success) {
+        setListings(result.data);
+      }
+    };
+
+    fetchListings();
+  }, [userData?.profileId, auth?.token]);
 
   const handleView = (id) => {
     navigate(`/host/listing/${id}`);
   };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -130,16 +90,20 @@ const HostListingsPage = () => {
                 },
               }}
             >
-              {/* Zdjęcie */}
-              <CardMedia
-                component="img"
-                height="200"
-                image={listing.image}
-                alt={listing.title}
+              {/* Zdjęcie - pomijamy na razie, API nie zwraca linków */}
+              <Box
                 sx={{
-                  objectFit: 'cover',
+                  height: 200,
+                  backgroundColor: '#f5f5f5',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-              />
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Brak zdjęcia
+                </Typography>
+              </Box>
 
               {/* Zawartość */}
               <CardContent sx={{ flexGrow: 1 }}>
@@ -166,7 +130,7 @@ const HostListingsPage = () => {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  📍 {listing.address}
+                  📍 {listing.street} {listing.buildingNumber}, {listing.postalCode} {listing.city}
                 </Typography>
               </CardContent>
 
@@ -183,7 +147,7 @@ const HostListingsPage = () => {
                       backgroundColor: '#0a58ca',
                     },
                   }}
-                    onClick={() => handleView(listing.id)}
+                  onClick={() => handleView(listing.id)}
                 >
                   Przeglądaj
                 </Button>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -16,6 +16,8 @@ import {
   ImageList,
   ImageListItem,
   IconButton,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -23,10 +25,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
+import { useAuth, useListingsApi } from '../../hooks';
 
 const HostEditListingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { id } = useParams();
+  const { auth } = useAuth();
+  const { getListing, updateListing, loading, error } = useListingsApi();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -41,21 +47,34 @@ const HostEditListingPage = () => {
     amountPerDay: '',
     currency: 'PLN',
   });
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]); // Pomijamy na razie
+  const [submitError, setSubmitError] = useState(null);
+  const [initialLoading, setInitialLoading] = useState(true);
 
-  // Pobierz dane z state (jeśli przesłane z HostListingPage)
+  // Pobierz dane oferty
   useEffect(() => {
-    if (location.state?.listing) {
-      setFormData(location.state.listing);
-    }
-  }, [location.state]);
+    const fetchListing = async () => {
+      setInitialLoading(true);
 
-  // Pobierz zdjęcia z state (jeśli przesłane)
-  useEffect(() => {
-    if (location.state?.images) {
-      setImages(location.state.images);
-    }
-  }, [location.state?.images]);
+      // Sprawdź czy dane są w state (przesłane z poprzedniej strony)
+      if (location.state?.listing) {
+        setFormData(location.state.listing);
+        if (location.state?.images) {
+          setImages(location.state.images);
+        }
+        setInitialLoading(false);
+      } else if (auth?.token) {
+        // Pobierz z API
+        const result = await getListing(id, auth.token);
+        if (result.success) {
+          setFormData(result.data);
+        }
+        setInitialLoading(false);
+      }
+    };
+
+    fetchListing();
+  }, [id, location.state, auth?.token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,19 +95,63 @@ const HostEditListingPage = () => {
     setImages(images.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
-    // TODO: Wysłanie danych na backend
-    console.log('Zapisywanie ogłoszenia:', formData);
-    console.log('Zdjęcia:', images);
-    navigate(-1); // Wróć na poprzednią stronę
+  const handleSave = async () => {
+    setSubmitError(null);
+
+    // Walidacja
+    if (!formData.title || !formData.description || !formData.accommodationType) {
+      setSubmitError('Wypełnij wszystkie wymagane pola');
+      return;
+    }
+
+    // Przygotuj dane do wysłania
+    const data = {
+      title: formData.title,
+      description: formData.description,
+      accommodationType: formData.accommodationType,
+      beds: parseInt(formData.beds) || 0,
+      maxGuests: parseInt(formData.maxGuests) || 0,
+      country: formData.country,
+      city: formData.city,
+      postalCode: formData.postalCode,
+      street: formData.street,
+      buildingNumber: formData.buildingNumber,
+      amountPerDay: parseFloat(formData.amountPerDay) || 0,
+      currency: formData.currency,
+    };
+
+    const result = await updateListing(id, data, auth.token);
+    if (result.success) {
+      navigate(`/host/listing/${id}`);
+    } else {
+      setSubmitError(result.error);
+    }
   };
 
   const handleCancel = () => {
-    navigate(-1); // Wróć bez zapisywania
+    navigate(-1);
   };
+
+  if (initialLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3 }}>
+      {submitError && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {submitError}
+        </Alert>
+      )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
       <Card>
         <CardContent>
           <Box sx={{ display: 'flex', gap: 3 }}>
@@ -240,7 +303,10 @@ const HostEditListingPage = () => {
               <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
                 <Button
                   variant="contained"
-                  startIcon={<SaveIcon />}
+                  startIcon={
+                    loading ? <CircularProgress size={20} color="inherit" /> : <SaveIcon />
+                  }
+                  disabled={loading}
                   sx={{
                     backgroundColor: PRIMARY_BLUE,
                     '&:hover': {
@@ -254,6 +320,7 @@ const HostEditListingPage = () => {
                 <Button
                   variant="outlined"
                   startIcon={<CancelIcon />}
+                  disabled={loading}
                   sx={{
                     borderColor: DARK_GRAY,
                     color: DARK_GRAY,

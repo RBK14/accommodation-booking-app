@@ -80,14 +80,16 @@ export const deleteReview = async (id, token) => {
 /**
  * Pobranie listy opinii
  * @param {Object} filters - { listingId?, guestProfileId? }
+ * @param {string} token - Token autoryzacyjny
  */
-export const getReviews = async (filters = {}) => {
+export const getReviews = async (filters = {}, token) => {
   try {
+    const authClient = createAuthClient(token);
     const params = {};
     if (filters.listingId) params.listingId = filters.listingId;
     if (filters.guestProfileId) params.guestProfileId = filters.guestProfileId;
 
-    const response = await apiClient.get('/reviews', { params });
+    const response = await authClient.get('/reviews', { params });
     return response.data;
   } catch (error) {
     throw new Error(
@@ -99,10 +101,12 @@ export const getReviews = async (filters = {}) => {
 /**
  * Pobranie szczegółów opinii
  * @param {string} id - ID opinii
+ * @param {string} token - Token autoryzacyjny
  */
-export const getReview = async (id) => {
+export const getReview = async (id, token) => {
   try {
-    const response = await apiClient.get(`/reviews/${id}`);
+    const authClient = createAuthClient(token);
+    const response = await authClient.get(`/reviews/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(

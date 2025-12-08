@@ -1,152 +1,90 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Card, CardContent } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Alert } from '@mui/material';
 import { ListingGallerySection, ReservationsSection, ReviewsSection } from '../../components/host';
 import { ListingDetailsSection } from '../../components/shared';
+import { useAuth, useListingsApi, useReservationsApi, useReviewsApi } from '../../hooks';
 
 const HostListingPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { auth } = useAuth();
+  const {
+    getListing,
+    deleteListing,
+    loading: listingLoading,
+    error: listingError,
+  } = useListingsApi();
+  const { getReservations, loading: reservationsLoading } = useReservationsApi();
+  const { getReviews, loading: reviewsLoading } = useReviewsApi();
 
-  // Dane oferty (przykładowe)
-  const [listing, setListing] = useState({
-    title: 'Apartament w centrum miasta',
-    description: 'Piękny apartament w samym sercu miasta z widokiem na ulicę.',
-    accommodationType: 'Apartment',
-    beds: 2,
-    maxGuests: 4,
-    country: 'Polska',
-    city: 'Warszawa',
-    postalCode: '00-545',
-    street: 'ul. Marszałkowska',
-    buildingNumber: '50',
-    amountPerDay: 250,
-    currency: 'EUR',
-  });
+  const [listing, setListing] = useState(null);
+  const [images, setImages] = useState([]); // Pomijamy zdjęcia na razie
+  const [reviews, setReviews] = useState([]);
+  const [reservations, setReservations] = useState([]);
 
-  // Galeria zdjęć
-  const [images, setImages] = useState([
-    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop',
-    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&h=500&fit=crop',
-    'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=500&h=500&fit=crop',
-    'https://images.unsplash.com/photo-1565623833408-d77e39b88af6?w=500&h=500&fit=crop',
-    'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=500&h=500&fit=crop',
-  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!auth?.token) return;
 
-  // Opinie (przykładowe)
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      rating: 5,
-      comment:
-        'Wspaniały apartament! Dokładnie tak jak na zdjęciach. Lokalizacja idealna, blisko centrum. Gospodarz bardzo pomocny i komunikatywny.',
-      guestName: 'Anna Kowalska',
-      date: '2024-11-15',
-    },
-    {
-      id: 2,
-      rating: 4,
-      comment:
-        'Bardzo dobry apartament, czysto i przytulnie. Jedyny minus to brak klimatyzacji w lecie, ale poza tym polecam!',
-      guestName: 'Jan Nowak',
-      date: '2024-10-28',
-    },
-    {
-      id: 3,
-      rating: 5,
-      comment:
-        'Rewelacja! Apartament w super stanie, świetnie wyposażona kuchnia. Widok z okna przepiękny. Na pewno wrócę!',
-      guestName: 'Katarzyna Wiśniewska',
-      date: '2024-10-10',
-    },
-    {
-      id: 4,
-      rating: 3,
-      comment:
-        'Apartament w porządku, ale trochę głośno przez ulicę. Dobre miejsce na krótki pobyt.',
-      guestName: 'Piotr Lewandowski',
-      date: '2024-09-22',
-    },
-    {
-      id: 5,
-      rating: 3,
-      comment:
-        'Apartament w porządku, ale trochę głośno przez ulicę. Dobre miejsce na krótki pobyt.',
-      guestName: 'Piotr Lewandowski',
-      date: '2024-09-22',
-    },
-    {
-      id: 6,
-      rating: 3,
-      comment:
-        'Apartament w porządku, ale trochę głośno przez ulicę. Dobre miejsce na krótki pobyt.',
-      guestName: 'Piotr Lewandowski',
-      date: '2024-09-22',
-    },
-    {
-      id: 7,
-      rating: 3,
-      comment:
-        'Apartament w porządku, ale trochę głośno przez ulicę. Dobre miejsce na krótki pobyt.',
-      guestName: 'Piotr Lewandowski',
-      date: '2024-09-22',
-    },
-  ]);
+      // Pobierz szczegóły oferty
+      const listingResult = await getListing(id, auth.token);
+      if (listingResult.success) {
+        setListing(listingResult.data);
+      }
 
-  // Rezerwacje (przykładowe)
-  const [reservations, setReservations] = useState([
-    {
-      id: 1,
-      country: 'Polska',
-      city: 'Warszawa',
-      postalCode: '00-545',
-      street: 'ul. Marszałkowska',
-      buildingNumber: '50',
-      pricePerDay: 250,
-      totalPrice: 1500,
-      currency: 'EUR',
-      status: 'Potwierdzona',
-      checkIn: '2024-12-15',
-      checkOut: '2024-12-21',
-    },
-    {
-      id: 2,
-      country: 'Polska',
-      city: 'Warszawa',
-      postalCode: '00-545',
-      street: 'ul. Marszałkowska',
-      buildingNumber: '50',
-      pricePerDay: 250,
-      totalPrice: 750,
-      currency: 'EUR',
-      status: 'Oczekująca',
-      checkIn: '2024-12-25',
-      checkOut: '2024-12-28',
-    },
-    {
-      id: 3,
-      country: 'Polska',
-      city: 'Warszawa',
-      postalCode: '00-545',
-      street: 'ul. Marszałkowska',
-      buildingNumber: '50',
-      pricePerDay: 250,
-      totalPrice: 2000,
-      currency: 'EUR',
-      status: 'Zakończona',
-      checkIn: '2024-11-01',
-      checkOut: '2024-11-09',
-    },
-  ]);
+      // Pobierz rezerwacje dla tej oferty
+      const reservationsResult = await getReservations({ listingId: id }, auth.token);
+      if (reservationsResult.success) {
+        setReservations(reservationsResult.data);
+      }
+
+      // Pobierz opinie dla tej oferty
+      const reviewsResult = await getReviews({ listingId: id }, auth.token);
+      if (reviewsResult.success) {
+        setReviews(reviewsResult.data);
+      }
+    };
+
+    fetchData();
+  }, [id, auth?.token]);
 
   const handleEdit = () => {
     navigate(`/host/listing/${id}/edit`, { state: { listing, images } });
   };
 
-  const handleDelete = () => {
-    // TODO: Logika usuwania
-    console.log(`Usuwanie oferty: ${id}`);
+  const handleDelete = async () => {
+    if (!window.confirm('Czy na pewno chcesz usunąć tę ofertę?')) return;
+
+    const result = await deleteListing(id, auth.token);
+    if (result.success) {
+      navigate('/host/listings');
+    }
   };
+
+  if (listingLoading || reservationsLoading || reviewsLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (listingError) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">{listingError}</Alert>
+      </Box>
+    );
+  }
+
+  if (!listing) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="info">Nie znaleziono oferty</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3 }}>
