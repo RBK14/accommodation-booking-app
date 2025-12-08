@@ -16,7 +16,7 @@ namespace AccommodationBooking.Api.Common.Mapping
                 .Map(dest => dest.PostalCode, src => src.Address.PostalCode)
                 .Map(dest => dest.Street, src => src.Address.Street)
                 .Map(dest => dest.BuildingNumber, src => src.Address.BuildingNumber)
-                .Map(dest => dest.Amount, src => src.PricePerDay.Amount)
+                .Map(dest => dest.AmountPerDay, src => src.PricePerDay.Amount)
                 .Map(dest => dest.Currency, src => src.PricePerDay.Currency)
                 .Map(dest => dest, src => src);
 

@@ -11,6 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowOrigins", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+
+        });
+    });
 }
 
 
@@ -23,6 +35,15 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
+
+    app.UseRouting();
+
+    app.UseCors("AllowOrigins");
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
     app.MapControllers();
+
     app.Run();
 }

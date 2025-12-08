@@ -13,6 +13,6 @@
         string PostalCode,
         string Street,
         string BuildingNumber,
-        decimal Amount,
+        decimal AmountPerDay,
         string Currency);
 }

@@ -6,10 +6,11 @@ using AccommodationBooking.Domain.ListingAggregate;
 using ErrorOr;
 using AccommodationBooking.Domain.Common.ValueObjects;
 using AccommodationBooking.Domain.Common.Exceptions;
+using MediatR;
 
 namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
 {
-    public class UpdateListingCommandHandler(IUnitOfWork unitOfWork)
+    public class UpdateListingCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdateListingCommand, ErrorOr<Listing>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 

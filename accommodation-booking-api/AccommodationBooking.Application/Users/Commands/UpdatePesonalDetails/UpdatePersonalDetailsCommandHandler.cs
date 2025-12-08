@@ -7,7 +7,7 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails
 {
-    public class UpdatePersonalDetailsCommandHandler(IUnitOfWork unitOfWork)
+    public class UpdatePersonalDetailsCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdatePersonalDetailsCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 

@@ -46,7 +46,8 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteListing
             {
                 hostProfile.RemoveListingId(listing.Id);
 
-                 _unitOfWork.Reservations.RemoveRange(listingReservations);
+                _unitOfWork.Reservations.RemoveRange(listingReservations);
+                _unitOfWork.Listings.Remove(listing);
 
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
