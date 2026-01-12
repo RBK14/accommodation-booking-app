@@ -31,6 +31,8 @@ namespace AccommodationBooking.Api.Controllers
             if (!Guid.TryParse(profileIdValue, out var profileId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
 
+            Console.WriteLine(request);
+
             var command = _mapper.Map<CreateReservationCommand>((request, profileId));
             var result = await _mediator.Send(command);
 
