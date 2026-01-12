@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Card, CardContent, CircularProgress, Alert } from '@mui/material';
-import { ListingGallerySection, ReservationsSection, ReviewsSection } from '../../components/host';
-import { ListingDetailsSection } from '../../components/shared';
+import { ReservationsSection, ReviewsSection } from '../../components/host';
+import { ListingDetailsSection, ListingGallerySection } from '../../components/shared';
 import { useAuth, useListingsApi, useReservationsApi, useReviewsApi } from '../../hooks';
 
 const HostListingPage = () => {

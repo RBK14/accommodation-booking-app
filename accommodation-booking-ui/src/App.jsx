@@ -11,6 +11,8 @@ import ProtectedRoute from './router/ProtectedRoute';
 
 import HomePage from './pages/guest/HomePage';
 import ListingsPage from './pages/guest/ListingsPage';
+import GuestListingPage from './pages/guest/GuestListingPage';
+import ReservationPage from './pages/guest/ReservationPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
@@ -46,6 +48,8 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/listings" element={<ListingsPage />} />
+          <Route path="/listing/:id" element={<GuestListingPage />} />
+          <Route path="/reservation/:listingId" element={<ReservationPage />} />
         </Route>
 
         {/* AUTH */}
