@@ -1,12 +1,11 @@
 import { Box, Container, Typography } from '@mui/material';
 import { SearchBar } from '../../components/guest';
-import { PRIMARY_BLUE } from '../../assets/styles/colors';
 
 const HomePage = () => {
   return (
     <Box
       sx={{
-        minHeight: '70vh',
+        minHeight: 'calc(100vh - 64px)', // 100vh minus wysokość navbar (64px)
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

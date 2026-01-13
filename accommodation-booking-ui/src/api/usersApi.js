@@ -95,11 +95,13 @@ export const deleteAdmin = async (id, token) => {
 /**
  * Pobranie listy użytkowników
  * @param {string|null} userRole - Opcjonalnie filtruj według roli (Guest, Host, Admin)
+ * @param {string} token - Token autoryzacyjny (WYMAGANY)
  */
-export const getUsers = async (userRole = null) => {
+export const getUsers = async (userRole = null, token) => {
   try {
+    const authClient = createAuthClient(token);
     const params = userRole ? { userRole } : {};
-    const response = await apiClient.get('/users', { params });
+    const response = await authClient.get('/users', { params });
     return response.data;
   } catch (error) {
     throw new Error(
@@ -111,10 +113,12 @@ export const getUsers = async (userRole = null) => {
 /**
  * Pobranie szczegółów użytkownika
  * @param {string} id - ID użytkownika
+ * @param {string} token - Token autoryzacyjny (WYMAGANY)
  */
-export const getUser = async (id) => {
+export const getUser = async (id, token) => {
   try {
-    const response = await apiClient.get(`/users/${id}`);
+    const authClient = createAuthClient(token);
+    const response = await authClient.get(`/users/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(

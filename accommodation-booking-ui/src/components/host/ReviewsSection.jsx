@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -11,12 +11,43 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Tooltip,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { DARK_GRAY, PRIMARY_BLUE } from '../../assets/styles/colors';
+import { useAuth, useReviewsApi } from '../../hooks';
+import { toast } from 'react-toastify';
 
-const ReviewsSection = ({ reviews = [], showListingTitle = false, title = 'Opinie' }) => {
+const ReviewsSection = ({ 
+  reviews = [], 
+  showListingTitle = false, 
+  title = 'Opinie',
+  allowEdit = false,  // Nowy prop - czy zezwolić na edycję
+  onReviewUpdated = null, // Callback po aktualizacji
+  onReviewDeleted = null, // Callback po usunięciu
+}) => {
+  const { auth } = useAuth();
+  const { updateReview, deleteReview } = useReviewsApi();
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    rating: 0,
+    comment: '',
+  });
+  const [isSaving, setIsSaving] = useState(false);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -32,93 +63,346 @@ const ReviewsSection = ({ reviews = [], showListingTitle = false, title = 'Opini
   const endIndex = startIndex + itemsPerPage;
   const currentReviews = reviews.slice(startIndex, endIndex);
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Brak daty';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return 'Nieprawidłowa data';
+      }
+      return date.toLocaleDateString('pl-PL', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch (error) {
+      return 'Błąd daty';
+    }
+  };
+
+  const getGuestName = (review) => {
+    if (review.guestFirstName && review.guestLastName) {
+      return `${review.guestFirstName} ${review.guestLastName}`;
+    }
+    if (review.guestName) {
+      return review.guestName;
+    }
+    return 'Gość';
+  };
+
+  const handleEditClick = (review) => {
+    setSelectedReview(review);
+    setEditFormData({
+      rating: review.rating || 0,
+      comment: review.comment || '',
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleDeleteClick = (review) => {
+    setSelectedReview(review);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditDialogOpen(false);
+    setSelectedReview(null);
+    setEditFormData({ rating: 0, comment: '' });
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteDialogOpen(false);
+    setSelectedReview(null);
+  };
+
+  const handleRatingChange = (event, newValue) => {
+    setEditFormData((prev) => ({
+      ...prev,
+      rating: newValue || 0,
+    }));
+  };
+
+  const handleCommentChange = (e) => {
+    setEditFormData((prev) => ({
+      ...prev,
+      comment: e.target.value,
+    }));
+  };
+
+  const handleSaveEdit = async () => {
+    if (!selectedReview || !auth?.token) return;
+
+    if (editFormData.rating === 0) {
+      toast.error('Proszę wybrać ocenę');
+      return;
+    }
+
+    if (!editFormData.comment.trim()) {
+      toast.error('Proszę dodać komentarz');
+      return;
+    }
+
+    setIsSaving(true);
+
+    const dataToUpdate = {
+      rating: editFormData.rating,
+      comment: editFormData.comment.trim(),
+    };
+
+    const result = await updateReview(selectedReview.id, dataToUpdate, auth.token);
+
+    setIsSaving(false);
+
+    if (result.success) {
+      toast.success('Opinia została zaktualizowana');
+      handleEditClose();
+      
+      // Wywołaj callback jeśli istnieje
+      if (onReviewUpdated) {
+        onReviewUpdated();
+      }
+    } else {
+      toast.error(result.error || 'Nie udało się zaktualizować opinii');
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedReview || !auth?.token) return;
+
+    setIsSaving(true);
+
+    const result = await deleteReview(selectedReview.id, auth.token);
+
+    setIsSaving(false);
+
+    if (result.success) {
+      toast.success('Opinia została usunięta');
+      handleDeleteClose();
+      
+      // Wywołaj callback jeśli istnieje
+      if (onReviewDeleted) {
+        onReviewDeleted();
+      }
+    } else {
+      toast.error(result.error || 'Nie udało się usunąć opinii');
+    }
+  };
+
   return (
-    <Card>
-      <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {title} ({reviews.length})
-          </Typography>
+    <>
+      <Card>
+        <CardContent>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              {title} ({reviews.length})
+            </Typography>
 
-          {reviews.length > 0 && (
-            <FormControl size="small" sx={{ minWidth: 120 }}>
-              <InputLabel>Na stronie</InputLabel>
-              <Select value={itemsPerPage} onChange={handleItemsPerPageChange} label="Na stronie">
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={15}>15</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
-              </Select>
-            </FormControl>
-          )}
-        </Box>
-
-        {reviews.length === 0 ? (
-          <Typography variant="body2" sx={{ color: 'textSecondary' }}>
-            Brak opinii
-          </Typography>
-        ) : (
-          <>
-            <Stack spacing={2}>
-              {currentReviews.map((review) => (
-                <Card
-                  key={review.id}
-                  variant="outlined"
-                  sx={{
-                    backgroundColor: '#f8f9fa',
-                    '&:hover': {
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                      <Box>
-                        <Typography
-                          variant="subtitle1"
-                          sx={{ fontWeight: 'bold', color: DARK_GRAY }}
-                        >
-                          {review.guestName}
-                        </Typography>
-                        {showListingTitle && review.listingTitle && (
-                          <Typography
-                            variant="caption"
-                            sx={{ color: PRIMARY_BLUE, fontWeight: 'bold' }}
-                          >
-                            {review.listingTitle}
-                          </Typography>
-                        )}
-                      </Box>
-                      <Typography variant="caption" sx={{ color: 'textSecondary' }}>
-                        {new Date(review.date).toLocaleDateString('pl-PL')}
-                      </Typography>
-                    </Box>
-
-                    <Rating value={review.rating} readOnly size="small" sx={{ mb: 1 }} />
-
-                    <Typography variant="body2" sx={{ color: DARK_GRAY }}>
-                      {review.comment}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Stack>
-
-            {totalPages > 1 && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                <Pagination
-                  count={totalPages}
-                  page={page}
-                  onChange={handlePageChange}
-                  color="primary"
-                  size="medium"
-                />
-              </Box>
+            {reviews.length > 0 && (
+              <FormControl size="small" sx={{ minWidth: 120 }}>
+                <InputLabel>Na stronie</InputLabel>
+                <Select value={itemsPerPage} onChange={handleItemsPerPageChange} label="Na stronie">
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={15}>15</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                </Select>
+              </FormControl>
             )}
-          </>
-        )}
-      </CardContent>
-    </Card>
+          </Box>
+
+          {reviews.length === 0 ? (
+            <Typography variant="body2" sx={{ color: 'textSecondary' }}>
+              Brak opinii
+            </Typography>
+          ) : (
+            <>
+              <Stack spacing={2}>
+                {currentReviews.map((review) => (
+                  <Card
+                    key={review.id}
+                    variant="outlined"
+                    sx={{
+                      backgroundColor: '#f8f9fa',
+                      '&:hover': {
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                      },
+                    }}
+                  >
+                    <CardContent>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Box sx={{ flex: 1 }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 'bold', color: DARK_GRAY }}
+                          >
+                            {getGuestName(review)}
+                          </Typography>
+                          {showListingTitle && review.listingTitle && (
+                            <Typography
+                              variant="caption"
+                              sx={{ color: PRIMARY_BLUE, fontWeight: 'bold' }}
+                            >
+                              {review.listingTitle}
+                            </Typography>
+                          )}
+                        </Box>
+                        
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography variant="caption" sx={{ color: 'textSecondary' }}>
+                            {formatDate(review.createdAt || review.updatedAt || review.date)}
+                          </Typography>
+                          
+                          {/* Przyciski edycji i usuwania dla Admina */}
+                          {allowEdit && (
+                            <Box sx={{ display: 'flex', gap: 0.5 }}>
+                              <Tooltip title="Edytuj opinię">
+                                <IconButton
+                                  size="small"
+                                  sx={{ color: PRIMARY_BLUE }}
+                                  onClick={() => handleEditClick(review)}
+                                >
+                                  <EditIcon fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Usuń opinię">
+                                <IconButton
+                                  size="small"
+                                  sx={{ color: '#dc3545' }}
+                                  onClick={() => handleDeleteClick(review)}
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
+                            </Box>
+                          )}
+                        </Box>
+                      </Box>
+
+                      <Rating value={review.rating} readOnly size="small" sx={{ mb: 1 }} />
+
+                      <Typography variant="body2" sx={{ color: DARK_GRAY }}>
+                        {review.comment}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Stack>
+
+              {totalPages > 1 && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                  <Pagination
+                    count={totalPages}
+                    page={page}
+                    onChange={handlePageChange}
+                    color="primary"
+                    size="medium"
+                  />
+                </Box>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Dialog edycji opinii */}
+      <Dialog
+        open={editDialogOpen}
+        onClose={handleEditClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Edytuj opinię</DialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ mt: 2 }}>
+            {/* Ocena */}
+            <Box>
+              <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 1 }}>
+                Ocena *
+              </Typography>
+              <Rating
+                value={editFormData.rating}
+                onChange={handleRatingChange}
+                size="large"
+              />
+            </Box>
+
+            {/* Komentarz */}
+            <Box>
+              <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 1 }}>
+                Komentarz *
+              </Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={6}
+                value={editFormData.comment}
+                onChange={handleCommentChange}
+                variant="outlined"
+                helperText={`${editFormData.comment.length} znaków`}
+              />
+            </Box>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={handleEditClose} 
+            disabled={isSaving}
+            startIcon={<CancelIcon />}
+            sx={{ color: DARK_GRAY }}
+          >
+            Anuluj
+          </Button>
+          <Button
+            onClick={handleSaveEdit}
+            disabled={isSaving}
+            variant="contained"
+            startIcon={<SaveIcon />}
+            sx={{
+              backgroundColor: PRIMARY_BLUE,
+              '&:hover': {
+                backgroundColor: '#0a58ca',
+              },
+            }}
+          >
+            {isSaving ? 'Zapisywanie...' : 'Zapisz'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog potwierdzenia usunięcia */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteClose}
+      >
+        <DialogTitle>Usuń opinię</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Czy na pewno chcesz usunąć tę opinię? Ta operacja jest nieodwracalna.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={handleDeleteClose} 
+            disabled={isSaving}
+            sx={{ color: DARK_GRAY }}
+          >
+            Anuluj
+          </Button>
+          <Button
+            onClick={handleConfirmDelete}
+            disabled={isSaving}
+            sx={{
+              color: '#dc3545',
+              '&:hover': {
+                backgroundColor: 'rgba(220, 53, 69, 0.04)',
+              },
+            }}
+          >
+            {isSaving ? 'Usuwanie...' : 'Usuń'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

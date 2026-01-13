@@ -147,6 +147,7 @@ const ReservationsSection = ({
                       sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
+                        alignItems: 'center',
                         mt: 2,
                         pt: 2,
                         borderTop: '1px solid #dee2e6',
@@ -162,6 +163,13 @@ const ReservationsSection = ({
                         Łącznie: {reservation.totalPrice} {reservation.currency}
                       </Typography>
                     </Box>
+
+                    {/* Dodatkowa akcja (np. przycisk "Wystaw opinię") */}
+                    {reservation.customAction && (
+                      <Box sx={{ mt: 2 }}>
+                        {reservation.customAction}
+                      </Box>
+                    )}
                   </CardContent>
                 </Card>
               ))}

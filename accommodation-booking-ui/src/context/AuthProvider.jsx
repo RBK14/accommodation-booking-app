@@ -40,6 +40,7 @@ const extractUserDataFromToken = (token) => {
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // NOWY STAN
 
   const login = (token, userId) => {
     // Wyciągnij dane użytkownika z tokena
@@ -71,19 +72,25 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedAuth = sessionStorage.getItem('auth');
     if (storedAuth) {
-      const authData = JSON.parse(storedAuth);
-      setAuth(authData);
+      try {
+        const authData = JSON.parse(storedAuth);
+        setAuth(authData);
 
-      // Wyciągnij dane użytkownika z tokena
-      if (authData.token) {
-        const user = extractUserDataFromToken(authData.token);
-        setUserData(user);
+        // Wyciągnij dane użytkownika z tokena
+        if (authData.token) {
+          const user = extractUserDataFromToken(authData.token);
+          setUserData(user);
+        }
+      } catch (error) {
+        console.error('Błąd podczas ładowania danych autoryzacji:', error);
+        sessionStorage.removeItem('auth');
       }
     }
+    setIsLoading(false); // ZAKOŃCZ ŁADOWANIE
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, userData, login, logout, updateUserData, decodeToken }}>
+    <AuthContext.Provider value={{ auth, userData, isLoading, login, logout, updateUserData, decodeToken }}>
       {children}
     </AuthContext.Provider>
   );

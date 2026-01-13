@@ -1,5 +1,5 @@
-﻿import { useState, useContext } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+﻿import { useNavigate, Outlet } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -14,40 +14,22 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
-
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-// Logika i style
 import AuthContext from '../context/AuthProvider';
 import { PRIMARY_BLUE, DARK_GRAY, LIGHT_GRAY, TEXT_WHITE } from '../assets/styles/colors';
 
 const DRAWER_WIDTH = 240;
 
-const AdminLayout = () => {
+const GuestLayout = () => {
   const navigate = useNavigate();
   const { auth, userData, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  // --- DEFINICJA MENU BOCZNEGO ---
   const menuItems = [
-    {
-      label: 'Moje konto',
-      icon: <AccountCircleIcon />,
-      path: '/admin/account',
-    },
-    {
-      label: 'Użytkownicy',
-      icon: <PeopleIcon />,
-      path: '/admin/users',
-    },
-    {
-      label: 'Ogłoszenia',
-      icon: <HomeIcon />,
-      path: '/admin/listings',
-    },
+    { label: 'Moje konto', icon: <AccountCircleIcon />, path: '/guest/account' },
+    { label: 'Moje rezerwacje', icon: <DateRangeIcon />, path: '/guest/reservations' },
   ];
 
   const handleMenuOpen = (event) => {
@@ -71,7 +53,7 @@ const AdminLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: LIGHT_GRAY }}>
-      {/* --- APP BAR (GÓRNY PASEK) --- */}
+      {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
@@ -81,7 +63,6 @@ const AdminLayout = () => {
         }}
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Tytuł Panelu */}
           <Box
             sx={{
               fontSize: '1.5rem',
@@ -94,10 +75,10 @@ const AdminLayout = () => {
             }}
             onClick={handleHomeClick}
           >
-            Panel Administratora
+            Panel Gościa
           </Box>
 
-          {/* Menu Użytkownika (Prawa strona) */}
+          {/* Profile Menu */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Box
               sx={{
@@ -106,7 +87,7 @@ const AdminLayout = () => {
                 fontFamily: ['Roboto', 'Arial', 'sans-serif'].join(','),
               }}
             >
-              {userData?.firstName || 'Admin'}
+              {userData?.firstName}
             </Box>
             <IconButton
               onClick={handleMenuOpen}
@@ -134,7 +115,7 @@ const AdminLayout = () => {
               }}
             >
               <MenuItem onClick={handleHomeClick} sx={{ gap: 1 }}>
-                <HomeIcon fontSize="small" />
+                <AccountCircleIcon fontSize="small" />
                 Strona główna
               </MenuItem>
               <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
@@ -146,7 +127,7 @@ const AdminLayout = () => {
         </Toolbar>
       </AppBar>
 
-      {/* --- SIDEBAR (LEWE MENU) --- */}
+      {/* Sidebar Drawer */}
       <Drawer
         variant="permanent"
         sx={{
@@ -207,7 +188,7 @@ const AdminLayout = () => {
         </List>
       </Drawer>
 
-      {/* --- GŁÓWNA ZAWARTOŚĆ --- */}
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
@@ -218,7 +199,7 @@ const AdminLayout = () => {
           minHeight: 'calc(100vh - 64px)',
         }}
       >
-        <Container maxWidth="xl" sx={{ py: 3 }}>
+        <Container maxWidth="lg" sx={{ py: 3 }}>
           <Outlet />
         </Container>
       </Box>
@@ -226,4 +207,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default GuestLayout;

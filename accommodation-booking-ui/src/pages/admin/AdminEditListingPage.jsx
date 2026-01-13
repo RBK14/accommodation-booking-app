@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -16,17 +16,23 @@ import {
   ImageList,
   ImageListItem,
   IconButton,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType, getAccommodationTypes } from '../../utils';
+import { useAuth, useListingsApi } from '../../hooks';
+import { toast } from 'react-toastify';
 
 const AdminEditListingPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { id } = useParams();
+  const { auth } = useAuth();
+  const { getListing, updateListing, loading, error } = useListingsApi();
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -42,20 +48,37 @@ const AdminEditListingPage = () => {
     currency: 'PLN',
   });
   const [images, setImages] = useState([]);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Pobierz dane z state (jeśli przesłane z AdminListingPage)
+  // Pobierz dane ogłoszenia z API
   useEffect(() => {
-    if (location.state?.listing) {
-      setFormData(location.state.listing);
-    }
-  }, [location.state]);
+    const fetchListing = async () => {
+      if (!auth?.token || !id) return;
 
-  // Pobierz zdjęcia z state (jeśli przesłane)
-  useEffect(() => {
-    if (location.state?.images) {
-      setImages(location.state.images);
-    }
-  }, [location.state?.images]);
+      const result = await getListing(id, auth.token);
+      if (result.success) {
+        const listing = result.data;
+        setFormData({
+          title: listing.title || '',
+          description: listing.description || '',
+          accommodationType: listing.accommodationType || '',
+          beds: listing.beds || '',
+          maxGuests: listing.maxGuests || '',
+          country: listing.country || '',
+          city: listing.city || '',
+          postalCode: listing.postalCode || '',
+          street: listing.street || '',
+          buildingNumber: listing.buildingNumber || '',
+          amountPerDay: listing.amountPerDay || '',
+          currency: listing.currency || 'PLN',
+        });
+        // TODO: Pobierz zdjęcia gdy będzie endpoint
+        setImages([]);
+      }
+    };
+
+    fetchListing();
+  }, [id, auth?.token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,14 +99,47 @@ const AdminEditListingPage = () => {
     setImages(images.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
-    // TODO: Wysłanie danych na backend
-    navigate(-1); // Wróć na poprzednią stronę
+  const handleSave = async () => {
+    setIsSaving(true);
+    
+    const dataToSend = {
+      ...formData,
+      beds: parseInt(formData.beds) || 0,
+      maxGuests: parseInt(formData.maxGuests) || 0,
+      amountPerDay: parseFloat(formData.amountPerDay) || 0,
+    };
+
+    const result = await updateListing(id, dataToSend, auth.token);
+    
+    setIsSaving(false);
+
+    if (result.success) {
+      toast.success('Ogłoszenie zostało zaktualizowane');
+      navigate(`/admin/listing/${id}`);
+    } else {
+      toast.error(result.error || 'Nie udało się zaktualizować ogłoszenia');
+    }
   };
 
   const handleCancel = () => {
-    navigate(-1); // Wróć bez zapisywania
+    navigate(-1);
   };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 10 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 3 }}>
@@ -241,6 +297,7 @@ const AdminEditListingPage = () => {
                 <Button
                   variant="contained"
                   startIcon={<SaveIcon />}
+                  disabled={isSaving}
                   sx={{
                     backgroundColor: PRIMARY_BLUE,
                     '&:hover': {
@@ -249,11 +306,12 @@ const AdminEditListingPage = () => {
                   }}
                   onClick={handleSave}
                 >
-                  Zapisz
+                  {isSaving ? 'Zapisywanie...' : 'Zapisz'}
                 </Button>
                 <Button
                   variant="outlined"
                   startIcon={<CancelIcon />}
+                  disabled={isSaving}
                   sx={{
                     borderColor: DARK_GRAY,
                     color: DARK_GRAY,

@@ -85,14 +85,14 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Pobranie listy użytkowników
+   * Pobranie listy użytkowników - WYMAGA TOKENU
    */
-  const handleGetUsers = async (userRole = null) => {
+  const handleGetUsers = async (userRole = null, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await usersApi.getUsers(userRole);
+      const response = await usersApi.getUsers(userRole, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać użytkowników';
@@ -104,14 +104,14 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Pobranie szczegółów użytkownika
+   * Pobranie szczegółów użytkownika - WYMAGA TOKENU
    */
-  const handleGetUser = async (id) => {
+  const handleGetUser = async (id, token) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await usersApi.getUser(id);
+      const response = await usersApi.getUser(id, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się pobrać użytkownika';

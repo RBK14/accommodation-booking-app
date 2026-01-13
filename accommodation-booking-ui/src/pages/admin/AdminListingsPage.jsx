@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // <--- WAŻNE: Dodany import
+﻿import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -12,91 +12,82 @@ import {
   TableRow,
   IconButton,
   Tooltip,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility'; // <--- WAŻNE: Dodany import ikony
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType } from '../../utils/accommodationTypeMapper';
-
-// Przykładowe dane (Twoje)
-const mockListings = [
-  {
-    id: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
-    hostProfileId: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    title: 'Apartament w centrum miasta',
-    accommodationType: 'Apartment',
-    beds: 2,
-    maxGuests: 4,
-    country: 'Polska',
-    city: 'Warszawa',
-    street: 'Marszałkowska',
-    postalCode: '00-545',
-    buildingNumber: '50/12',
-    amountPerDay: 250,
-    currency: 'EUR',
-  },
-  {
-    id: 'a1b2c3d4-e5f6-7890-1234-56789abcdef0',
-    hostProfileId: 'c2d29867-3d0b-4497-9e96-66f568656209',
-    title: 'Domek w górach',
-    accommodationType: 'House',
-    beds: 2,
-    maxGuests: 4,
-    country: 'Polska',
-    postalCode: '00-555',
-    city: 'Zakopane',
-    street: 'Krupówki',
-    buildingNumber: '15',
-    amountPerDay: 250,
-    currency: 'EUR',
-  },
-  {
-    id: '98765432-1234-5678-90ab-cdef12345678',
-    hostProfileId: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    title: 'Hotel Mercury - Pokój Deluxe',
-    accommodationType: 'Hotel',
-    beds: 2,
-    maxGuests: 4,
-    country: 'Polska',
-    postalCode: '00-595',
-    city: 'Gdańsk',
-    street: 'Długa',
-    buildingNumber: '5',
-    amountPerDay: 250,
-    currency: 'EUR',
-  },
-];
+import { useAuth, useListingsApi } from '../../hooks';
+import { toast } from 'react-toastify';
 
 const AdminListingsPage = () => {
-  const [listings, setListings] = useState(mockListings);
-  const navigate = useNavigate(); // <--- Inicjalizacja nawigacji
+  const { auth } = useAuth();
+  const { getListings, deleteListing, loading, error } = useListingsApi();
+  const [listings, setListings] = useState([]);
+  const navigate = useNavigate();
 
-  // ZMIANA: Przekierowanie do NOWEGO pliku AdminListingDetailsPage
+  useEffect(() => {
+    const fetchListings = async () => {
+      if (!auth?.token) return;
+
+      const result = await getListings(null, auth.token); // null = wszystkie oferty
+      if (result.success) {
+        setListings(result.data);
+      }
+    };
+
+    fetchListings();
+  }, [auth?.token]);
+
   const handleView = (id) => {
-    const listingToView = listings.find((listing) => listing.id === id);
-    const mockImages = [
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop',
-    ];
-    navigate(`/admin/listing/${id}`, { state: { listing: listingToView, images: mockImages } });
+    navigate(`/admin/listing/${id}`);
   };
 
-  // ZMIANA: Przekierowanie do NOWEGO pliku AdminEditListingPage
   const handleEdit = (id) => {
-    const listingToEdit = listings.find((listing) => listing.id === id);
-    const mockImages = [
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=500&fit=crop',
-    ];
-
-    navigate(`/admin/listing/${id}/edit`, {
-      state: { listing: listingToEdit, images: mockImages },
-    });
+    navigate(`/admin/listing/${id}/edit`);
   };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Czy na pewno chcesz usunąć to ogłoszenie?')) {
+      return;
+    }
+
+    const result = await deleteListing(id, auth.token);
+    if (result.success) {
+      toast.success('Ogłoszenie zostało usunięte');
+      // Odśwież listę ogłoszeń
+      const refreshResult = await getListings(null, auth.token);
+      if (refreshResult.success) {
+        setListings(refreshResult.data);
+      }
+    } else {
+      toast.error(result.error || 'Nie udało się usunąć ogłoszenia');
+    }
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 10 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold', color: DARK_GRAY }}>
-        Baza Ogłoszeń
+        Baza Ogłoszeń ({listings.length})
       </Typography>
 
       <TableContainer component={Paper} sx={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
@@ -121,72 +112,86 @@ const AdminListingsPage = () => {
           </TableHead>
 
           <TableBody>
-            {listings.map((listing) => (
-              <TableRow
-                key={listing.id}
-                sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  '&:hover': { backgroundColor: '#f1f3f5' },
-                }}
-              >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#6c757d' }}
-                >
-                  {listing.id}
-                </TableCell>
-
-                <TableCell sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#6c757d' }}>
-                  {listing.hostProfileId}
-                </TableCell>
-
-                <TableCell sx={{ fontWeight: 'bold' }}>{listing.title}</TableCell>
-
-                <TableCell>{translateAccommodationType(listing.accommodationType)}</TableCell>
-
-                <TableCell>{listing.country}</TableCell>
-                <TableCell>{listing.city}</TableCell>
-
-                <TableCell>
-                  {listing.street} {listing.buildingNumber}
-                </TableCell>
-
-                {/* AKCJE */}
-                <TableCell align="center">
-                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5 }}>
-                    {/* Zielone Oczko */}
-                    <Tooltip title="Podgląd">
-                      <IconButton
-                        size="small"
-                        sx={{ color: '#2e7d32' }}
-                        onClick={() => handleView(listing.id)}
-                      >
-                        <VisibilityIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-
-                    {/* Niebieski Długopis */}
-                    <Tooltip title="Edytuj">
-                      <IconButton
-                        size="small"
-                        sx={{ color: PRIMARY_BLUE }}
-                        onClick={() => handleEdit(listing.id)}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-
-                    {/* Czerwony Kosz */}
-                    <Tooltip title="Usuń">
-                      <IconButton size="small" sx={{ color: '#dc3545' }}>
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
+            {listings.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  <Typography variant="body2" color="textSecondary">
+                    Brak ogłoszeń w bazie danych
+                  </Typography>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              listings.map((listing) => (
+                <TableRow
+                  key={listing.id}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    '&:hover': { backgroundColor: '#f1f3f5' },
+                  }}
+                >
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#6c757d' }}
+                  >
+                    {listing.id}
+                  </TableCell>
+
+                  <TableCell sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#6c757d' }}>
+                    {listing.hostProfileId}
+                  </TableCell>
+
+                  <TableCell sx={{ fontWeight: 'bold' }}>{listing.title}</TableCell>
+
+                  <TableCell>{translateAccommodationType(listing.accommodationType)}</TableCell>
+
+                  <TableCell>{listing.country}</TableCell>
+                  <TableCell>{listing.city}</TableCell>
+
+                  <TableCell>
+                    {listing.street} {listing.buildingNumber}
+                  </TableCell>
+
+                  {/* AKCJE */}
+                  <TableCell align="center">
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5 }}>
+                      {/* Zielone Oczko */}
+                      <Tooltip title="Podgląd">
+                        <IconButton
+                          size="small"
+                          sx={{ color: '#2e7d32' }}
+                          onClick={() => handleView(listing.id)}
+                        >
+                          <VisibilityIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+
+                      {/* Niebieski Długopis */}
+                      <Tooltip title="Edytuj">
+                        <IconButton
+                          size="small"
+                          sx={{ color: PRIMARY_BLUE }}
+                          onClick={() => handleEdit(listing.id)}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+
+                      {/* Czerwony Kosz */}
+                      <Tooltip title="Usuń">
+                        <IconButton
+                          size="small"
+                          sx={{ color: '#dc3545' }}
+                          onClick={() => handleDelete(listing.id)}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

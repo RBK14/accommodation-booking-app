@@ -31,6 +31,7 @@ const HostLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const menuItems = [
+    { label: 'Moje konto', icon: <AccountCircleIcon />, path: '/host/account' },
     { label: 'Ogłoszenia', icon: <HomeIcon />, path: '/host/listings' },
     { label: 'Nowe ogłoszenie', icon: <AddIcon />, path: '/host/new-listing' },
     { label: 'Rezerwacje', icon: <DateRangeIcon />, path: '/host/reservations' },
@@ -45,8 +46,8 @@ const HostLayout = () => {
     setAnchorEl(null);
   };
 
-  const handleAccountClick = () => {
-    navigate('/host/account');
+  const handleHomeClick = () => {
+    navigate('/');
     handleMenuClose();
   };
 
@@ -73,7 +74,12 @@ const HostLayout = () => {
               fontSize: '1.5rem',
               fontWeight: 'bold',
               fontFamily: ['Roboto', 'Arial', 'sans-serif'].join(','),
+              cursor: 'pointer',
+              '&:hover': {
+                opacity: 0.8,
+              },
             }}
+            onClick={handleHomeClick}
           >
             Panel gospodarza
           </Box>
@@ -114,9 +120,9 @@ const HostLayout = () => {
                 horizontal: 'right',
               }}
             >
-              <MenuItem onClick={handleAccountClick} sx={{ gap: 1 }}>
-                <AccountCircleIcon fontSize="small" />
-                Moje konto
+              <MenuItem onClick={handleHomeClick} sx={{ gap: 1 }}>
+                <HomeIcon fontSize="small" />
+                Strona główna
               </MenuItem>
               <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
                 <LogoutIcon fontSize="small" />

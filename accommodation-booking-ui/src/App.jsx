@@ -6,6 +6,7 @@ import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 import HostLayout from './layouts/HostLayout';
+import GuestLayout from './layouts/GuestLayout';
 
 import ProtectedRoute from './router/ProtectedRoute';
 
@@ -16,6 +17,8 @@ import ReservationPage from './pages/guest/ReservationPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminUserPage from './pages/admin/AdminUserPage';
+import AdminEditUserPage from './pages/admin/AdminEditUserPage';
 import AdminListingsPage from './pages/admin/AdminListingsPage';
 import AdminListingPage from './pages/admin/AdminListingPage';
 import AdminEditListingPage from './pages/admin/AdminEditListingPage';
@@ -26,7 +29,9 @@ import HostNewListingPage from './pages/host/HostNewListingPage';
 import HostReservationsPage from './pages/host/HostReservationsPage';
 import HostReviewPage from './pages/host/HostReviewPage';
 import HostAccountPage from './pages/host/HostAccountPage';
-import AccountPage from './pages/guest/AccountPage';
+import GuestAccountPage from './pages/guest/GuestAccountPage';
+import GuestReservationsPage from './pages/guest/GuestReservationsPage';
+import GuestCreateReviewPage from './pages/guest/GuestCreateReviewPage';
 import AdminAccountPage from './pages/admin/AdminAccountPage';
 
 function App() {
@@ -58,36 +63,41 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
-        {/* GUEST */}
+        {/* GUEST - Panel Gościa */}
         <Route element={<ProtectedRoute allowedRoles={['Guest']} />}>
-          <Route element={<MainLayout />}>
-            <Route path="/account" element={<AccountPage />} />
+          <Route path="/guest" element={<GuestLayout />}>
+            <Route index element={<Navigate to="/guest/account" replace />} />
+            <Route path="account" element={<GuestAccountPage />} />
+            <Route path="reservations" element={<GuestReservationsPage />} />
+            <Route path="review/:reservationId" element={<GuestCreateReviewPage />} />
           </Route>
         </Route>
 
         {/* HOST */}
         <Route element={<ProtectedRoute allowedRoles={['Host']} />}>
           <Route path="/host" element={<HostLayout />}>
-            <Route index element={<HostListingsPage />} />
+            <Route index element={<Navigate to="/host/account" replace />} />
+            <Route path="account" element={<HostAccountPage />} />
             <Route path="listings" element={<HostListingsPage />} />
             <Route path="new-listing" element={<HostNewListingPage />} />
             <Route path="listing/:id" element={<HostListingPage />} />
             <Route path="listing/:id/edit" element={<HostEditListingPage />} />
             <Route path="reservations" element={<HostReservationsPage />} />
             <Route path="review" element={<HostReviewPage />} />
-            <Route path="account" element={<HostAccountPage />} />
           </Route>
         </Route>
 
         {/* ADMIN */}
         <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminUsersPage />} />
+            <Route index element={<Navigate to="/admin/account" replace />} />
+            <Route path="account" element={<AdminAccountPage />} />
             <Route path="users" element={<AdminUsersPage />} />
+            <Route path="user/:id" element={<AdminUserPage />} />
+            <Route path="user/:id/edit" element={<AdminEditUserPage />} />
             <Route path="listings" element={<AdminListingsPage />} />
             <Route path="listing/:id" element={<AdminListingPage />} />
             <Route path="listing/:id/edit" element={<AdminEditListingPage />} />
-            <Route path="account" element={<AdminAccountPage />} />
           </Route>
         </Route>
 
