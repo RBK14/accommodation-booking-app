@@ -43,11 +43,19 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
                     command.AmountPerDay,
                     currency);
 
+                listing.UpdatePhotos(command.Photos);
+
                 hostProfile.AddListingId(listing.Id);
                 _unitOfWork.Listings.Add(listing);
+
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (DomainException)
+            {
+                await _unitOfWork.RollbackAsync(cancellationToken);
+                return Errors.Listing.CreationFailed;
+            }
+            catch (Exception)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Errors.Listing.CreationFailed;

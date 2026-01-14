@@ -20,9 +20,9 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
         public IListingRepository Listings { get; } = listings;
         public IReservationRepository Reservations { get; } = reservations;
 
-        public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        public virtual async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
-            _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+                _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
         }
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)

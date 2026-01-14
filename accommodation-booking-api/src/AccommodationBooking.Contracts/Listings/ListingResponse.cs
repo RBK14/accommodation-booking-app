@@ -14,5 +14,6 @@
         string Street,
         string BuildingNumber,
         decimal AmountPerDay,
-        string Currency);
+        string Currency,
+        List<string> Photos);
 }

@@ -1,6 +1,5 @@
 ﻿using AccommodationBooking.Application.Listings.Commands.CreateListing;
 using AccommodationBooking.Application.Listings.Commands.DeleteListing;
-using AccommodationBooking.Application.Listings.Commands.DeleteReview;
 using AccommodationBooking.Application.Listings.Commands.UpdateListing;
 using AccommodationBooking.Application.Listings.Queries.GetAvailableDates;
 using AccommodationBooking.Application.Listings.Queries.GetListing;

@@ -9,6 +9,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
 {
     public class Listing : AggregateRoot<Guid>
     {
+        private readonly List<string> _photoUrls = new();
         private readonly List<Guid> _reservationIds = new();
         private readonly List<Review> _reviews = new();
         private readonly List<ScheduleSlot> _scheduleSlots = new();
@@ -22,6 +23,7 @@ namespace AccommodationBooking.Domain.ListingAggregate
         public int MaxGuests { get; private set; }
         public Address Address { get; private set; }
         public Price PricePerDay { get; private set; }
+        public IReadOnlyCollection<string> PhotoUrls => _photoUrls.AsReadOnly();
 
         public IReadOnlyCollection<Guid> ReservationIds => _reservationIds.AsReadOnly();
         public IReadOnlyCollection<Review> Reviews => _reviews.AsReadOnly();
@@ -135,6 +137,34 @@ namespace AccommodationBooking.Domain.ListingAggregate
 
             if (modified)
                 UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void AddPhoto(string photoUrl)
+        {
+            if (string.IsNullOrWhiteSpace(photoUrl))
+                throw new DomainValidationException("Photo URL cannot be empty.");
+
+            if (!Uri.TryCreate(photoUrl, UriKind.Absolute, out var uriResult))
+                throw new DomainValidationException("Invalid photo URL format.");
+
+            string cleanUrl = uriResult.GetLeftPart(UriPartial.Path);
+
+            if (_photoUrls.Contains(cleanUrl))
+                return;
+
+            _photoUrls.Add(cleanUrl);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdatePhotos(IEnumerable<string> newPhotoUrls)
+        {
+            if (newPhotoUrls is null) return;
+
+            _photoUrls.Clear();
+            foreach (var url in newPhotoUrls)
+            {
+                AddPhoto(url);
+            }
         }
 
         public void ReserveDates(Guid reservationId, DateTime start, DateTime end)

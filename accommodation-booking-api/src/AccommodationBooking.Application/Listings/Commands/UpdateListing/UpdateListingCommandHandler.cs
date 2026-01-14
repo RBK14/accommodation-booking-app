@@ -53,6 +53,8 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
                     address,
                     pricePerDay);
 
+                listing.UpdatePhotos(command.Photos);
+
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
             catch (DomainException)

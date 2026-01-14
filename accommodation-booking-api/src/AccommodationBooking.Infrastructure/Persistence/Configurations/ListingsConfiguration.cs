@@ -37,17 +37,13 @@ namespace AccommodationBooking.Infrastructure.Persistence.Configurations
                 .HasMaxLength(2000)
                 .IsRequired();
 
-            builder.Property(u => u.AccommodationType)
+            builder.Property(l => l.AccommodationType)
                 .HasConversion(
                     role => role.ToString(),
                     value => AccommodationTypeExtensions.Parse(value)
                 )
                 .HasMaxLength(50)
-                .IsUnicode(false);
-
-            builder.Property(l => l.AccommodationType)
-                .HasConversion<string>()
-                .HasMaxLength(50)
+                .IsUnicode(false)
                 .IsRequired();
 
             builder.Property(l => l.Beds).IsRequired();
@@ -107,6 +103,19 @@ namespace AccommodationBooking.Infrastructure.Persistence.Configurations
                     v => JsonSerializer.Deserialize<List<Guid>>(v, (JsonSerializerOptions?)null) ?? new List<Guid>()
                 )
                 .Metadata.SetValueComparer(new ValueComparer<IReadOnlyCollection<Guid>>(
+                    (c1, c2) => c1!.SequenceEqual(c2!),
+                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                    c => c.ToList()));
+
+            builder.Property(l => l.PhotoUrls)
+                .HasField("_photoUrls")
+                .HasColumnName("PhotoUrls")
+                .IsRequired(false)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>()
+                )
+                .Metadata.SetValueComparer(new ValueComparer<IReadOnlyCollection<string>>(
                     (c1, c2) => c1!.SequenceEqual(c2!),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));

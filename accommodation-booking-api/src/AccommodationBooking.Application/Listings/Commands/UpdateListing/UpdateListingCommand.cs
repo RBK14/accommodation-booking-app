@@ -18,5 +18,6 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
         string Street,
         string BuildingNumber,
         decimal AmountPerDay,
-        string Currency) : IRequest<ErrorOr<Listing>>;
+        string Currency,
+        IEnumerable<string> Photos) : IRequest<ErrorOr<Listing>>;
 }

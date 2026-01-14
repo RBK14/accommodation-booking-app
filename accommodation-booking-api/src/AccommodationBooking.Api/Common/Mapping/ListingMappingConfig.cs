@@ -18,6 +18,7 @@ namespace AccommodationBooking.Api.Common.Mapping
                 .Map(dest => dest.BuildingNumber, src => src.Address.BuildingNumber)
                 .Map(dest => dest.AmountPerDay, src => src.PricePerDay.Amount)
                 .Map(dest => dest.Currency, src => src.PricePerDay.Currency)
+                .Map(dest => dest.Photos, src => src.PhotoUrls)
                 .Map(dest => dest, src => src);
 
             config.NewConfig<(CreateListingRequest Request, Guid HostProfileId), CreateListingCommand>()

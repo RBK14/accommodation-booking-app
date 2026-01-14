@@ -56,6 +56,15 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
                 .NotEmpty().WithMessage("Waluta jest wymagana.")
                 .Must(CurrencyExtensions.IsValidCurrency)
                 .WithMessage("Nieprawidłowy kod waluty.");
+
+            RuleFor(x => x.Photos)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty().WithMessage("Lista zdjęć nie może być pusta.")
+                .Must(photos => photos.Count() == photos.Distinct().Count())
+                .WithMessage("Lista zdjęć nie może zawierać duplikatów.");
+
+            RuleForEach(x => x.Photos)
+                .NotEmpty().WithMessage("Adres URL zdjęcia nie może być pusty.");
         }
     }
 }
