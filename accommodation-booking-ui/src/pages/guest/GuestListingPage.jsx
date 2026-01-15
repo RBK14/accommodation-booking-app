@@ -13,7 +13,7 @@ const GuestListingPage = () => {
   const { auth } = useAuth();
   const { getListing, loading, error } = useListingsApi();
   const [listing, setListing] = useState(null);
-  const [images] = useState([]);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -22,6 +22,9 @@ const GuestListingPage = () => {
       const result = await getListing(id, auth.token);
       if (result.success) {
         setListing(result.data);
+      }
+      if (result.data.photos && result.data.photos.length > 0) {
+        setImages(result.data.photos);
       }
     };
 

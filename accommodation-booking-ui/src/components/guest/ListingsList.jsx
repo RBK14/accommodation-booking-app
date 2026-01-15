@@ -123,17 +123,32 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
             <Box
               sx={{
                 width: { xs: '100%', sm: 280 },
-                minHeight: { xs: 200, sm: 220 },
+                height: { xs: 200, sm: '100%' },
+                minHeight: { xs: 200, sm: 280 },
                 backgroundColor: '#f5f5f5',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
+                overflow: 'hidden',
               }}
             >
-              <Typography variant="body2" color="textSecondary">
-                Brak zdjęcia
-              </Typography>
+              {listing.photos && listing.photos.length > 0 ? (
+                <Box
+                  component="img"
+                  src={`${listing.photos[0]}?w=720&h=720&&fit=crop&crop=entropy`}
+                  alt={listing.title}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  Brak zdjęcia
+                </Typography>
+              )}
             </Box>
 
             {/* Treść karty */}

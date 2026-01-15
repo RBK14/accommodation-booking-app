@@ -22,6 +22,7 @@ import {
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { translateAccommodationType, getAccommodationTypes } from '../../utils';
 import { useAuth, useListingsApi } from '../../hooks';
@@ -32,7 +33,7 @@ const AdminEditListingPage = () => {
   const { id } = useParams();
   const { auth } = useAuth();
   const { getListing, updateListing, loading, error } = useListingsApi();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -50,7 +51,6 @@ const AdminEditListingPage = () => {
   const [images, setImages] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Pobierz dane ogłoszenia z API
   useEffect(() => {
     const fetchListing = async () => {
       if (!auth?.token || !id) return;
@@ -72,8 +72,12 @@ const AdminEditListingPage = () => {
           amountPerDay: listing.amountPerDay || '',
           currency: listing.currency || 'PLN',
         });
-        // TODO: Pobierz zdjęcia gdy będzie endpoint
-        setImages([]);
+
+        if (listing.photos && listing.photos.length > 0) {
+          setImages(listing.photos);
+        } else {
+          setImages([]);
+        }
       }
     };
 
@@ -101,16 +105,17 @@ const AdminEditListingPage = () => {
 
   const handleSave = async () => {
     setIsSaving(true);
-    
+
     const dataToSend = {
       ...formData,
       beds: parseInt(formData.beds) || 0,
       maxGuests: parseInt(formData.maxGuests) || 0,
       amountPerDay: parseFloat(formData.amountPerDay) || 0,
+      photos: images,
     };
 
     const result = await updateListing(id, dataToSend, auth.token);
-    
+
     setIsSaving(false);
 
     if (result.success) {
@@ -340,6 +345,20 @@ const AdminEditListingPage = () => {
                 <Typography variant="subtitle2" sx={{ color: DARK_GRAY, fontWeight: 'bold' }}>
                   Galeria zdjęć ({images.length})
                 </Typography>
+                <Button
+                  variant="contained"
+                  size="small"
+                  startIcon={<AddIcon />}
+                  sx={{
+                    backgroundColor: PRIMARY_BLUE,
+                    '&:hover': {
+                      backgroundColor: '#0a58ca',
+                    },
+                  }}
+                  onClick={handleAddImage}
+                >
+                  Dodaj
+                </Button>
               </Box>
               <Box sx={{ height: '75vh', overflowY: 'auto', overflowX: 'hidden' }}>
                 {images.length > 0 ? (
@@ -394,7 +413,7 @@ const AdminEditListingPage = () => {
                     }}
                   >
                     <Typography variant="body2" sx={{ color: 'textSecondary' }}>
-                      Brak zdjęć.
+                      Brak zdjęć. Kliknij "Dodaj", aby dodać zdjęcie.
                     </Typography>
                   </Box>
                 )}

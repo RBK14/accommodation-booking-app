@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
-  CardMedia,
   CardContent,
   CardActions,
   Typography,
@@ -90,19 +89,33 @@ const HostListingsPage = () => {
                 },
               }}
             >
-              {/* Zdjęcie - pomijamy na razie, API nie zwraca linków */}
+              {/* Zdjęcie */}
               <Box
                 sx={{
-                  height: 200,
+                  height: 280,
                   backgroundColor: '#f5f5f5',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  overflow: 'hidden',
                 }}
               >
-                <Typography variant="body2" color="textSecondary">
-                  Brak zdjęcia
-                </Typography>
+                {listing.photos && listing.photos.length > 0 ? (
+                  <Box
+                    component="img"
+                    src={`${listing.photos[0]}?w=720&h=720&fit=crop&crop=entropy`}
+                    alt={listing.title}
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <Typography variant="body2" color="textSecondary">
+                    Brak zdjęcia
+                  </Typography>
+                )}
               </Box>
 
               {/* Zawartość */}

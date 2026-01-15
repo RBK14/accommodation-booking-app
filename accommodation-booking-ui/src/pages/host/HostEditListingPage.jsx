@@ -47,7 +47,7 @@ const HostEditListingPage = () => {
     amountPerDay: '',
     currency: 'PLN',
   });
-  const [images, setImages] = useState([]); // Pomijamy na razie
+  const [images, setImages] = useState([]);
   const [submitError, setSubmitError] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
 
@@ -61,6 +61,8 @@ const HostEditListingPage = () => {
         setFormData(location.state.listing);
         if (location.state?.images) {
           setImages(location.state.images);
+        } else if (location.state.listing.photos) {
+          setImages(location.state.listing.photos);
         }
         setInitialLoading(false);
       } else if (auth?.token) {
@@ -68,6 +70,10 @@ const HostEditListingPage = () => {
         const result = await getListing(id, auth.token);
         if (result.success) {
           setFormData(result.data);
+          // Załaduj zdjęcia z API
+          if (result.data.photos && result.data.photos.length > 0) {
+            setImages(result.data.photos);
+          }
         }
         setInitialLoading(false);
       }
@@ -118,6 +124,7 @@ const HostEditListingPage = () => {
       buildingNumber: formData.buildingNumber,
       amountPerDay: parseFloat(formData.amountPerDay) || 0,
       currency: formData.currency,
+      photos: images, // Dodaj zdjęcia do danych
     };
 
     const result = await updateListing(id, data, auth.token);

@@ -19,7 +19,7 @@ const HostListingPage = () => {
   const { getReviews, loading: reviewsLoading } = useReviewsApi();
 
   const [listing, setListing] = useState(null);
-  const [images, setImages] = useState([]); // Pomijamy zdjęcia na razie
+  const [images, setImages] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [reservations, setReservations] = useState([]);
 
@@ -27,19 +27,20 @@ const HostListingPage = () => {
     const fetchData = async () => {
       if (!auth?.token) return;
 
-      // Pobierz szczegóły oferty
       const listingResult = await getListing(id, auth.token);
       if (listingResult.success) {
         setListing(listingResult.data);
+
+        if (listingResult.data.photos && listingResult.data.photos.length > 0) {
+          setImages(listingResult.data.photos);
+        }
       }
 
-      // Pobierz rezerwacje dla tej oferty
       const reservationsResult = await getReservations({ listingId: id }, auth.token);
       if (reservationsResult.success) {
         setReservations(reservationsResult.data);
       }
 
-      // Pobierz opinie dla tej oferty
       const reviewsResult = await getReviews({ listingId: id }, auth.token);
       if (reviewsResult.success) {
         setReviews(reviewsResult.data);
