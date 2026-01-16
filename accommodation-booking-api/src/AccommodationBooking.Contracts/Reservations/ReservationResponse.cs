@@ -1,6 +1,7 @@
 ﻿namespace AccommodationBooking.Contracts.Reservations
 {
     public record ReservationResponse(
+        Guid Id,
         Guid ListingId,
         Guid GuestProfileId,
         Guid HostProfileId,

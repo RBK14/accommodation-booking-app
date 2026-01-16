@@ -76,6 +76,12 @@ const HostNewListingPage = () => {
       return;
     }
 
+    // Walidacja zdjęć
+    if (images.length === 0) {
+      setSubmitError('Dodaj przynajmniej jedno zdjęcie');
+      return;
+    }
+
     // Przygotuj dane do wysłania
     const data = {
       title: formData.title,
@@ -90,6 +96,7 @@ const HostNewListingPage = () => {
       buildingNumber: formData.buildingNumber,
       amountPerDay: parseFloat(formData.amountPerDay) || 0,
       currency: formData.currency,
+      photos: images,
     };
 
     const result = await createListing(data, auth.token);

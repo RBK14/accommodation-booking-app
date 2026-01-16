@@ -12,6 +12,7 @@ import {
   Alert,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddIcon from '@mui/icons-material/Add';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { useAuth } from '../../hooks';
 import { useListingsApi } from '../../hooks';
@@ -39,6 +40,10 @@ const HostListingsPage = () => {
     navigate(`/host/listing/${id}`);
   };
 
+  const handleAddNew = () => {
+    navigate('/host/new-listing');
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -51,6 +56,47 @@ const HostListingsPage = () => {
     return (
       <Box sx={{ p: 3 }}>
         <Alert severity="error">{error}</Alert>
+      </Box>
+    );
+  }
+
+  if (listings.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+          minHeight: '400px',
+          textAlign: 'center',
+          p: 3,
+        }}
+      >
+        <Typography variant="h5" sx={{ color: DARK_GRAY, mb: 2, fontWeight: 'bold' }}>
+          Brak ogłoszeń
+        </Typography>
+        <Typography variant="body1" sx={{ color: 'textSecondary', mb: 4, maxWidth: '500px' }}>
+          Nie masz jeszcze żadnych ogłoszeń. Dodaj swoje pierwsze ogłoszenie, aby zacząć wynajmować
+          swoją nieruchomość.
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          size="large"
+          sx={{
+            backgroundColor: PRIMARY_BLUE,
+            '&:hover': {
+              backgroundColor: '#0a58ca',
+            },
+            px: 4,
+            py: 1.5,
+          }}
+          onClick={handleAddNew}
+        >
+          Dodaj ogłoszenie
+        </Button>
       </Box>
     );
   }

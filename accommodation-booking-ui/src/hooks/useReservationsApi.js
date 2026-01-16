@@ -35,7 +35,7 @@ export const useReservationsApi = () => {
     setError(null);
 
     try {
-      const response = await reservationsApi.updateReservationStatus(id, { status }, token);
+      const response = await reservationsApi.updateReservationStatus(id, status, token);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Nie udało się zaktualizować statusu rezerwacji';

@@ -1,28 +1,40 @@
 import { useState, useEffect } from 'react';
 import { Box, CircularProgress, Alert } from '@mui/material';
 import { ReviewsSection } from '../../components/host';
-import { useAuth, useReviewsApi } from '../../hooks';
+import { useAuth, useReviewsApi, useListingsApi } from '../../hooks';
 
 const HostReviewPage = () => {
-  const { auth } = useAuth();
-  const { getReviews, loading, error } = useReviewsApi();
+  const { auth, userData } = useAuth();
+  const { getReviews, loading: reviewsLoading, error: reviewsError } = useReviewsApi();
+  const { getListings, loading: listingsLoading } = useListingsApi();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!auth?.token) return;
+      if (!auth?.token || !userData?.profileId) return;
 
-      // Pobierz wszystkie opinie (bez filtrowania - backend zwróci opinie dla hosta)
-      const result = await getReviews({}, auth.token);
-      if (result.success) {
-        setReviews(result.data);
+      const listingsResult = await getListings(userData.profileId, auth.token);
+      
+      if (listingsResult.success && listingsResult.data.length > 0) {
+        const allReviews = [];
+        
+        for (const listing of listingsResult.data) {
+          const reviewsResult = await getReviews({ listingId: listing.id }, auth.token);
+          if (reviewsResult.success) {
+            allReviews.push(...reviewsResult.data);
+          }
+        }
+        
+        setReviews(allReviews);
+      } else {
+        setReviews([]);
       }
     };
 
     fetchReviews();
-  }, [auth?.token]);
+  }, [auth?.token, userData?.profileId]);
 
-  if (loading) {
+  if (reviewsLoading || listingsLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         <CircularProgress />
@@ -30,10 +42,10 @@ const HostReviewPage = () => {
     );
   }
 
-  if (error) {
+  if (reviewsError) {
     return (
       <Box sx={{ p: 3 }}>
-        <Alert severity="error">{error}</Alert>
+        <Alert severity="error">{reviewsError}</Alert>
       </Box>
     );
   }

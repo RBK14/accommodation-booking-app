@@ -1,45 +1,59 @@
 ﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, CircularProgress, Alert, Button } from '@mui/material';
+import { Box, CircularProgress, Alert, Button, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import EditIcon from '@mui/icons-material/Edit';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { ReservationsSection } from '../../components/host';
-import { PRIMARY_BLUE } from '../../assets/styles/colors';
+import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { useAuth, useReservationsApi, useReviewsApi } from '../../hooks';
+import { toast } from 'react-toastify';
 
 const GuestReservationsPage = () => {
     const navigate = useNavigate();
     const { auth, userData } = useAuth();
-    const { getReservations, loading, error } = useReservationsApi();
+    const { getReservations, updateReservationStatus, loading, error } = useReservationsApi();
     const { getReviews } = useReviewsApi();
     const [reservations, setReservations] = useState([]);
     const [reviews, setReviews] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedReservation, setSelectedReservation] = useState(null);
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
+    const fetchData = async () => {
+        if (!userData?.profileId || !auth?.token) return;
+
+        const reservationsResult = await getReservations(
+            { guestProfileId: userData.profileId },
+            auth.token
+        );
+        if (reservationsResult.success) {
+            setReservations(reservationsResult.data);
+        }
+
+        const reviewsResult = await getReviews({ guestProfileId: userData.profileId }, auth.token);
+        if (reviewsResult.success) {
+            setReviews(reviewsResult.data);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (!userData?.profileId || !auth?.token) return;
-
-            // Pobierz rezerwacje
-            const reservationsResult = await getReservations(
-                { guestProfileId: userData.profileId },
-                auth.token
-            );
-            if (reservationsResult.success) {
-                setReservations(reservationsResult.data);
-            }
-
-            // Pobierz opinie gościa
-            const reviewsResult = await getReviews({ guestProfileId: userData.profileId }, auth.token);
-            if (reviewsResult.success) {
-                setReviews(reviewsResult.data);
-            }
-        };
-
         fetchData();
     }, [userData?.profileId, auth?.token]);
 
     const isCompleted = (status) => {
         return status?.toLowerCase() === 'completed';
+    };
+
+    const canLeaveReview = (reservation) => {
+        const status = reservation.status?.toLowerCase();
+        return status === 'completed';
+    };
+
+    const canCancelReservation = (reservation) => {
+        const status = reservation.status?.toLowerCase();
+        return status === 'accepted';
     };
 
     const hasReview = (listingId) => {
@@ -60,13 +74,48 @@ const GuestReservationsPage = () => {
         });
     };
 
-    // Dodaj przycisk "Wystaw opinię" lub "Edytuj opinię" do zakończonych rezerwacji
+    const handleMenuOpen = (event, reservation) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedReservation(reservation);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleCancelClick = () => {
+        setConfirmDialogOpen(true);
+        handleMenuClose();
+    };
+
+    const handleConfirmCancel = async () => {
+        if (!selectedReservation || !auth?.token) return;
+
+        setConfirmDialogOpen(false);
+
+        const result = await updateReservationStatus(selectedReservation.id, 'Cancelled', auth.token);
+
+        if (result.success) {
+            toast.success('Rezerwacja została anulowana');
+            fetchData();
+        } else {
+            toast.error(result.error || 'Nie udało się anulować rezerwacji');
+        }
+
+        setSelectedReservation(null);
+    };
+
+    const handleCancelDialog = () => {
+        setConfirmDialogOpen(false);
+        setSelectedReservation(null);
+    };
+
     const reservationsWithActions = reservations.map((reservation) => {
         const hasExistingReview = hasReview(reservation.listingId);
 
         return {
             ...reservation,
-            customAction: isCompleted(reservation.status) ? (
+            customAction: canLeaveReview(reservation) ? (
                 <Button
                     fullWidth
                     variant={hasExistingReview ? 'outlined' : 'contained'}
@@ -85,6 +134,21 @@ const GuestReservationsPage = () => {
                 >
                     {hasExistingReview ? 'Edytuj opinię' : 'Wystaw opinię'}
                 </Button>
+            ) : null,
+            // Przycisk anulowania
+            statusAction: canCancelReservation(reservation) ? (
+                <IconButton
+                    size="small"
+                    onClick={(e) => handleMenuOpen(e, reservation)}
+                    sx={{
+                        color: PRIMARY_BLUE,
+                        '&:hover': {
+                            backgroundColor: 'rgba(13, 110, 253, 0.08)',
+                        },
+                    }}
+                >
+                    <MoreVertIcon fontSize="small" />
+                </IconButton>
             ) : null,
         };
     });
@@ -106,13 +170,57 @@ const GuestReservationsPage = () => {
     }
 
     return (
-        <Box sx={{ p: 3 }}>
-            <ReservationsSection
-                reservations={reservationsWithActions}
-                showListingTitle={true}
-                title="Moje rezerwacje"
-            />
-        </Box>
+        <>
+            <Box sx={{ p: 3 }}>
+                <ReservationsSection
+                    reservations={reservationsWithActions}
+                    showListingTitle={true}
+                    title="Moje rezerwacje"
+                />
+            </Box>
+
+            {/* Menu anulowania */}
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+            >
+                <MenuItem onClick={handleCancelClick}>
+                    <CancelIcon sx={{ mr: 1, color: '#dc3545' }} />
+                    Anuluj rezerwację
+                </MenuItem>
+            </Menu>
+
+            {/* Dialog potwierdzenia */}
+            <Dialog
+                open={confirmDialogOpen}
+                onClose={handleCancelDialog}
+            >
+                <DialogTitle>Anuluj rezerwację</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Czy na pewno chcesz anulować tę rezerwację?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCancelDialog} sx={{ color: DARK_GRAY }}>
+                        Nie
+                    </Button>
+                    <Button
+                        onClick={handleConfirmCancel}
+                        sx={{
+                            color: '#dc3545',
+                            '&:hover': {
+                                backgroundColor: 'rgba(220, 53, 69, 0.04)',
+                            },
+                        }}
+                        autoFocus
+                    >
+                        Tak, anuluj
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

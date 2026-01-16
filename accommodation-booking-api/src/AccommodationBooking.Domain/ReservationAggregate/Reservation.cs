@@ -144,7 +144,7 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             if (Status != ReservationStatus.InProgress)
                 throw new DomainIllegalStateException("Reservation must be in progress to mark as no-show.");
 
-            Status = ReservationStatus.Completed;
+            Status = ReservationStatus.NoShow;
             UpdatedAt = DateTime.UtcNow;
         }
 

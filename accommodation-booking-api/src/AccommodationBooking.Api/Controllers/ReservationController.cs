@@ -42,7 +42,7 @@ namespace AccommodationBooking.Api.Controllers
         }
 
         [HttpPost("{id:guid}")]
-        [Authorize(Roles = "Admin, Host")]
+        [Authorize(Roles = "Admin, Host, Guest")]
         public async Task<IActionResult> UpdateStatus(UpdateReservationStatusRequest request, Guid id)
         {
             if (id == Guid.Empty)
@@ -51,14 +51,16 @@ namespace AccommodationBooking.Api.Controllers
             var roleValue = User.FindFirstValue(ClaimTypes.Role);
             var isGuest = roleValue.IsInRole(UserRole.Guest);
             var isHost = roleValue.IsInRole(UserRole.Host);
+            var isAdmin = roleValue.IsInRole(UserRole.Admin);
 
-            ReservationStatusExtensions.TryParse(request.Status, out var status);
+            if (!ReservationStatusExtensions.TryParse(request.Status, out var status))
+                return BadRequest("Nieprawidłowy status rezerwacji.");
 
-            if ((isGuest || isHost) && status != ReservationStatus.Cancelled)
-                return Forbid("Nie posiadasz uprawnień do zmiany statusu na anulowana.");
+            if (isGuest && status != ReservationStatus.Cancelled)
+                return StatusCode(403, "Gość może tylko anulować rezerwację.");
 
-            if (isHost && status != ReservationStatus.NoShow)
-                return Forbid("Nie posiadasz uprawnień do zmiany statusu na nieobyta.");
+            if (isHost && status != ReservationStatus.Cancelled && status != ReservationStatus.NoShow)
+                return StatusCode(403, "Gospodarz może tylko anulować rezerwację lub oznaczyć jako nieodbyta.");
 
             var command = _mapper.Map<UpdateReservationStatusCommand>((request, id));
             var result = await _mediator.Send(command);

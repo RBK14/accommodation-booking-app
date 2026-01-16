@@ -44,19 +44,22 @@ export const createReservation = async (data, token) => {
 };
 
 /**
- * Aktualizacja statusu rezerwacji (Admin, Host, Guest)
+ * Aktualizacja statusu rezerwacji (Host, Guest, Admin)
  * @param {string} id - ID rezerwacji
- * @param {Object} data - { status }
+ * @param {string} status - Nowy status (Cancelled, NoShow, etc.)
  * @param {string} token - Token autoryzacyjny
  */
-export const updateReservationStatus = async (id, data, token) => {
+export const updateReservationStatus = async (id, status, token) => {
   try {
     const authClient = createAuthClient(token);
-    const response = await authClient.post(`/reservations/${id}`, data);
+    const response = await authClient.post(`/reservations/${id}`, { status });
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title ||
+      error.response?.data?.message ||
+      error.response?.data?.detail ||
+      'Wystąpił błąd'
     );
   }
 };

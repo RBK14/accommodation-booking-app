@@ -10,7 +10,7 @@ const AuthLayout = () => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: LIGHT_GRAY,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       }}
     >
       <Box
