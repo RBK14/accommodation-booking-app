@@ -117,7 +117,7 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Title: "Test Listing",
                 Description: "Test Description",
                 AccommodationType: "Apartment",
-                Beds: 2,
+                   Beds: 2,
                 MaxGuests: 4,
                 Country: "Poland",
                 City: "Warsaw",
@@ -125,7 +125,8 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Street: "Test Street",
                 BuildingNumber: "10A",
                 AmountPerDay: 150,
-                Currency: "PLN"
+                Currency: "PLN",
+                Photos: new List<string> { "photo1.jpg", "photo2.jpg" }
             );
         }
     }

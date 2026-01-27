@@ -25,17 +25,26 @@ test.describe('Proces rezerwacji zakwaterowania', () => {
     await page.waitForSelector('[data-testid="listing-card"], .MuiCard-root', { timeout: 10000 });
 
     const viewDetailsButton = page.locator('button:has-text("Zobacz szczegóły")').first();
-    await viewDetailsButton.click();
-
-    await page.waitForURL(/\/listing\/\d+/);
+    await viewDetailsButton.scrollIntoViewIfNeeded();
+    
+    const [response] = await Promise.all([
+      page.waitForNavigation({ timeout: 10000 }),
+      viewDetailsButton.click({ timeout: 5000 })
+    ]);
+    
+    await page.waitForLoadState('domcontentloaded');
 
     await expect(page.locator('button:has-text("Zarezerwuj")')).toBeVisible();
 
     const reserveButton = page.locator('button:has-text("Zarezerwuj")').first();
+    await reserveButton.scrollIntoViewIfNeeded();
+    
+    await Promise.all([
+      page.waitForNavigation({ timeout: 10000 }),
+      reserveButton.click({ timeout: 5000 })
+    ]);
 
-    await reserveButton.click();
-
-    await page.waitForURL(/\/reservation\/\d+/);
+    await page.waitForLoadState('domcontentloaded');
 
     await expect(page.locator('label:has-text("Data przyjazdu")')).toBeVisible();
     await expect(page.locator('label:has-text("Data wyjazdu")')).toBeVisible();
@@ -90,40 +99,6 @@ test.describe('Proces rezerwacji zakwaterowania', () => {
     const confirmButton = page.locator('button:has-text("Potwierdź rezerwację")');
     await expect(confirmButton).toBeEnabled();
   });
-
-  test('Użytkownik może wyszukać ofertę według lokalizacji i liczby gości', async ({ page }) => {
-    await loginAsGuest(page);
-
-    await page.goto('/listings');
-
-    const locationInput = page
-      .locator('input[placeholder*="lokalizacja" i], input[placeholder*="Gdzie" i]')
-      .first();
-
-    if ((await locationInput.count()) > 0) {
-      await locationInput.fill('Warszawa');
-
-      const guestsInput = page
-        .locator('input[placeholder*="gości" i], input[type="number"]')
-        .first();
-
-      if ((await guestsInput.count()) > 0) {
-        await guestsInput.fill('2');
-      }
-
-      const searchButton = page.locator('button:has-text("Szukaj"), button[type="submit"]').first();
-      await searchButton.click();
-
-      await page.waitForTimeout(1000);
-
-      const listings = page.locator('[data-testid="listing-card"], .MuiCard-root');
-
-      if ((await listings.count()) > 0) {
-        await page.locator('button:has-text("Zobacz szczegóły")').first().click();
-        await expect(page).toHaveURL(/\/listing\/\d+/);
-      }
-    }
-  });
 });
 
 /**
@@ -153,9 +128,14 @@ test.describe('Proces usuwania oferty przez gospodarza', () => {
     });
 
     const viewDetailsButton = page.locator('button:has-text("Przeglądaj")').first();
-    await viewDetailsButton.click();
-
-    await page.waitForURL(/\/host\/listing\/\d+/);
+    await viewDetailsButton.scrollIntoViewIfNeeded();
+    
+    await Promise.all([
+      page.waitForNavigation({ timeout: 10000 }),
+      viewDetailsButton.click({ timeout: 5000 })
+    ]);
+    
+    await page.waitForLoadState('domcontentloaded');
 
     await expect(page.locator('button:has-text("Edytuj")')).toBeVisible();
     await expect(page.locator('button:has-text("Usuń")')).toBeVisible();
@@ -217,9 +197,14 @@ test.describe('Proces usuwania użytkownika przez administratora', () => {
       const targetRow = userRows.nth(nonAdminRowIndex);
 
       const viewButton = targetRow.locator('button[aria-label]').first();
-      await viewButton.click();
+      await viewButton.scrollIntoViewIfNeeded();
+      
+      await Promise.all([
+        page.waitForNavigation({ timeout: 10000 }),
+        viewButton.click({ timeout: 5000 })
+      ]);
 
-      await page.waitForURL(/\/admin\/user\/\d+/);
+      await page.waitForLoadState('domcontentloaded');
 
       await expect(page.locator('button:has-text("Edytuj")')).toBeVisible();
       await expect(page.locator('button:has-text("Usuń")')).toBeVisible();

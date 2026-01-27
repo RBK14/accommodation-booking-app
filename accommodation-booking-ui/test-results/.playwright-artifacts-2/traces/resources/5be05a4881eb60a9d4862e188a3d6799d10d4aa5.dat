@@ -1,0 +1,428 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/host/ReservationsSection.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=be4f383c"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=be4f383c"; const useState = __vite__cjsImport1_react["useState"];
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Stack,
+  Pagination,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Chip
+} from "/node_modules/.vite/deps/@mui_material.js?v=be4f383c";
+import { DARK_GRAY, PRIMARY_BLUE } from "/src/assets/styles/colors.js";
+import { translateReservationStatus } from "/src/utils/index.js";
+const ReservationsSection = ({
+  reservations = [],
+  showListingTitle = false,
+  title = "Rezerwacje",
+  showAdminDetails = false
+}) => {
+  _s();
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(event.target.value);
+    setPage(1);
+  };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Accepted":
+        return "success";
+      case "InProgress":
+        return "info";
+      case "Completed":
+        return "default";
+      case "Cancelled":
+        return "error";
+      case "NoShow":
+        return "warning";
+      default:
+        return "default";
+    }
+  };
+  const totalPages = Math.ceil(reservations.length / itemsPerPage);
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentReservations = reservations.slice(startIndex, endIndex);
+  return /* @__PURE__ */ jsxDEV(Card, { sx: { mb: 3 }, children: /* @__PURE__ */ jsxDEV(CardContent, { children: [
+    /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }, children: [
+      /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", sx: { fontWeight: "bold" }, children: [
+        title,
+        " (",
+        reservations.length,
+        ")"
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+        lineNumber: 62,
+        columnNumber: 21
+      }, this),
+      reservations.length > 0 && /* @__PURE__ */ jsxDEV(FormControl, { size: "small", sx: { minWidth: 120 }, children: [
+        /* @__PURE__ */ jsxDEV(InputLabel, { children: "Na stronie" }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+          lineNumber: 68,
+          columnNumber: 29
+        }, this),
+        /* @__PURE__ */ jsxDEV(Select, { value: itemsPerPage, onChange: handleItemsPerPageChange, label: "Na stronie", children: [
+          /* @__PURE__ */ jsxDEV(MenuItem, { value: 5, children: "5" }, void 0, false, {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+            lineNumber: 70,
+            columnNumber: 33
+          }, this),
+          /* @__PURE__ */ jsxDEV(MenuItem, { value: 10, children: "10" }, void 0, false, {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+            lineNumber: 71,
+            columnNumber: 33
+          }, this),
+          /* @__PURE__ */ jsxDEV(MenuItem, { value: 15, children: "15" }, void 0, false, {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+            lineNumber: 72,
+            columnNumber: 33
+          }, this),
+          /* @__PURE__ */ jsxDEV(MenuItem, { value: 20, children: "20" }, void 0, false, {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+            lineNumber: 73,
+            columnNumber: 33
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+          lineNumber: 69,
+          columnNumber: 29
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+        lineNumber: 67,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+      lineNumber: 61,
+      columnNumber: 17
+    }, this),
+    reservations.length === 0 ? /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: "textSecondary" }, children: "Brak rezerwacji" }, void 0, false, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+      lineNumber: 80,
+      columnNumber: 9
+    }, this) : /* @__PURE__ */ jsxDEV(Fragment, { children: [
+      /* @__PURE__ */ jsxDEV(Stack, { spacing: 2, children: currentReservations.map(
+        (reservation) => /* @__PURE__ */ jsxDEV(
+          Card,
+          {
+            variant: "outlined",
+            sx: {
+              backgroundColor: "#f8f9fa",
+              "&:hover": {
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)"
+              }
+            },
+            children: /* @__PURE__ */ jsxDEV(CardContent, { children: [
+              /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex", justifyContent: "space-between", mb: 2 }, children: [
+                /* @__PURE__ */ jsxDEV(Box, { children: [
+                  showListingTitle && reservation.title && /* @__PURE__ */ jsxDEV(
+                    Typography,
+                    {
+                      variant: "subtitle1",
+                      sx: { fontWeight: "bold", color: PRIMARY_BLUE, mb: 0.5 },
+                      children: reservation.title
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 101,
+                      columnNumber: 21
+                    },
+                    this
+                  ),
+                  showAdminDetails && /* @__PURE__ */ jsxDEV(Box, { sx: { mb: 1 }, children: [
+                    /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", sx: { color: "textSecondary", display: "block" }, children: [
+                      "ID rezerwacji: ",
+                      /* @__PURE__ */ jsxDEV("strong", { children: reservation.id }, void 0, false, {
+                        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                        lineNumber: 113,
+                        columnNumber: 76
+                      }, this)
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 112,
+                      columnNumber: 57
+                    }, this),
+                    /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", sx: { color: "textSecondary", display: "block" }, children: [
+                      "ID gościa: ",
+                      /* @__PURE__ */ jsxDEV("strong", { children: reservation.guestProfileId }, void 0, false, {
+                        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                        lineNumber: 116,
+                        columnNumber: 72
+                      }, this)
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 115,
+                      columnNumber: 57
+                    }, this)
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                    lineNumber: 111,
+                    columnNumber: 21
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: DARK_GRAY }, children: [
+                    reservation.street,
+                    " ",
+                    reservation.buildingNumber
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                    lineNumber: 121,
+                    columnNumber: 49
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: DARK_GRAY }, children: [
+                    reservation.postalCode,
+                    " ",
+                    reservation.city,
+                    ", ",
+                    reservation.country
+                  ] }, void 0, true, {
+                    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                    lineNumber: 124,
+                    columnNumber: 49
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                  lineNumber: 99,
+                  columnNumber: 45
+                }, this),
+                /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 0.5 }, children: [
+                  /* @__PURE__ */ jsxDEV(
+                    Chip,
+                    {
+                      label: translateReservationStatus(reservation.status),
+                      color: getStatusColor(reservation.status),
+                      size: "small"
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 131,
+                      columnNumber: 49
+                    },
+                    this
+                  ),
+                  reservation.statusAction && reservation.statusAction
+                ] }, void 0, true, {
+                  fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                  lineNumber: 130,
+                  columnNumber: 45
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                lineNumber: 98,
+                columnNumber: 41
+              }, this),
+              /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex", gap: 4, mb: 1 }, children: [
+                /* @__PURE__ */ jsxDEV(Box, { children: [
+                  /* @__PURE__ */ jsxDEV(
+                    Typography,
+                    {
+                      variant: "caption",
+                      sx: { color: "textSecondary", fontWeight: "bold" },
+                      children: "Zameldowanie"
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 143,
+                      columnNumber: 49
+                    },
+                    this
+                  ),
+                  /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: DARK_GRAY }, children: new Date(reservation.checkIn).toLocaleDateString("pl-PL") }, void 0, false, {
+                    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                    lineNumber: 149,
+                    columnNumber: 49
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                  lineNumber: 142,
+                  columnNumber: 45
+                }, this),
+                /* @__PURE__ */ jsxDEV(Box, { children: [
+                  /* @__PURE__ */ jsxDEV(
+                    Typography,
+                    {
+                      variant: "caption",
+                      sx: { color: "textSecondary", fontWeight: "bold" },
+                      children: "Wymeldowanie"
+                    },
+                    void 0,
+                    false,
+                    {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 154,
+                      columnNumber: 49
+                    },
+                    this
+                  ),
+                  /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: DARK_GRAY }, children: new Date(reservation.checkOut).toLocaleDateString("pl-PL") }, void 0, false, {
+                    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                    lineNumber: 160,
+                    columnNumber: 49
+                  }, this)
+                ] }, void 0, true, {
+                  fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                  lineNumber: 153,
+                  columnNumber: 45
+                }, this)
+              ] }, void 0, true, {
+                fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                lineNumber: 141,
+                columnNumber: 41
+              }, this),
+              /* @__PURE__ */ jsxDEV(
+                Box,
+                {
+                  sx: {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mt: 2,
+                    pt: 2,
+                    borderTop: "1px solid #dee2e6"
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: "textSecondary" }, children: [
+                      "Cena za noc:",
+                      " ",
+                      /* @__PURE__ */ jsxDEV("strong", { children: [
+                        reservation.pricePerDay,
+                        " ",
+                        reservation.currency
+                      ] }, void 0, true, {
+                        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                        lineNumber: 178,
+                        columnNumber: 49
+                      }, this)
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 176,
+                      columnNumber: 45
+                    }, this),
+                    /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", sx: { color: PRIMARY_BLUE, fontWeight: "bold" }, children: [
+                      "Łącznie: ",
+                      reservation.totalPrice,
+                      " ",
+                      reservation.currency
+                    ] }, void 0, true, {
+                      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                      lineNumber: 182,
+                      columnNumber: 45
+                    }, this)
+                  ]
+                },
+                void 0,
+                true,
+                {
+                  fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                  lineNumber: 166,
+                  columnNumber: 41
+                },
+                this
+              ),
+              reservation.customAction && /* @__PURE__ */ jsxDEV(Box, { sx: { mt: 2 }, children: reservation.customAction }, void 0, false, {
+                fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+                lineNumber: 189,
+                columnNumber: 17
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+              lineNumber: 97,
+              columnNumber: 37
+            }, this)
+          },
+          reservation.id,
+          false,
+          {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+            lineNumber: 87,
+            columnNumber: 13
+          },
+          this
+        )
+      ) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+        lineNumber: 85,
+        columnNumber: 25
+      }, this),
+      totalPages > 1 && /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex", justifyContent: "center", mt: 3 }, children: /* @__PURE__ */ jsxDEV(
+        Pagination,
+        {
+          count: totalPages,
+          page,
+          onChange: handlePageChange,
+          color: "primary",
+          size: "medium"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+          lineNumber: 200,
+          columnNumber: 33
+        },
+        this
+      ) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+        lineNumber: 199,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+      lineNumber: 84,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+    lineNumber: 60,
+    columnNumber: 13
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx",
+    lineNumber: 59,
+    columnNumber: 5
+  }, this);
+};
+_s(ReservationsSection, "Fdh2XeRyi/cB0qtJhPVPDQdQZrM=");
+_c = ReservationsSection;
+export default ReservationsSection;
+var _c;
+$RefreshReg$(_c, "ReservationsSection");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/host/ReservationsSection.jsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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QUFBQSxVQUNQO0FBQUEsVUFDQSxVQUFVUDtBQUFBQSxVQUNWLE9BQU07QUFBQSxVQUNOLE1BQUs7QUFBQTtBQUFBLFFBTFQ7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLE1BS2lCLEtBTnJCO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFRQTtBQUFBLFNBM0hSO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0E2SEE7QUFBQSxPQXJKUjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBdUpBLEtBeEpKO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0F5SkE7QUFFUjtBQUFFTCxHQXBNSUwscUJBQW1CO0FBQUF5RCxLQUFuQnpEO0FBc01OLGVBQWVBO0FBQW9CLElBQUF5RDtBQUFBQyxhQUFBRCxJQUFBIiwibmFtZXMiOlsidXNlU3RhdGUiLCJDYXJkIiwiQ2FyZENvbnRlbnQiLCJUeXBvZ3JhcGh5IiwiQm94IiwiU3RhY2siLCJQYWdpbmF0aW9uIiwiU2VsZWN0IiwiTWVudUl0ZW0iLCJGb3JtQ29udHJvbCIsIklucHV0TGFiZWwiLCJDaGlwIiwiREFSS19HUkFZIiwiUFJJTUFSWV9CTFVFIiwidHJhbnNsYXRlUmVzZXJ2YXRpb25TdGF0dXMiLCJSZXNlcnZhdGlvbnNTZWN0aW9uIiwicmVzZXJ2YXRpb25zIiwic2hvd0xpc3RpbmdUaXRsZSIsInRpdGxlIiwic2hvd0FkbWluRGV0YWlscyIsIl9zIiwicGFnZSIsInNldFBhZ2UiLCJpdGVtc1BlclBhZ2UiLCJzZXRJdGVtc1BlclBhZ2UiLCJoYW5kbGVQYWdlQ2hhbmdlIiwiZXZlbnQiLCJ2YWx1ZSIsImhhbmRsZUl0ZW1zUGVyUGFnZUNoYW5nZSIsInRhcmdldCIsImdldFN0YXR1c0NvbG9yIiwic3RhdHVzIiwidG90YWxQYWdlcyIsIk1hdGgiLCJjZWlsIiwibGVuZ3RoIiwic3RhcnRJbmRleCIsImVuZEluZGV4IiwiY3VycmVudFJlc2VydmF0aW9ucyIsInNsaWNlIiwibWIiLCJkaXNwbGF5IiwianVzdGlmeUNvbnRlbnQiLCJhbGlnbkl0ZW1zIiwiZm9udFdlaWdodCIsIm1pbldpZHRoIiwiY29sb3IiLCJtYXAiLCJyZXNlcnZhdGlvbiIsImJhY2tncm91bmRDb2xvciIsImJveFNoYWRvdyIsImlkIiwiZ3Vlc3RQcm9maWxlSWQiLCJzdHJlZXQiLCJidWlsZGluZ051bWJlciIsInBvc3RhbENvZGUiLCJjaXR5IiwiY291bnRyeSIsImZsZXhEaXJlY3Rpb24iLCJnYXAiLCJzdGF0dXNBY3Rpb24iLCJEYXRlIiwiY2hlY2tJbiIsInRvTG9jYWxlRGF0ZVN0cmluZyIsImNoZWNrT3V0IiwibXQiLCJwdCIsImJvcmRlclRvcCIsInByaWNlUGVyRGF5IiwiY3VycmVuY3kiLCJ0b3RhbFByaWNlIiwiY3VzdG9tQWN0aW9uIiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUmVzZXJ2YXRpb25zU2VjdGlvbi5qc3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQge1xuICAgIENhcmQsXG4gICAgQ2FyZENvbnRlbnQsXG4gICAgVHlwb2dyYXBoeSxcbiAgICBCb3gsXG4gICAgU3RhY2ssXG4gICAgUGFnaW5hdGlvbixcbiAgICBTZWxlY3QsXG4gICAgTWVudUl0ZW0sXG4gICAgRm9ybUNvbnRyb2wsXG4gICAgSW5wdXRMYWJlbCxcbiAgICBDaGlwLFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7IERBUktfR1JBWSwgUFJJTUFSWV9CTFVFIH0gZnJvbSAnLi4vLi4vYXNzZXRzL3N0eWxlcy9jb2xvcnMnO1xuaW1wb3J0IHsgdHJhbnNsYXRlUmVzZXJ2YXRpb25TdGF0dXMgfSBmcm9tICcuLi8uLi91dGlscyc7XG5cbmNvbnN0IFJlc2VydmF0aW9uc1NlY3Rpb24gPSAoe1xuICAgIHJlc2VydmF0aW9ucyA9IFtdLFxuICAgIHNob3dMaXN0aW5nVGl0bGUgPSBmYWxzZSxcbiAgICB0aXRsZSA9ICdSZXplcndhY2plJyxcbiAgICBzaG93QWRtaW5EZXRhaWxzID0gZmFsc2UsXG59KSA9PiB7XG4gICAgY29uc3QgW3BhZ2UsIHNldFBhZ2VdID0gdXNlU3RhdGUoMSk7XG4gICAgY29uc3QgW2l0ZW1zUGVyUGFnZSwgc2V0SXRlbXNQZXJQYWdlXSA9IHVzZVN0YXRlKDUpO1xuXG4gICAgY29uc3QgaGFuZGxlUGFnZUNoYW5nZSA9IChldmVudCwgdmFsdWUpID0+IHtcbiAgICAgICAgc2V0UGFnZSh2YWx1ZSk7XG4gICAgfTtcblxuICAgIGNvbnN0IGhhbmRsZUl0ZW1zUGVyUGFnZUNoYW5nZSA9IChldmVudCkgPT4ge1xuICAgICAgICBzZXRJdGVtc1BlclBhZ2UoZXZlbnQudGFyZ2V0LnZhbHVlKTtcbiAgICAgICAgc2V0UGFnZSgxKTtcbiAgICB9O1xuXG4gICAgY29uc3QgZ2V0U3RhdHVzQ29sb3IgPSAoc3RhdHVzKSA9PiB7XG4gICAgICAgIHN3aXRjaCAoc3RhdHVzKSB7XG4gICAgICAgICAgICBjYXNlICdBY2NlcHRlZCc6XG4gICAgICAgICAgICAgICAgcmV0dXJuICdzdWNjZXNzJztcbiAgICAgICAgICAgIGNhc2UgJ0luUHJvZ3Jlc3MnOlxuICAgICAgICAgICAgICAgIHJldHVybiAnaW5mbyc7XG4gICAgICAgICAgICBjYXNlICdDb21wbGV0ZWQnOlxuICAgICAgICAgICAgICAgIHJldHVybiAnZGVmYXVsdCc7XG4gICAgICAgICAgICBjYXNlICdDYW5jZWxsZWQnOlxuICAgICAgICAgICAgICAgIHJldHVybiAnZXJyb3InO1xuICAgICAgICAgICAgY2FzZSAnTm9TaG93JzpcbiAgICAgICAgICAgICAgICByZXR1cm4gJ3dhcm5pbmcnO1xuICAgICAgICAgICAgZGVmYXVsdDpcbiAgICAgICAgICAgICAgICByZXR1cm4gJ2RlZmF1bHQnO1xuICAgICAgICB9XG4gICAgfTtcblxuICAgIGNvbnN0IHRvdGFsUGFnZXMgPSBNYXRoLmNlaWwocmVzZXJ2YXRpb25zLmxlbmd0aCAvIGl0ZW1zUGVyUGFnZSk7XG4gICAgY29uc3Qgc3RhcnRJbmRleCA9IChwYWdlIC0gMSkgKiBpdGVtc1BlclBhZ2U7XG4gICAgY29uc3QgZW5kSW5kZXggPSBzdGFydEluZGV4ICsgaXRlbXNQZXJQYWdlO1xuICAgIGNvbnN0IGN1cnJlbnRSZXNlcnZhdGlvbnMgPSByZXNlcnZhdGlvbnMuc2xpY2Uoc3RhcnRJbmRleCwgZW5kSW5kZXgpO1xuXG4gICAgcmV0dXJuIChcbiAgICAgICAgPENhcmQgc3g9e3sgbWI6IDMgfX0+XG4gICAgICAgICAgICA8Q2FyZENvbnRlbnQ+XG4gICAgICAgICAgICAgICAgPEJveCBzeD17eyBkaXNwbGF5OiAnZmxleCcsIGp1c3RpZnlDb250ZW50OiAnc3BhY2UtYmV0d2VlbicsIGFsaWduSXRlbXM6ICdjZW50ZXInLCBtYjogMyB9fT5cbiAgICAgICAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImg2XCIgc3g9e3sgZm9udFdlaWdodDogJ2JvbGQnIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAge3RpdGxlfSAoe3Jlc2VydmF0aW9ucy5sZW5ndGh9KVxuICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG5cbiAgICAgICAgICAgICAgICAgICAge3Jlc2VydmF0aW9ucy5sZW5ndGggPiAwICYmIChcbiAgICAgICAgICAgICAgICAgICAgICAgIDxGb3JtQ29udHJvbCBzaXplPVwic21hbGxcIiBzeD17eyBtaW5XaWR0aDogMTIwIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxJbnB1dExhYmVsPk5hIHN0cm9uaWU8L0lucHV0TGFiZWw+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPFNlbGVjdCB2YWx1ZT17aXRlbXNQZXJQYWdlfSBvbkNoYW5nZT17aGFuZGxlSXRlbXNQZXJQYWdlQ2hhbmdlfSBsYWJlbD1cIk5hIHN0cm9uaWVcIj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPE1lbnVJdGVtIHZhbHVlPXs1fT41PC9NZW51SXRlbT5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPE1lbnVJdGVtIHZhbHVlPXsxMH0+MTA8L01lbnVJdGVtPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8TWVudUl0ZW0gdmFsdWU9ezE1fT4xNTwvTWVudUl0ZW0+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxNZW51SXRlbSB2YWx1ZT17MjB9PjIwPC9NZW51SXRlbT5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1NlbGVjdD5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvRm9ybUNvbnRyb2w+XG4gICAgICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICAgICAgPC9Cb3g+XG5cbiAgICAgICAgICAgICAgICB7cmVzZXJ2YXRpb25zLmxlbmd0aCA9PT0gMCA/IChcbiAgICAgICAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImJvZHkyXCIgc3g9e3sgY29sb3I6ICd0ZXh0U2Vjb25kYXJ5JyB9fT5cbiAgICAgICAgICAgICAgICAgICAgICAgIEJyYWsgcmV6ZXJ3YWNqaVxuICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgKSA6IChcbiAgICAgICAgICAgICAgICAgICAgPD5cbiAgICAgICAgICAgICAgICAgICAgICAgIDxTdGFjayBzcGFjaW5nPXsyfT5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICB7Y3VycmVudFJlc2VydmF0aW9ucy5tYXAoKHJlc2VydmF0aW9uKSA9PiAoXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxDYXJkXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBrZXk9e3Jlc2VydmF0aW9uLmlkfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdmFyaWFudD1cIm91dGxpbmVkXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN4PXt7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYmFja2dyb3VuZENvbG9yOiAnI2Y4ZjlmYScsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJyY6aG92ZXInOiB7XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJveFNoYWRvdzogJzAgMnB4IDhweCByZ2JhKDAsIDAsIDAsIDAuMSknLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0sXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9fVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Q2FyZENvbnRlbnQ+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPEJveCBzeD17eyBkaXNwbGF5OiAnZmxleCcsIGp1c3RpZnlDb250ZW50OiAnc3BhY2UtYmV0d2VlbicsIG1iOiAyIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge3Nob3dMaXN0aW5nVGl0bGUgJiYgcmVzZXJ2YXRpb24udGl0bGUgJiYgKFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxUeXBvZ3JhcGh5XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZhcmlhbnQ9XCJzdWJ0aXRsZTFcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzeD17eyBmb250V2VpZ2h0OiAnYm9sZCcsIGNvbG9yOiBQUklNQVJZX0JMVUUsIG1iOiAwLjUgfX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtyZXNlcnZhdGlvbi50aXRsZX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICApfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB7LyogU3pjemVnw7PFgnkgZGxhIGFkbWluYSAqL31cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtzaG93QWRtaW5EZXRhaWxzICYmIChcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94IHN4PXt7IG1iOiAxIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiY2FwdGlvblwiIHN4PXt7IGNvbG9yOiAndGV4dFNlY29uZGFyeScsIGRpc3BsYXk6ICdibG9jaycgfX0+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBJRCByZXplcndhY2ppOiA8c3Ryb25nPntyZXNlcnZhdGlvbi5pZH08L3N0cm9uZz5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiY2FwdGlvblwiIHN4PXt7IGNvbG9yOiAndGV4dFNlY29uZGFyeScsIGRpc3BsYXk6ICdibG9jaycgfX0+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBJRCBnb8WbY2lhOiA8c3Ryb25nPntyZXNlcnZhdGlvbi5ndWVzdFByb2ZpbGVJZH08L3N0cm9uZz5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImJvZHkyXCIgc3g9e3sgY29sb3I6IERBUktfR1JBWSB9fT5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB7cmVzZXJ2YXRpb24uc3RyZWV0fSB7cmVzZXJ2YXRpb24uYnVpbGRpbmdOdW1iZXJ9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBzeD17eyBjb2xvcjogREFSS19HUkFZIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtyZXNlcnZhdGlvbi5wb3N0YWxDb2RlfSB7cmVzZXJ2YXRpb24uY2l0eX0sIHtyZXNlcnZhdGlvbi5jb3VudHJ5fVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHsvKiBTdGF0dXMgQ2hpcCBpIHByenljaXNrIHptaWFueSBzdGF0dXN1ICovfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94IHN4PXt7IGRpc3BsYXk6ICdmbGV4JywgZmxleERpcmVjdGlvbjogJ2NvbHVtbicsIGFsaWduSXRlbXM6ICdmbGV4LWVuZCcsIGdhcDogMC41IH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPENoaXBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYWJlbD17dHJhbnNsYXRlUmVzZXJ2YXRpb25TdGF0dXMocmVzZXJ2YXRpb24uc3RhdHVzKX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb2xvcj17Z2V0U3RhdHVzQ29sb3IocmVzZXJ2YXRpb24uc3RhdHVzKX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplPVwic21hbGxcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHsvKiBQcnp5Y2lzayB6bWlhbnkgc3RhdHVzdSAoamXFm2xpIGlzdG5pZWplKSAqL31cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtyZXNlcnZhdGlvbi5zdGF0dXNBY3Rpb24gJiYgcmVzZXJ2YXRpb24uc3RhdHVzQWN0aW9ufVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cblxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxCb3ggc3g9e3sgZGlzcGxheTogJ2ZsZXgnLCBnYXA6IDQsIG1iOiAxIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPFR5cG9ncmFwaHlcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2YXJpYW50PVwiY2FwdGlvblwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3g9e3sgY29sb3I6ICd0ZXh0U2Vjb25kYXJ5JywgZm9udFdlaWdodDogJ2JvbGQnIH19XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgWmFtZWxkb3dhbmllXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBzeD17eyBjb2xvcjogREFSS19HUkFZIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtuZXcgRGF0ZShyZXNlcnZhdGlvbi5jaGVja0luKS50b0xvY2FsZURhdGVTdHJpbmcoJ3BsLVBMJyl9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPFR5cG9ncmFwaHlcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2YXJpYW50PVwiY2FwdGlvblwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3g9e3sgY29sb3I6ICd0ZXh0U2Vjb25kYXJ5JywgZm9udFdlaWdodDogJ2JvbGQnIH19XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgV3ltZWxkb3dhbmllXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBzeD17eyBjb2xvcjogREFSS19HUkFZIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtuZXcgRGF0ZShyZXNlcnZhdGlvbi5jaGVja091dCkudG9Mb2NhbGVEYXRlU3RyaW5nKCdwbC1QTCcpfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cblxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxCb3hcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3g9e3tcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRpc3BsYXk6ICdmbGV4JyxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGp1c3RpZnlDb250ZW50OiAnc3BhY2UtYmV0d2VlbicsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGlnbkl0ZW1zOiAnY2VudGVyJyxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG10OiAyLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHQ6IDIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib3JkZXJUb3A6ICcxcHggc29saWQgI2RlZTJlNicsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH19XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBzeD17eyBjb2xvcjogJ3RleHRTZWNvbmRhcnknIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2VuYSB6YSBub2M6eycgJ31cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge3Jlc2VydmF0aW9uLnByaWNlUGVyRGF5fSB7cmVzZXJ2YXRpb24uY3VycmVuY3l9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3N0cm9uZz5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBzeD17eyBjb2xvcjogUFJJTUFSWV9CTFVFLCBmb250V2VpZ2h0OiAnYm9sZCcgfX0+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDFgcSFY3puaWU6IHtyZXNlcnZhdGlvbi50b3RhbFByaWNlfSB7cmVzZXJ2YXRpb24uY3VycmVuY3l9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cblxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHsvKiBEb2RhdGtvd2EgYWtjamEgKG5wLiBwcnp5Y2lzayBcIld5c3RhdyBvcGluacSZXCIpICovfVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtyZXNlcnZhdGlvbi5jdXN0b21BY3Rpb24gJiYgKFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8Qm94IHN4PXt7IG10OiAyIH19PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge3Jlc2VydmF0aW9uLmN1c3RvbUFjdGlvbn1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9Cb3g+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvQ2FyZENvbnRlbnQ+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvQ2FyZD5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICApKX1cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvU3RhY2s+XG5cbiAgICAgICAgICAgICAgICAgICAgICAgIHt0b3RhbFBhZ2VzID4gMSAmJiAoXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPEJveCBzeD17eyBkaXNwbGF5OiAnZmxleCcsIGp1c3RpZnlDb250ZW50OiAnY2VudGVyJywgbXQ6IDMgfX0+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxQYWdpbmF0aW9uXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb3VudD17dG90YWxQYWdlc31cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhZ2U9e3BhZ2V9XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvbkNoYW5nZT17aGFuZGxlUGFnZUNoYW5nZX1cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbG9yPVwicHJpbWFyeVwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplPVwibWVkaXVtXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLz5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L0JveD5cbiAgICAgICAgICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICAgICAgICAgIDwvPlxuICAgICAgICAgICAgICAgICl9XG4gICAgICAgICAgICA8L0NhcmRDb250ZW50PlxuICAgICAgICA8L0NhcmQ+XG4gICAgKTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFJlc2VydmF0aW9uc1NlY3Rpb247Il0sImZpbGUiOiJDOi9Vc2Vycy93aWt0by9zb3VyY2UvcmVwb3MvUkJLMTQvYWNjb21tb2RhdGlvbi1ib29raW5nLWFwcC9hY2NvbW1vZGF0aW9uLWJvb2tpbmctdWkvc3JjL2NvbXBvbmVudHMvaG9zdC9SZXNlcnZhdGlvbnNTZWN0aW9uLmpzeCJ9

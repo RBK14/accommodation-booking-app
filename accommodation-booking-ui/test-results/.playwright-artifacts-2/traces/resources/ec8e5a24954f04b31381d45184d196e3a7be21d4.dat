@@ -1,0 +1,424 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/App.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=be4f383c"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import { Outlet, BrowserRouter as Router, Routes, Route, Navigate } from "/node_modules/.vite/deps/react-router-dom.js?v=be4f383c";
+import { ToastContainer } from "/node_modules/.vite/deps/react-toastify.js?v=be4f383c";
+import "/node_modules/react-toastify/dist/ReactToastify.css";
+import MainLayout from "/src/layouts/MainLayout.jsx";
+import AuthLayout from "/src/layouts/AuthLayout.jsx";
+import AdminLayout from "/src/layouts/AdminLayout.jsx";
+import HostLayout from "/src/layouts/HostLayout.jsx";
+import GuestLayout from "/src/layouts/GuestLayout.jsx";
+import ProtectedRoute from "/src/router/ProtectedRoute.jsx";
+import HomePage from "/src/pages/guest/HomePage.jsx";
+import ListingsPage from "/src/pages/guest/ListingsPage.jsx";
+import GuestListingPage from "/src/pages/guest/GuestListingPage.jsx";
+import ReservationPage from "/src/pages/guest/ReservationPage.jsx";
+import LoginPage from "/src/pages/auth/LoginPage.jsx";
+import RegisterPage from "/src/pages/auth/RegisterPage.jsx?t=1768914636944";
+import AdminUsersPage from "/src/pages/admin/AdminUsersPage.jsx";
+import AdminUserPage from "/src/pages/admin/AdminUserPage.jsx";
+import AdminEditUserPage from "/src/pages/admin/AdminEditUserPage.jsx";
+import AdminListingsPage from "/src/pages/admin/AdminListingsPage.jsx";
+import AdminListingPage from "/src/pages/admin/AdminListingPage.jsx";
+import AdminEditListingPage from "/src/pages/admin/AdminEditListingPage.jsx";
+import HostListingsPage from "/src/pages/host/HostListingsPage.jsx";
+import HostListingPage from "/src/pages/host/HostListingPage.jsx";
+import HostEditListingPage from "/src/pages/host/HostEditListingPage.jsx";
+import HostNewListingPage from "/src/pages/host/HostNewListingPage.jsx";
+import HostReservationsPage from "/src/pages/host/HostReservationsPage.jsx";
+import HostReviewPage from "/src/pages/host/HostReviewPage.jsx";
+import HostAccountPage from "/src/pages/host/HostAccountPage.jsx";
+import GuestAccountPage from "/src/pages/guest/GuestAccountPage.jsx";
+import GuestReservationsPage from "/src/pages/guest/GuestReservationsPage.jsx";
+import GuestCreateReviewPage from "/src/pages/guest/GuestCreateReviewPage.jsx";
+import AdminAccountPage from "/src/pages/admin/AdminAccountPage.jsx";
+function App() {
+  return /* @__PURE__ */ jsxDEV(Router, { children: [
+    /* @__PURE__ */ jsxDEV(
+      ToastContainer,
+      {
+        position: "top-right",
+        autoClose: 3e3,
+        hideProgressBar: false,
+        newestOnTop: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 40,
+        columnNumber: 7
+      },
+      this
+    ),
+    /* @__PURE__ */ jsxDEV(Routes, { children: [
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(MainLayout, {}, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 53,
+        columnNumber: 25
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(HomePage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 54,
+          columnNumber: 36
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 54,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/listings", element: /* @__PURE__ */ jsxDEV(ListingsPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 55,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 55,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/listing/:id", element: /* @__PURE__ */ jsxDEV(GuestListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 56,
+          columnNumber: 47
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 56,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/reservation/:listingId", element: /* @__PURE__ */ jsxDEV(ReservationPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 57,
+          columnNumber: 58
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 57,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 53,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(AuthLayout, {}, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 61,
+        columnNumber: 25
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { path: "/login", element: /* @__PURE__ */ jsxDEV(LoginPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 62,
+          columnNumber: 41
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 62,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "/register", element: /* @__PURE__ */ jsxDEV(RegisterPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 63,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 63,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 61,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { allowedRoles: ["Guest"] }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 67,
+        columnNumber: 25
+      }, this), children: /* @__PURE__ */ jsxDEV(Route, { path: "/guest", element: /* @__PURE__ */ jsxDEV(GuestLayout, {}, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 68,
+        columnNumber: 41
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/guest/account", replace: true }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 69,
+          columnNumber: 35
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 69,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "account", element: /* @__PURE__ */ jsxDEV(GuestAccountPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 70,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 70,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "reservations", element: /* @__PURE__ */ jsxDEV(GuestReservationsPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 71,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 71,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "review/:reservationId", element: /* @__PURE__ */ jsxDEV(GuestCreateReviewPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 72,
+          columnNumber: 58
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 72,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 68,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 67,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { allowedRoles: ["Host"] }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 77,
+        columnNumber: 25
+      }, this), children: /* @__PURE__ */ jsxDEV(Route, { path: "/host", element: /* @__PURE__ */ jsxDEV(HostLayout, {}, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 78,
+        columnNumber: 40
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/host/account", replace: true }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 79,
+          columnNumber: 35
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 79,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "account", element: /* @__PURE__ */ jsxDEV(HostAccountPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 80,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 80,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listings", element: /* @__PURE__ */ jsxDEV(HostListingsPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 81,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 81,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "new-listing", element: /* @__PURE__ */ jsxDEV(HostNewListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 82,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 82,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listing/:id", element: /* @__PURE__ */ jsxDEV(HostListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 83,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 83,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listing/:id/edit", element: /* @__PURE__ */ jsxDEV(HostEditListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 84,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 84,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "reservations", element: /* @__PURE__ */ jsxDEV(HostReservationsPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 85,
+          columnNumber: 49
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 85,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "review", element: /* @__PURE__ */ jsxDEV(HostReviewPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 86,
+          columnNumber: 43
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 86,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 78,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 77,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { element: /* @__PURE__ */ jsxDEV(ProtectedRoute, { allowedRoles: ["Admin"] }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 91,
+        columnNumber: 25
+      }, this), children: /* @__PURE__ */ jsxDEV(Route, { path: "/admin", element: /* @__PURE__ */ jsxDEV(AdminLayout, {}, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 92,
+        columnNumber: 41
+      }, this), children: [
+        /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/admin/account", replace: true }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 93,
+          columnNumber: 35
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 93,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "account", element: /* @__PURE__ */ jsxDEV(AdminAccountPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 94,
+          columnNumber: 44
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 94,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "users", element: /* @__PURE__ */ jsxDEV(AdminUsersPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 95,
+          columnNumber: 42
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 95,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "user/:id", element: /* @__PURE__ */ jsxDEV(AdminUserPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 96,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 96,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "user/:id/edit", element: /* @__PURE__ */ jsxDEV(AdminEditUserPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 97,
+          columnNumber: 50
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 97,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listings", element: /* @__PURE__ */ jsxDEV(AdminListingsPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 98,
+          columnNumber: 45
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 98,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listing/:id", element: /* @__PURE__ */ jsxDEV(AdminListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 99,
+          columnNumber: 48
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 99,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Route, { path: "listing/:id/edit", element: /* @__PURE__ */ jsxDEV(AdminEditListingPage, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 100,
+          columnNumber: 53
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+          lineNumber: 100,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 92,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 91,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/unauthorized", element: /* @__PURE__ */ jsxDEV("div", { children: "403 - Brak dostępu" }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 105,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 105,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "*", element: /* @__PURE__ */ jsxDEV("div", { children: "404 - Nie znaleziono" }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 108,
+        columnNumber: 34
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+        lineNumber: 108,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+      lineNumber: 51,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx",
+    lineNumber: 39,
+    columnNumber: 5
+  }, this);
+}
+_c = App;
+export default App;
+var _c;
+$RefreshReg$(_c, "App");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/App.jsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBcUIsS0FBN0Q7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUFpRTtBQUFBLFdBUm5FO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFTQSxLQVZGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFXQTtBQUFBLE1BR0EsdUJBQUMsU0FBTSxNQUFLLGlCQUFnQixTQUFTLHVCQUFDLFNBQUksa0NBQUw7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUF1QixLQUE1RDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQW1FO0FBQUEsTUFHbkUsdUJBQUMsU0FBTSxNQUFLLEtBQUksU0FBUyx1QkFBQyxTQUFJLG9DQUFMO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBeUIsS0FBbEQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUF5RDtBQUFBLFNBekQzRDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBMERBO0FBQUEsT0F0RUY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQXVFQTtBQUVKO0FBQUNDLEtBM0VRRDtBQTZFVCxlQUFlQTtBQUFJLElBQUFDO0FBQUFDLGFBQUFELElBQUEiLCJuYW1lcyI6WyJPdXRsZXQiLCJCcm93c2VyUm91dGVyIiwiUm91dGVyIiwiUm91dGVzIiwiUm91dGUiLCJOYXZpZ2F0ZSIsIlRvYXN0Q29udGFpbmVyIiwiTWFpbkxheW91dCIsIkF1dGhMYXlvdXQiLCJBZG1pbkxheW91dCIsIkhvc3RMYXlvdXQiLCJHdWVzdExheW91dCIsIlByb3RlY3RlZFJvdXRlIiwiSG9tZVBhZ2UiLCJMaXN0aW5nc1BhZ2UiLCJHdWVzdExpc3RpbmdQYWdlIiwiUmVzZXJ2YXRpb25QYWdlIiwiTG9naW5QYWdlIiwiUmVnaXN0ZXJQYWdlIiwiQWRtaW5Vc2Vyc1BhZ2UiLCJBZG1pblVzZXJQYWdlIiwiQWRtaW5FZGl0VXNlclBhZ2UiLCJBZG1pbkxpc3RpbmdzUGFnZSIsIkFkbWluTGlzdGluZ1BhZ2UiLCJBZG1pbkVkaXRMaXN0aW5nUGFnZSIsIkhvc3RMaXN0aW5nc1BhZ2UiLCJIb3N0TGlzdGluZ1BhZ2UiLCJIb3N0RWRpdExpc3RpbmdQYWdlIiwiSG9zdE5ld0xpc3RpbmdQYWdlIiwiSG9zdFJlc2VydmF0aW9uc1BhZ2UiLCJIb3N0UmV2aWV3UGFnZSIsIkhvc3RBY2NvdW50UGFnZSIsIkd1ZXN0QWNjb3VudFBhZ2UiLCJHdWVzdFJlc2VydmF0aW9uc1BhZ2UiLCJHdWVzdENyZWF0ZVJldmlld1BhZ2UiLCJBZG1pbkFjY291bnRQYWdlIiwiQXBwIiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiQXBwLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBPdXRsZXQsIEJyb3dzZXJSb3V0ZXIgYXMgUm91dGVyLCBSb3V0ZXMsIFJvdXRlLCBOYXZpZ2F0ZSB9IGZyb20gJ3JlYWN0LXJvdXRlci1kb20nO1xyXG5pbXBvcnQgeyBUb2FzdENvbnRhaW5lciB9IGZyb20gJ3JlYWN0LXRvYXN0aWZ5JztcclxuaW1wb3J0ICdyZWFjdC10b2FzdGlmeS9kaXN0L1JlYWN0VG9hc3RpZnkuY3NzJztcclxuXHJcbmltcG9ydCBNYWluTGF5b3V0IGZyb20gJy4vbGF5b3V0cy9NYWluTGF5b3V0JztcclxuaW1wb3J0IEF1dGhMYXlvdXQgZnJvbSAnLi9sYXlvdXRzL0F1dGhMYXlvdXQnO1xyXG5pbXBvcnQgQWRtaW5MYXlvdXQgZnJvbSAnLi9sYXlvdXRzL0FkbWluTGF5b3V0JztcclxuaW1wb3J0IEhvc3RMYXlvdXQgZnJvbSAnLi9sYXlvdXRzL0hvc3RMYXlvdXQnO1xyXG5pbXBvcnQgR3Vlc3RMYXlvdXQgZnJvbSAnLi9sYXlvdXRzL0d1ZXN0TGF5b3V0JztcclxuXHJcbmltcG9ydCBQcm90ZWN0ZWRSb3V0ZSBmcm9tICcuL3JvdXRlci9Qcm90ZWN0ZWRSb3V0ZSc7XHJcblxyXG5pbXBvcnQgSG9tZVBhZ2UgZnJvbSAnLi9wYWdlcy9ndWVzdC9Ib21lUGFnZSc7XHJcbmltcG9ydCBMaXN0aW5nc1BhZ2UgZnJvbSAnLi9wYWdlcy9ndWVzdC9MaXN0aW5nc1BhZ2UnO1xyXG5pbXBvcnQgR3Vlc3RMaXN0aW5nUGFnZSBmcm9tICcuL3BhZ2VzL2d1ZXN0L0d1ZXN0TGlzdGluZ1BhZ2UnO1xyXG5pbXBvcnQgUmVzZXJ2YXRpb25QYWdlIGZyb20gJy4vcGFnZXMvZ3Vlc3QvUmVzZXJ2YXRpb25QYWdlJztcclxuaW1wb3J0IExvZ2luUGFnZSBmcm9tICcuL3BhZ2VzL2F1dGgvTG9naW5QYWdlJztcclxuaW1wb3J0IFJlZ2lzdGVyUGFnZSBmcm9tICcuL3BhZ2VzL2F1dGgvUmVnaXN0ZXJQYWdlJztcclxuaW1wb3J0IEFkbWluVXNlcnNQYWdlIGZyb20gJy4vcGFnZXMvYWRtaW4vQWRtaW5Vc2Vyc1BhZ2UnO1xyXG5pbXBvcnQgQWRtaW5Vc2VyUGFnZSBmcm9tICcuL3BhZ2VzL2FkbWluL0FkbWluVXNlclBhZ2UnO1xyXG5pbXBvcnQgQWRtaW5FZGl0VXNlclBhZ2UgZnJvbSAnLi9wYWdlcy9hZG1pbi9BZG1pbkVkaXRVc2VyUGFnZSc7XHJcbmltcG9ydCBBZG1pbkxpc3RpbmdzUGFnZSBmcm9tICcuL3BhZ2VzL2FkbWluL0FkbWluTGlzdGluZ3NQYWdlJztcclxuaW1wb3J0IEFkbWluTGlzdGluZ1BhZ2UgZnJvbSAnLi9wYWdlcy9hZG1pbi9BZG1pbkxpc3RpbmdQYWdlJztcclxuaW1wb3J0IEFkbWluRWRpdExpc3RpbmdQYWdlIGZyb20gJy4vcGFnZXMvYWRtaW4vQWRtaW5FZGl0TGlzdGluZ1BhZ2UnO1xyXG5pbXBvcnQgSG9zdExpc3RpbmdzUGFnZSBmcm9tICcuL3BhZ2VzL2hvc3QvSG9zdExpc3RpbmdzUGFnZSc7XHJcbmltcG9ydCBIb3N0TGlzdGluZ1BhZ2UgZnJvbSAnLi9wYWdlcy9ob3N0L0hvc3RMaXN0aW5nUGFnZSc7XHJcbmltcG9ydCBIb3N0RWRpdExpc3RpbmdQYWdlIGZyb20gJy4vcGFnZXMvaG9zdC9Ib3N0RWRpdExpc3RpbmdQYWdlJztcclxuaW1wb3J0IEhvc3ROZXdMaXN0aW5nUGFnZSBmcm9tICcuL3BhZ2VzL2hvc3QvSG9zdE5ld0xpc3RpbmdQYWdlJztcclxuaW1wb3J0IEhvc3RSZXNlcnZhdGlvbnNQYWdlIGZyb20gJy4vcGFnZXMvaG9zdC9Ib3N0UmVzZXJ2YXRpb25zUGFnZSc7XHJcbmltcG9ydCBIb3N0UmV2aWV3UGFnZSBmcm9tICcuL3BhZ2VzL2hvc3QvSG9zdFJldmlld1BhZ2UnO1xyXG5pbXBvcnQgSG9zdEFjY291bnRQYWdlIGZyb20gJy4vcGFnZXMvaG9zdC9Ib3N0QWNjb3VudFBhZ2UnO1xyXG5pbXBvcnQgR3Vlc3RBY2NvdW50UGFnZSBmcm9tICcuL3BhZ2VzL2d1ZXN0L0d1ZXN0QWNjb3VudFBhZ2UnO1xyXG5pbXBvcnQgR3Vlc3RSZXNlcnZhdGlvbnNQYWdlIGZyb20gJy4vcGFnZXMvZ3Vlc3QvR3Vlc3RSZXNlcnZhdGlvbnNQYWdlJztcclxuaW1wb3J0IEd1ZXN0Q3JlYXRlUmV2aWV3UGFnZSBmcm9tICcuL3BhZ2VzL2d1ZXN0L0d1ZXN0Q3JlYXRlUmV2aWV3UGFnZSc7XHJcbmltcG9ydCBBZG1pbkFjY291bnRQYWdlIGZyb20gJy4vcGFnZXMvYWRtaW4vQWRtaW5BY2NvdW50UGFnZSc7XHJcblxyXG5mdW5jdGlvbiBBcHAoKSB7XHJcbiAgcmV0dXJuIChcclxuICAgIDxSb3V0ZXI+XHJcbiAgICAgIDxUb2FzdENvbnRhaW5lclxyXG4gICAgICAgIHBvc2l0aW9uPVwidG9wLXJpZ2h0XCJcclxuICAgICAgICBhdXRvQ2xvc2U9ezMwMDB9XHJcbiAgICAgICAgaGlkZVByb2dyZXNzQmFyPXtmYWxzZX1cclxuICAgICAgICBuZXdlc3RPblRvcD17ZmFsc2V9XHJcbiAgICAgICAgY2xvc2VPbkNsaWNrXHJcbiAgICAgICAgcnRsPXtmYWxzZX1cclxuICAgICAgICBwYXVzZU9uRm9jdXNMb3NzXHJcbiAgICAgICAgZHJhZ2dhYmxlXHJcbiAgICAgICAgcGF1c2VPbkhvdmVyXHJcbiAgICAgIC8+XHJcbiAgICAgIDxSb3V0ZXM+XHJcbiAgICAgICAgey8qIFBVQkxJQyAqL31cclxuICAgICAgICA8Um91dGUgZWxlbWVudD17PE1haW5MYXlvdXQgLz59PlxyXG4gICAgICAgICAgPFJvdXRlIHBhdGg9XCIvXCIgZWxlbWVudD17PEhvbWVQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGlzdGluZ3NcIiBlbGVtZW50PXs8TGlzdGluZ3NQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgPFJvdXRlIHBhdGg9XCIvbGlzdGluZy86aWRcIiBlbGVtZW50PXs8R3Vlc3RMaXN0aW5nUGFnZSAvPn0gLz5cclxuICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiL3Jlc2VydmF0aW9uLzpsaXN0aW5nSWRcIiBlbGVtZW50PXs8UmVzZXJ2YXRpb25QYWdlIC8+fSAvPlxyXG4gICAgICAgIDwvUm91dGU+XHJcblxyXG4gICAgICAgIHsvKiBBVVRIICovfVxyXG4gICAgICAgIDxSb3V0ZSBlbGVtZW50PXs8QXV0aExheW91dCAvPn0+XHJcbiAgICAgICAgICA8Um91dGUgcGF0aD1cIi9sb2dpblwiIGVsZW1lbnQ9ezxMb2dpblBhZ2UgLz59IC8+XHJcbiAgICAgICAgICA8Um91dGUgcGF0aD1cIi9yZWdpc3RlclwiIGVsZW1lbnQ9ezxSZWdpc3RlclBhZ2UgLz59IC8+XHJcbiAgICAgICAgPC9Sb3V0ZT5cclxuXHJcbiAgICAgICAgey8qIEdVRVNUIC0gUGFuZWwgR2/Fm2NpYSAqL31cclxuICAgICAgICA8Um91dGUgZWxlbWVudD17PFByb3RlY3RlZFJvdXRlIGFsbG93ZWRSb2xlcz17WydHdWVzdCddfSAvPn0+XHJcbiAgICAgICAgICA8Um91dGUgcGF0aD1cIi9ndWVzdFwiIGVsZW1lbnQ9ezxHdWVzdExheW91dCAvPn0+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBpbmRleCBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvZ3Vlc3QvYWNjb3VudFwiIHJlcGxhY2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiYWNjb3VudFwiIGVsZW1lbnQ9ezxHdWVzdEFjY291bnRQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cInJlc2VydmF0aW9uc1wiIGVsZW1lbnQ9ezxHdWVzdFJlc2VydmF0aW9uc1BhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwicmV2aWV3LzpyZXNlcnZhdGlvbklkXCIgZWxlbWVudD17PEd1ZXN0Q3JlYXRlUmV2aWV3UGFnZSAvPn0gLz5cclxuICAgICAgICAgIDwvUm91dGU+XHJcbiAgICAgICAgPC9Sb3V0ZT5cclxuXHJcbiAgICAgICAgey8qIEhPU1QgKi99XHJcbiAgICAgICAgPFJvdXRlIGVsZW1lbnQ9ezxQcm90ZWN0ZWRSb3V0ZSBhbGxvd2VkUm9sZXM9e1snSG9zdCddfSAvPn0+XHJcbiAgICAgICAgICA8Um91dGUgcGF0aD1cIi9ob3N0XCIgZWxlbWVudD17PEhvc3RMYXlvdXQgLz59PlxyXG4gICAgICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2hvc3QvYWNjb3VudFwiIHJlcGxhY2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwiYWNjb3VudFwiIGVsZW1lbnQ9ezxIb3N0QWNjb3VudFBhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwibGlzdGluZ3NcIiBlbGVtZW50PXs8SG9zdExpc3RpbmdzUGFnZSAvPn0gLz5cclxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCJuZXctbGlzdGluZ1wiIGVsZW1lbnQ9ezxIb3N0TmV3TGlzdGluZ1BhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwibGlzdGluZy86aWRcIiBlbGVtZW50PXs8SG9zdExpc3RpbmdQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cImxpc3RpbmcvOmlkL2VkaXRcIiBlbGVtZW50PXs8SG9zdEVkaXRMaXN0aW5nUGFnZSAvPn0gLz5cclxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCJyZXNlcnZhdGlvbnNcIiBlbGVtZW50PXs8SG9zdFJlc2VydmF0aW9uc1BhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwicmV2aWV3XCIgZWxlbWVudD17PEhvc3RSZXZpZXdQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgPC9Sb3V0ZT5cclxuICAgICAgICA8L1JvdXRlPlxyXG5cclxuICAgICAgICB7LyogQURNSU4gKi99XHJcbiAgICAgICAgPFJvdXRlIGVsZW1lbnQ9ezxQcm90ZWN0ZWRSb3V0ZSBhbGxvd2VkUm9sZXM9e1snQWRtaW4nXX0gLz59PlxyXG4gICAgICAgICAgPFJvdXRlIHBhdGg9XCIvYWRtaW5cIiBlbGVtZW50PXs8QWRtaW5MYXlvdXQgLz59PlxyXG4gICAgICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL2FkbWluL2FjY291bnRcIiByZXBsYWNlIC8+fSAvPlxyXG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cImFjY291bnRcIiBlbGVtZW50PXs8QWRtaW5BY2NvdW50UGFnZSAvPn0gLz5cclxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCJ1c2Vyc1wiIGVsZW1lbnQ9ezxBZG1pblVzZXJzUGFnZSAvPn0gLz5cclxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCJ1c2VyLzppZFwiIGVsZW1lbnQ9ezxBZG1pblVzZXJQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgICA8Um91dGUgcGF0aD1cInVzZXIvOmlkL2VkaXRcIiBlbGVtZW50PXs8QWRtaW5FZGl0VXNlclBhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwibGlzdGluZ3NcIiBlbGVtZW50PXs8QWRtaW5MaXN0aW5nc1BhZ2UgLz59IC8+XHJcbiAgICAgICAgICAgIDxSb3V0ZSBwYXRoPVwibGlzdGluZy86aWRcIiBlbGVtZW50PXs8QWRtaW5MaXN0aW5nUGFnZSAvPn0gLz5cclxuICAgICAgICAgICAgPFJvdXRlIHBhdGg9XCJsaXN0aW5nLzppZC9lZGl0XCIgZWxlbWVudD17PEFkbWluRWRpdExpc3RpbmdQYWdlIC8+fSAvPlxyXG4gICAgICAgICAgPC9Sb3V0ZT5cclxuICAgICAgICA8L1JvdXRlPlxyXG5cclxuICAgICAgICB7LyogNDAzICovfVxyXG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiL3VuYXV0aG9yaXplZFwiIGVsZW1lbnQ9ezxkaXY+NDAzIC0gQnJhayBkb3N0xJlwdTwvZGl2Pn0gLz5cclxuXHJcbiAgICAgICAgey8qIDQwNCAqL31cclxuICAgICAgICA8Um91dGUgcGF0aD1cIipcIiBlbGVtZW50PXs8ZGl2PjQwNCAtIE5pZSB6bmFsZXppb25vPC9kaXY+fSAvPlxyXG4gICAgICA8L1JvdXRlcz5cclxuICAgIDwvUm91dGVyPlxyXG4gICk7XHJcbn1cclxuXHJcbmV4cG9ydCBkZWZhdWx0IEFwcDtcclxuIl0sImZpbGUiOiJDOi9Vc2Vycy93aWt0by9zb3VyY2UvcmVwb3MvUkJLMTQvYWNjb21tb2RhdGlvbi1ib29raW5nLWFwcC9hY2NvbW1vZGF0aW9uLWJvb2tpbmctdWkvc3JjL0FwcC5qc3gifQ==

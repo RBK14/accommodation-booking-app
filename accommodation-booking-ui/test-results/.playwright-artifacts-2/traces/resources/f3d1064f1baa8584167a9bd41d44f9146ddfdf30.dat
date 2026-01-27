@@ -1,0 +1,87 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/router/ProtectedRoute.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=be4f383c"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import { useLocation, Navigate, Outlet } from "/node_modules/.vite/deps/react-router-dom.js?v=be4f383c";
+import { Box, CircularProgress } from "/node_modules/.vite/deps/@mui_material.js?v=be4f383c";
+import useAuth from "/src/hooks/useAuth.js";
+const ProtectedRoute = ({ allowedRoles }) => {
+  _s();
+  const { auth, isLoading } = useAuth();
+  const location = useLocation();
+  if (isLoading) {
+    return /* @__PURE__ */ jsxDEV(
+      Box,
+      {
+        sx: {
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh"
+        },
+        children: /* @__PURE__ */ jsxDEV(CircularProgress, {}, void 0, false, {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx",
+          lineNumber: 20,
+          columnNumber: 9
+        }, this)
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx",
+        lineNumber: 12,
+        columnNumber: 7
+      },
+      this
+    );
+  }
+  if (!auth) {
+    return /* @__PURE__ */ jsxDEV(Navigate, { to: "/login", state: { from: location }, replace: true }, void 0, false, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx",
+      lineNumber: 27,
+      columnNumber: 12
+    }, this);
+  }
+  if (!allowedRoles?.includes(auth.role)) {
+    return /* @__PURE__ */ jsxDEV(Navigate, { to: "/unauthorized", state: { from: location }, replace: true }, void 0, false, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx",
+      lineNumber: 32,
+      columnNumber: 12
+    }, this);
+  }
+  return /* @__PURE__ */ jsxDEV(Outlet, {}, void 0, false, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx",
+    lineNumber: 35,
+    columnNumber: 10
+  }, this);
+};
+_s(ProtectedRoute, "iV77O3YQvNbr8ZlqqFmIWCA0J88=", false, function() {
+  return [useAuth, useLocation];
+});
+_c = ProtectedRoute;
+export default ProtectedRoute;
+var _c;
+$RefreshReg$(_c, "ProtectedRoute");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/router/ProtectedRoute.jsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBbUJROztBQW5CUixTQUFTQSxhQUFhQyxVQUFVQyxjQUFjO0FBQzlDLFNBQVNDLEtBQUtDLHdCQUF3QjtBQUN0QyxPQUFPQyxhQUFhO0FBRXBCLE1BQU1DLGlCQUFpQkEsQ0FBQyxFQUFFQyxhQUFhLE1BQU07QUFBQUMsS0FBQTtBQUMzQyxRQUFNLEVBQUVDLE1BQU1DLFVBQVUsSUFBSUwsUUFBUTtBQUNwQyxRQUFNTSxXQUFXWCxZQUFZO0FBRzdCLE1BQUlVLFdBQVc7QUFDYixXQUNFO0FBQUEsTUFBQztBQUFBO0FBQUEsUUFDQyxJQUFJO0FBQUEsVUFDRkUsU0FBUztBQUFBLFVBQ1RDLGdCQUFnQjtBQUFBLFVBQ2hCQyxZQUFZO0FBQUEsVUFDWkMsV0FBVztBQUFBLFFBQ2I7QUFBQSxRQUVBLGlDQUFDLHNCQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBaUI7QUFBQTtBQUFBLE1BUm5CO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxJQVNBO0FBQUEsRUFFSjtBQUdBLE1BQUksQ0FBQ04sTUFBTTtBQUNULFdBQU8sdUJBQUMsWUFBUyxJQUFHLFVBQVMsT0FBTyxFQUFFTyxNQUFNTCxTQUFTLEdBQUcsU0FBTyxRQUF4RDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQXdEO0FBQUEsRUFDakU7QUFHQSxNQUFJLENBQUNKLGNBQWNVLFNBQVNSLEtBQUtTLElBQUksR0FBRztBQUN0QyxXQUFPLHVCQUFDLFlBQVMsSUFBRyxpQkFBZ0IsT0FBTyxFQUFFRixNQUFNTCxTQUFTLEdBQUcsU0FBTyxRQUEvRDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQStEO0FBQUEsRUFDeEU7QUFFQSxTQUFPLHVCQUFDLFlBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUFPO0FBQ2hCO0FBQUVILEdBL0JJRixnQkFBYztBQUFBLFVBQ1VELFNBQ1hMLFdBQVc7QUFBQTtBQUFBbUIsS0FGeEJiO0FBaUNOLGVBQWVBO0FBQWUsSUFBQWE7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbInVzZUxvY2F0aW9uIiwiTmF2aWdhdGUiLCJPdXRsZXQiLCJCb3giLCJDaXJjdWxhclByb2dyZXNzIiwidXNlQXV0aCIsIlByb3RlY3RlZFJvdXRlIiwiYWxsb3dlZFJvbGVzIiwiX3MiLCJhdXRoIiwiaXNMb2FkaW5nIiwibG9jYXRpb24iLCJkaXNwbGF5IiwianVzdGlmeUNvbnRlbnQiLCJhbGlnbkl0ZW1zIiwibWluSGVpZ2h0IiwiZnJvbSIsImluY2x1ZGVzIiwicm9sZSIsIl9jIiwiJFJlZnJlc2hSZWckIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIlByb3RlY3RlZFJvdXRlLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VMb2NhdGlvbiwgTmF2aWdhdGUsIE91dGxldCB9IGZyb20gJ3JlYWN0LXJvdXRlci1kb20nO1xyXG5pbXBvcnQgeyBCb3gsIENpcmN1bGFyUHJvZ3Jlc3MgfSBmcm9tICdAbXVpL21hdGVyaWFsJztcclxuaW1wb3J0IHVzZUF1dGggZnJvbSAnLi4vaG9va3MvdXNlQXV0aCc7XHJcblxyXG5jb25zdCBQcm90ZWN0ZWRSb3V0ZSA9ICh7IGFsbG93ZWRSb2xlcyB9KSA9PiB7XHJcbiAgY29uc3QgeyBhdXRoLCBpc0xvYWRpbmcgfSA9IHVzZUF1dGgoKTtcclxuICBjb25zdCBsb2NhdGlvbiA9IHVzZUxvY2F0aW9uKCk7XHJcblxyXG4gIC8vIEN6ZWthaiBuYSB6Ye+/vWFkb3dhbmllIGRhbnljaCB6IHNlc3Npb25TdG9yYWdlXHJcbiAgaWYgKGlzTG9hZGluZykge1xyXG4gICAgcmV0dXJuIChcclxuICAgICAgPEJveFxyXG4gICAgICAgIHN4PXt7XHJcbiAgICAgICAgICBkaXNwbGF5OiAnZmxleCcsXHJcbiAgICAgICAgICBqdXN0aWZ5Q29udGVudDogJ2NlbnRlcicsXHJcbiAgICAgICAgICBhbGlnbkl0ZW1zOiAnY2VudGVyJyxcclxuICAgICAgICAgIG1pbkhlaWdodDogJzEwMHZoJyxcclxuICAgICAgICB9fVxyXG4gICAgICA+XHJcbiAgICAgICAgPENpcmN1bGFyUHJvZ3Jlc3MgLz5cclxuICAgICAgPC9Cb3g+XHJcbiAgICApO1xyXG4gIH1cclxuXHJcbiAgLy8gSmXvv71saSBuaWUgbWEgYXV0b3J5emFjamksIHByemVraWVydWogZG8gbG9nb3dhbmlhXHJcbiAgaWYgKCFhdXRoKSB7XHJcbiAgICByZXR1cm4gPE5hdmlnYXRlIHRvPVwiL2xvZ2luXCIgc3RhdGU9e3sgZnJvbTogbG9jYXRpb24gfX0gcmVwbGFjZSAvPjtcclxuICB9XHJcblxyXG4gIC8vIEpl77+9bGkgde+/vXl0a293bmlrIG5pZSBtYSBvZHBvd2llZG5pZWogcm9saSwgcHJ6ZWtpZXJ1aiBkbyB1bmF1dGhvcml6ZWRcclxuICBpZiAoIWFsbG93ZWRSb2xlcz8uaW5jbHVkZXMoYXV0aC5yb2xlKSkge1xyXG4gICAgcmV0dXJuIDxOYXZpZ2F0ZSB0bz1cIi91bmF1dGhvcml6ZWRcIiBzdGF0ZT17eyBmcm9tOiBsb2NhdGlvbiB9fSByZXBsYWNlIC8+O1xyXG4gIH1cclxuXHJcbiAgcmV0dXJuIDxPdXRsZXQgLz47XHJcbn07XHJcblxyXG5leHBvcnQgZGVmYXVsdCBQcm90ZWN0ZWRSb3V0ZTtcclxuIl0sImZpbGUiOiJDOi9Vc2Vycy93aWt0by9zb3VyY2UvcmVwb3MvUkJLMTQvYWNjb21tb2RhdGlvbi1ib29raW5nLWFwcC9hY2NvbW1vZGF0aW9uLWJvb2tpbmctdWkvc3JjL3JvdXRlci9Qcm90ZWN0ZWRSb3V0ZS5qc3gifQ==

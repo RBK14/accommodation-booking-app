@@ -18,12 +18,10 @@ export async function login(page, email, password) {
   await page.fill('input[type="email"]', email);
   await page.fill('input[type="password"]', password);
 
-  await Promise.all([
-    page.waitForURL(/^(?!.*\/login).*$/, { timeout: 15000 }),
-    page.click('button[type="submit"]'),
-  ]);
-
-  await page.waitForLoadState('networkidle', { timeout: 10000 });
+  await page.click('button[type="submit"]');
+  
+  await page.waitForURL(/^(?!.*\/login).*$/, { timeout: 15000 });
+  await page.waitForLoadState('domcontentloaded', { timeout: 10000 });
 }
 
 /**

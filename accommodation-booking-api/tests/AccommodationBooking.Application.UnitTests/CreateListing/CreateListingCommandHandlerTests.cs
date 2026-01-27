@@ -81,7 +81,8 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Street: "Test Street",
                 BuildingNumber: "1",
                 AmountPerDay: 100,
-                Currency: "PLN"
+                Currency: "PLN",
+                Photos: ["string"]
             );
 
             var hostProfile = HostProfile.Create(invalidCommand.HostProfileId);
@@ -114,7 +115,8 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Street: "Marszałkowska",
                 BuildingNumber: "10",
                 AmountPerDay: 200,
-                Currency: "PLN"
+                Currency: "PLN",
+                Photos: ["string"]
             );
         }
     }

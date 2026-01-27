@@ -1,0 +1,120 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/shared/EmailForm.jsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=be4f383c"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=be4f383c"; const useState = __vite__cjsImport1_react["useState"];
+import { Box, Card, CardContent, TextField, Button, Typography, Stack } from "/node_modules/.vite/deps/@mui_material.js?v=be4f383c";
+import SaveIcon from "/node_modules/.vite/deps/@mui_icons-material_Save.js?v=be4f383c";
+import { PRIMARY_BLUE, DARK_GRAY } from "/src/assets/styles/colors.js";
+const EmailForm = ({ initialEmail = "", onSave }) => {
+  _s();
+  const [email, setEmail] = useState(initialEmail);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSave) {
+      onSave({ email });
+    }
+  };
+  return /* @__PURE__ */ jsxDEV(Card, { children: /* @__PURE__ */ jsxDEV(CardContent, { children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", sx: { mb: 3, fontWeight: "bold", color: DARK_GRAY }, children: "Adres e-mail" }, void 0, false, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+      lineNumber: 19,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("form", { onSubmit: handleSubmit, children: /* @__PURE__ */ jsxDEV(Stack, { spacing: 3, children: [
+      /* @__PURE__ */ jsxDEV(
+        TextField,
+        {
+          fullWidth: true,
+          label: "E-mail",
+          name: "email",
+          type: "email",
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
+          required: true,
+          variant: "outlined"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+          lineNumber: 24,
+          columnNumber: 13
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        Button,
+        {
+          type: "submit",
+          variant: "contained",
+          startIcon: /* @__PURE__ */ jsxDEV(SaveIcon, {}, void 0, false, {
+            fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+            lineNumber: 38,
+            columnNumber: 26
+          }, this),
+          sx: {
+            backgroundColor: PRIMARY_BLUE,
+            alignSelf: "flex-start",
+            "&:hover": {
+              backgroundColor: "#0a58ca"
+            }
+          },
+          children: "Zapisz zmiany"
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+          lineNumber: 35,
+          columnNumber: 13
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+      lineNumber: 23,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+      lineNumber: 22,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+    lineNumber: 18,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx",
+    lineNumber: 17,
+    columnNumber: 5
+  }, this);
+};
+_s(EmailForm, "FDmpZLD1Rh23V3B3EuZy5dPFNGQ=");
+_c = EmailForm;
+export default EmailForm;
+var _c;
+$RefreshReg$(_c, "EmailForm");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "C:/Users/wikto/source/repos/RBK14/accommodation-booking-app/accommodation-booking-ui/src/components/shared/EmailForm.jsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBa0JROztBQWxCUixTQUFTQSxnQkFBZ0I7QUFDekIsU0FBU0MsS0FBS0MsTUFBTUMsYUFBYUMsV0FBV0MsUUFBUUMsWUFBWUMsYUFBYTtBQUM3RSxPQUFPQyxjQUFjO0FBQ3JCLFNBQVNDLGNBQWNDLGlCQUFpQjtBQUV4QyxNQUFNQyxZQUFZQSxDQUFDLEVBQUVDLGVBQWUsSUFBSUMsT0FBTyxNQUFNO0FBQUFDLEtBQUE7QUFDbkQsUUFBTSxDQUFDQyxPQUFPQyxRQUFRLElBQUloQixTQUFTWSxZQUFZO0FBRS9DLFFBQU1LLGVBQWVBLENBQUNDLE1BQU07QUFDMUJBLE1BQUVDLGVBQWU7QUFDakIsUUFBSU4sUUFBUTtBQUNWQSxhQUFPLEVBQUVFLE1BQU0sQ0FBQztBQUFBLElBQ2xCO0FBQUEsRUFDRjtBQUVBLFNBQ0UsdUJBQUMsUUFDQyxpQ0FBQyxlQUNDO0FBQUEsMkJBQUMsY0FBVyxTQUFRLE1BQUssSUFBSSxFQUFFSyxJQUFJLEdBQUdDLFlBQVksUUFBUUMsT0FBT1osVUFBVSxHQUFHLDRCQUE5RTtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUE7QUFBQSxJQUNBLHVCQUFDLFVBQUssVUFBVU8sY0FDZCxpQ0FBQyxTQUFNLFNBQVMsR0FDZDtBQUFBO0FBQUEsUUFBQztBQUFBO0FBQUEsVUFDQztBQUFBLFVBQ0EsT0FBTTtBQUFBLFVBQ04sTUFBSztBQUFBLFVBQ0wsTUFBSztBQUFBLFVBQ0wsT0FBT0Y7QUFBQUEsVUFDUCxVQUFVLENBQUNHLE1BQU1GLFNBQVNFLEVBQUVLLE9BQU9DLEtBQUs7QUFBQSxVQUN4QztBQUFBLFVBQ0EsU0FBUTtBQUFBO0FBQUEsUUFSVjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsTUFRb0I7QUFBQSxNQUdwQjtBQUFBLFFBQUM7QUFBQTtBQUFBLFVBQ0MsTUFBSztBQUFBLFVBQ0wsU0FBUTtBQUFBLFVBQ1IsV0FBVyx1QkFBQyxjQUFEO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBQVM7QUFBQSxVQUNwQixJQUFJO0FBQUEsWUFDRkMsaUJBQWlCaEI7QUFBQUEsWUFDakJpQixXQUFXO0FBQUEsWUFDWCxXQUFXO0FBQUEsY0FDVEQsaUJBQWlCO0FBQUEsWUFDbkI7QUFBQSxVQUNGO0FBQUEsVUFBRTtBQUFBO0FBQUEsUUFWSjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsTUFhQTtBQUFBLFNBekJGO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0EwQkEsS0EzQkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQTRCQTtBQUFBLE9BaENGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FpQ0EsS0FsQ0Y7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQW1DQTtBQUVKO0FBQUVYLEdBaERJSCxXQUFTO0FBQUFnQixLQUFUaEI7QUFrRE4sZUFBZUE7QUFBVSxJQUFBZ0I7QUFBQUMsYUFBQUQsSUFBQSIsIm5hbWVzIjpbInVzZVN0YXRlIiwiQm94IiwiQ2FyZCIsIkNhcmRDb250ZW50IiwiVGV4dEZpZWxkIiwiQnV0dG9uIiwiVHlwb2dyYXBoeSIsIlN0YWNrIiwiU2F2ZUljb24iLCJQUklNQVJZX0JMVUUiLCJEQVJLX0dSQVkiLCJFbWFpbEZvcm0iLCJpbml0aWFsRW1haWwiLCJvblNhdmUiLCJfcyIsImVtYWlsIiwic2V0RW1haWwiLCJoYW5kbGVTdWJtaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJtYiIsImZvbnRXZWlnaHQiLCJjb2xvciIsInRhcmdldCIsInZhbHVlIiwiYmFja2dyb3VuZENvbG9yIiwiYWxpZ25TZWxmIiwiX2MiLCIkUmVmcmVzaFJlZyQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiRW1haWxGb3JtLmpzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcclxuaW1wb3J0IHsgQm94LCBDYXJkLCBDYXJkQ29udGVudCwgVGV4dEZpZWxkLCBCdXR0b24sIFR5cG9ncmFwaHksIFN0YWNrIH0gZnJvbSAnQG11aS9tYXRlcmlhbCc7XHJcbmltcG9ydCBTYXZlSWNvbiBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsL1NhdmUnO1xyXG5pbXBvcnQgeyBQUklNQVJZX0JMVUUsIERBUktfR1JBWSB9IGZyb20gJy4uLy4uL2Fzc2V0cy9zdHlsZXMvY29sb3JzJztcclxuXHJcbmNvbnN0IEVtYWlsRm9ybSA9ICh7IGluaXRpYWxFbWFpbCA9ICcnLCBvblNhdmUgfSkgPT4ge1xyXG4gIGNvbnN0IFtlbWFpbCwgc2V0RW1haWxdID0gdXNlU3RhdGUoaW5pdGlhbEVtYWlsKTtcclxuXHJcbiAgY29uc3QgaGFuZGxlU3VibWl0ID0gKGUpID0+IHtcclxuICAgIGUucHJldmVudERlZmF1bHQoKTtcclxuICAgIGlmIChvblNhdmUpIHtcclxuICAgICAgb25TYXZlKHsgZW1haWwgfSk7XHJcbiAgICB9XHJcbiAgfTtcclxuXHJcbiAgcmV0dXJuIChcclxuICAgIDxDYXJkPlxyXG4gICAgICA8Q2FyZENvbnRlbnQ+XHJcbiAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImg2XCIgc3g9e3sgbWI6IDMsIGZvbnRXZWlnaHQ6ICdib2xkJywgY29sb3I6IERBUktfR1JBWSB9fT5cclxuICAgICAgICAgIEFkcmVzIGUtbWFpbFxyXG4gICAgICAgIDwvVHlwb2dyYXBoeT5cclxuICAgICAgICA8Zm9ybSBvblN1Ym1pdD17aGFuZGxlU3VibWl0fT5cclxuICAgICAgICAgIDxTdGFjayBzcGFjaW5nPXszfT5cclxuICAgICAgICAgICAgPFRleHRGaWVsZFxyXG4gICAgICAgICAgICAgIGZ1bGxXaWR0aFxyXG4gICAgICAgICAgICAgIGxhYmVsPVwiRS1tYWlsXCJcclxuICAgICAgICAgICAgICBuYW1lPVwiZW1haWxcIlxyXG4gICAgICAgICAgICAgIHR5cGU9XCJlbWFpbFwiXHJcbiAgICAgICAgICAgICAgdmFsdWU9e2VtYWlsfVxyXG4gICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0RW1haWwoZS50YXJnZXQudmFsdWUpfVxyXG4gICAgICAgICAgICAgIHJlcXVpcmVkXHJcbiAgICAgICAgICAgICAgdmFyaWFudD1cIm91dGxpbmVkXCJcclxuICAgICAgICAgICAgLz5cclxuXHJcbiAgICAgICAgICAgIDxCdXR0b25cclxuICAgICAgICAgICAgICB0eXBlPVwic3VibWl0XCJcclxuICAgICAgICAgICAgICB2YXJpYW50PVwiY29udGFpbmVkXCJcclxuICAgICAgICAgICAgICBzdGFydEljb249ezxTYXZlSWNvbiAvPn1cclxuICAgICAgICAgICAgICBzeD17e1xyXG4gICAgICAgICAgICAgICAgYmFja2dyb3VuZENvbG9yOiBQUklNQVJZX0JMVUUsXHJcbiAgICAgICAgICAgICAgICBhbGlnblNlbGY6ICdmbGV4LXN0YXJ0JyxcclxuICAgICAgICAgICAgICAgICcmOmhvdmVyJzoge1xyXG4gICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kQ29sb3I6ICcjMGE1OGNhJyxcclxuICAgICAgICAgICAgICAgIH0sXHJcbiAgICAgICAgICAgICAgfX1cclxuICAgICAgICAgICAgPlxyXG4gICAgICAgICAgICAgIFphcGlzeiB6bWlhbnlcclxuICAgICAgICAgICAgPC9CdXR0b24+XHJcbiAgICAgICAgICA8L1N0YWNrPlxyXG4gICAgICAgIDwvZm9ybT5cclxuICAgICAgPC9DYXJkQ29udGVudD5cclxuICAgIDwvQ2FyZD5cclxuICApO1xyXG59O1xyXG5cclxuZXhwb3J0IGRlZmF1bHQgRW1haWxGb3JtO1xyXG4iXSwiZmlsZSI6IkM6L1VzZXJzL3dpa3RvL3NvdXJjZS9yZXBvcy9SQksxNC9hY2NvbW1vZGF0aW9uLWJvb2tpbmctYXBwL2FjY29tbW9kYXRpb24tYm9va2luZy11aS9zcmMvY29tcG9uZW50cy9zaGFyZWQvRW1haWxGb3JtLmpzeCJ9

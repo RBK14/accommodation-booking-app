@@ -48,6 +48,7 @@ public class ApiController : ControllerBase
                 error.Description);
         }
 
-        return ValidationProblem(modelStateDictionary);
+        //return ValidationProblem(modelStateDictionary);
+        return Problem(errors.FirstOrDefault());
     }
 }

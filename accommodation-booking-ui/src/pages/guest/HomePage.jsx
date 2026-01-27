@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <Box
       sx={{
-        minHeight: 'calc(100vh - 64px)', // 100vh minus wysokość navbar (64px)
+        minHeight: 'calc(100vh - 156px)', // 100vh minus wysokość navbar (64px)
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

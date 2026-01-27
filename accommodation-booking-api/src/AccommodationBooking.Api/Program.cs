@@ -1,49 +1,59 @@
-using AccommodationBooking.Api;
 using AccommodationBooking.Application;
 using AccommodationBooking.Infrastructure;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace AccommodationBooking.Api
 {
-    builder.Services
-        .AddPresentation()
-        .AddApplication()
-        .AddInfrastructure(builder.Configuration);
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-
-    builder.Services.AddCors(options =>
+    public partial class Program
     {
-        options.AddPolicy("AllowOrigins", policy =>
+        public static void Main(string[] args)
         {
-            policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
+            var builder = WebApplication.CreateBuilder(args);
+            {
+                builder.Services
+                    .AddPresentation()
+                    .AddApplication()
+                    .AddInfrastructure(builder.Configuration);
 
-        });
-    });
-}
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen();
+
+                builder.Services.AddCors(options =>
+                {
+                    options.AddPolicy("AllowOrigins", policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:5174", "https://localhost:5174")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+
+                    });
+                });
+            }
 
 
-var app = builder.Build();
-{
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+            var app = builder.Build();
+            {
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                app.UseHttpsRedirection();
+
+                app.UseRouting();
+
+                app.UseCors("AllowOrigins");
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.MapControllers();
+
+                app.Run();
+            }
+        }
+
+
     }
-
-    app.UseHttpsRedirection();
-
-    app.UseRouting();
-
-    app.UseCors("AllowOrigins");
-
-    app.UseAuthentication();
-    app.UseAuthorization();
-
-    app.MapControllers();
-
-    app.Run();
 }
