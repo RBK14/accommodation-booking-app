@@ -3,76 +3,117 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using AccommodationBooking.Infrastructure.Persistence;
 using AccommodationBooking.Api;
-using System.Linq;
-using AccommodationBooking.Application.Common.Intrefaces.Authentication; // Dodaj ten namespace
-using AccommodationBooking.Domain.UserAggregate; // Dodaj ten namespace
+using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Domain.UserAggregate;
+using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Infrastructure.Persistence.Repositories;
+using AccommodationBooking.Infrastructure.BackgroundJobs;
 
-public class AccommodationBookingFactory : WebApplicationFactory<Program>
+namespace AccommodationBooking.AcceptanceTests
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    public class AccommodationBookingFactory : WebApplicationFactory<Program>
     {
-        // 1. Nadpisujemy konfiguracjê JWT
-        builder.ConfigureAppConfiguration((context, config) =>
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
+            builder.ConfigureAppConfiguration((context, config) =>
             {
+                config.AddInMemoryCollection(new Dictionary<string, string?>
+                {
                 {"JwtSettings:Secret", "SuperTajnyKluczDoTestowKtoryMaPrzynajmniej32Znaki!"},
                 {"JwtSettings:ExpiryMinutes", "60"},
                 {"JwtSettings:Issuer", "TestIssuer"},
                 {"JwtSettings:Audience", "TestAudience"}
+                });
             });
-        });
 
-        builder.ConfigureServices(services =>
+            builder.ConfigureServices(services =>
+            {
+                // Remove the background service
+                var hostedServiceDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IHostedService) && d.ImplementationType == typeof(ReservationStatusUpdaterService));
+                if (hostedServiceDescriptor != null)
+                {
+                    services.Remove(hostedServiceDescriptor);
+                }
+
+                // Remove all DbContext and EF Core related services
+                var descriptorsToRemove = services
+                    .Where(d => d.ServiceType.FullName != null &&
+                        (d.ServiceType.FullName.Contains("EntityFramework") ||
+                         d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
+                         d.ServiceType == typeof(DbContextOptions) ||
+                         d.ServiceType == typeof(AppDbContext)))
+                    .ToList();
+
+                foreach (var descriptor in descriptorsToRemove)
+                {
+                    services.Remove(descriptor);
+                }
+
+                // Remove repository registrations
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IUnitOfWork)));
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IUserRepository)));
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IGuestProfileRepository)));
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IHostProfileRepository)));
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IListingRepository)));
+                services.Remove(services.SingleOrDefault(d => d.ServiceType == typeof(IReservationRepository)));
+
+                // Add InMemory DbContext
+                services.AddDbContext<AppDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.ConfigureWarnings(x => x.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.InMemoryEventId.TransactionIgnoredWarning));
+                });
+
+                // Re-register repositories with InMemory DbContext
+                services.AddScoped<IUserRepository, UserRepository>();
+                services.AddScoped<IGuestProfileRepository, GuestProfileRepository>();
+                services.AddScoped<IHostProfileRepository, HostProfileRepository>();
+                services.AddScoped<IListingRepository, ListingRepository>();
+                services.AddScoped<IReservationRepository, ReservationRepository>();
+                services.AddScoped<IUnitOfWork, TestUnitOfWork>();
+
+                var sp = services.BuildServiceProvider();
+                using (var scope = sp.CreateScope())
+                {
+                    var scopedServices = scope.ServiceProvider;
+                    try
+                    {
+                        var db = scopedServices.GetRequiredService<AppDbContext>();
+                        db.Database.EnsureDeleted();
+                        db.Database.EnsureCreated();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"DB INIT ERROR: {ex.Message}");
+                        throw;
+                    }
+                }
+            });
+        }
+
+        public string GenerateAccessToken(User user, Guid profileId)
         {
-            // 2. TOTALNE CZYSZCZENIE
-            var descriptors = services.Where(d =>
-                d.ServiceType == typeof(DbContextOptions<AppDbContext>) ||
-                d.ServiceType == typeof(DbContextOptions) ||
-                d.ServiceType == typeof(AppDbContext)).ToList();
-
-            foreach (var descriptor in descriptors)
-            {
-                services.Remove(descriptor);
-            }
-
-            // 3. Dodajemy czyst¹ bazê In-Memory
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("InMemoryDbForTesting");
-                options.ConfigureWarnings(x => x.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.InMemoryEventId.TransactionIgnoredWarning));
-            });
-
-            // 4. Inicjalizacja bazy
-            var sp = services.BuildServiceProvider();
-            using (var scope = sp.CreateScope())
-            {
-                var scopedServices = scope.ServiceProvider;
-                try
-                {
-                    var db = scopedServices.GetRequiredService<AppDbContext>();
-                    db.Database.EnsureDeleted();
-                    db.Database.EnsureCreated();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"DB INIT ERROR: {ex.Message}");
-                    throw;
-                }
-            }
-        });
+            using var scope = Services.CreateScope();
+            var tokenGenerator = scope.ServiceProvider.GetRequiredService<IJwtTokenGenerator>();
+            return tokenGenerator.GenerateAccessToken(user, profileId);
+        }
     }
 
-    // --- NOWA METODA POMOCNICZA DO GENEROWANIA TOKENÓW ---
-    public string GenerateAccessToken(User user, Guid profileId)
+    public class TestUnitOfWork(
+        AppDbContext context,
+        IUserRepository users,
+        IGuestProfileRepository guestProfiles,
+        IHostProfileRepository hostProfiles,
+        IListingRepository listings,
+        IReservationRepository reservations)
+        : UnitOfWork(context, users, guestProfiles, hostProfiles, listings, reservations)
     {
-        // Tworzymy scope, aby pobraæ serwis IJwtTokenGenerator z kontenera DI
-        using var scope = Services.CreateScope();
-        var tokenGenerator = scope.ServiceProvider.GetRequiredService<IJwtTokenGenerator>();
-
-        // Generator u¿yje ustawieñ z ConfigureWebHost (czyli naszego testowego klucza)
-        return tokenGenerator.GenerateAccessToken(user, profileId);
+        public override Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

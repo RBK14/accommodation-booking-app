@@ -1,13 +1,13 @@
-﻿Feature: Tworzenie Oferty
-    Jako gospodarz (Host)
-    Chcę dodać nową ofertę wynajmu
-    Aby goście mogli ją rezerwować
+﻿Feature: Listing Creation
+    As a Host
+    I want to add a new rental listing
+    So that guests can book it
 
-Scenario: Poprawne utworzenie nowej oferty przez zalogowanego gospodarza
-    Given Jestem zarejestrowany i zalogowany jako "Host"
-    When Wysyłam żądanie utworzenia oferty z następującymi danymi:
-        | Title           | Description      | Type      | Beds | MaxGuests | Amount | Currency | Country | City     | Street | Building | Postal | Photos |
-        | Apartament Wrocław | Piękny widok | Apartment | 2    | 4         | 250    | PLN      | Poland  | Wrocław  | Rynek  | 10/2     | 50-100 | photo1.jpg |
-    Then Odpowiedź serwera powinna mieć status 200 OK
-    And W odpowiedzi powinienem otrzymać szczegóły utworzonej oferty
-    And Oferta powinna być zapisana w bazie danych
+Scenario: Successfully create a new listing as a logged-in host
+    Given I am registered and logged in as "Host"
+    When I send a request to create a listing with the following data:
+        | Title              | Description      | Type      | Beds | MaxGuests | Amount | Currency | Country | City    | Street | Building | Postal | Photos                               |
+        | Apartament Wrocław | Piękny widok     | Apartment | 2    | 4         | 250    | PLN      | Poland  | Wrocław | Rynek  | 10/2     | 50-100 | https://example.com/photo1.jpg |
+    Then The server response should have status 200 OK
+    And I should receive the details of the created listing in the response
+    And The listing should be saved in the database

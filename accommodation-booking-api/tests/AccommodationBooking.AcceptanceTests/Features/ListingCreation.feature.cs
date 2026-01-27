@@ -17,22 +17,22 @@ namespace AccommodationBooking.AcceptanceTests.Features
     
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "3.0.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class TworzenieOfertyFeature : object, global::Xunit.IClassFixture<TworzenieOfertyFeature.FixtureData>, global::Xunit.IAsyncLifetime
+    public partial class ListingCreationFeature : object, global::Xunit.IClassFixture<ListingCreationFeature.FixtureData>, global::Xunit.IAsyncLifetime
     {
         
         private global::Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Tworzenie Oferty", "    Jako gospodarz (Host)\r\n    Chcę dodać nową ofertę wynajmu\r\n    Aby goście mog" +
-                "li ją rezerwować", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Listing Creation", "    As a Host\r\n    I want to add a new rental listing\r\n    So that guests can boo" +
+                "k it", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
         private global::Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "ListingCreation.feature"
 #line hidden
         
-        public TworzenieOfertyFeature(TworzenieOfertyFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ListingCreationFeature(ListingCreationFeature.FixtureData fixtureData, global::Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
         }
@@ -134,15 +134,15 @@ namespace AccommodationBooking.AcceptanceTests.Features
             await this.TestTearDownAsync();
         }
         
-        [global::Xunit.SkippableFactAttribute(DisplayName="Poprawne utworzenie nowej oferty przez zalogowanego gospodarza")]
-        [global::Xunit.TraitAttribute("FeatureTitle", "Tworzenie Oferty")]
-        [global::Xunit.TraitAttribute("Description", "Poprawne utworzenie nowej oferty przez zalogowanego gospodarza")]
-        public async global::System.Threading.Tasks.Task PoprawneUtworzenieNowejOfertyPrzezZalogowanegoGospodarza()
+        [global::Xunit.SkippableFactAttribute(DisplayName="Successfully create a new listing as a logged-in host")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Listing Creation")]
+        [global::Xunit.TraitAttribute("Description", "Successfully create a new listing as a logged-in host")]
+        public async global::System.Threading.Tasks.Task SuccessfullyCreateANewListingAsALogged_InHost()
         {
             string[] tagsOfScenario = ((string[])(null));
             global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
             string pickleIndex = "0";
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Poprawne utworzenie nowej oferty przez zalogowanego gospodarza", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Successfully create a new listing as a logged-in host", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
             string[] tagsOfRule = ((string[])(null));
             global::Reqnroll.RuleInfo ruleInfo = null;
 #line 6
@@ -156,7 +156,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 7
-    await testRunner.GivenAsync("Jestem zarejestrowany i zalogowany jako \"Host\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+    await testRunner.GivenAsync("I am registered and logged in as \"Host\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "Title",
@@ -185,18 +185,18 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Rynek",
                             "10/2",
                             "50-100",
-                            "photo1.jpg"});
+                            "https://example.com/photo1.jpg"});
 #line 8
-    await testRunner.WhenAsync("Wysyłam żądanie utworzenia oferty z następującymi danymi:", ((string)(null)), table1, "When ");
+    await testRunner.WhenAsync("I send a request to create a listing with the following data:", ((string)(null)), table1, "When ");
 #line hidden
 #line 11
-    await testRunner.ThenAsync("Odpowiedź serwera powinna mieć status 200 OK", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("The server response should have status 200 OK", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 12
-    await testRunner.AndAsync("W odpowiedzi powinienem otrzymać szczegóły utworzonej oferty", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("I should receive the details of the created listing in the response", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 13
-    await testRunner.AndAsync("Oferta powinna być zapisana w bazie danych", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+    await testRunner.AndAsync("The listing should be saved in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -209,12 +209,12 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
             {
-                await TworzenieOfertyFeature.FeatureSetupAsync();
+                await ListingCreationFeature.FeatureSetupAsync();
             }
             
             async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.DisposeAsync()
             {
-                await TworzenieOfertyFeature.FeatureTearDownAsync();
+                await ListingCreationFeature.FeatureTearDownAsync();
             }
         }
     }

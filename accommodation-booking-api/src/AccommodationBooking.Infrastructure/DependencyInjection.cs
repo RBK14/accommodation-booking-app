@@ -58,8 +58,8 @@ namespace AccommodationBooking.Infrastructure
 
         public static IServiceCollection AddPersistence(this IServiceCollection services, ConfigurationManager configuration)
         {
-            //services.AddDbContext<AppDbContext>(options =>
-            //    options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("SqlServer")));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
