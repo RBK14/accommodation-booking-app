@@ -92,4 +92,20 @@ public class CommonSteps
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         }
     }
+
+    [Then(@"The server response should have status 400 Bad Request")]
+    public async Task ThenTheServerResponseShouldHaveStatus400BadRequest()
+    {
+        var response = _scenarioContext.Get<HttpResponseMessage>("LastResponse");
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest, $"Expected BadRequest but got success with content: {errorContent}");
+        }
+        else
+        {
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+        }
+    }
 }

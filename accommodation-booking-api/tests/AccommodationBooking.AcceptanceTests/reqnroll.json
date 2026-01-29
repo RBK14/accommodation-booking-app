@@ -1,5 +1,8 @@
 {
-  "unitTestProvider": {
-    "name": "xunit"
+  "$schema": "https://schemas.reqnroll.net/reqnroll-config-latest.json",
+  "formatters": {
+    "html": {
+      "outputFilePath": "Raport.html"
+    }
   }
 }

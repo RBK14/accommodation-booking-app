@@ -106,7 +106,7 @@ namespace AccommodationBooking.AcceptanceTests.Features
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/ReservationCreation.feature.ndjson", 6);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/ReservationCreation.feature.ndjson", 7);
         }
         
         async global::System.Threading.Tasks.Task global::Xunit.IAsyncLifetime.InitializeAsync()
@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 7
     await testRunner.GivenAsync("I am registered and logged in as \"Guest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Title",
                             "Description",
                             "Type",
@@ -172,7 +172,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Building",
                             "Postal",
                             "Photos"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "Mountain Cottage",
                             "Beautiful views",
                             "House",
@@ -187,16 +187,16 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "34-500",
                             "https://example.com/cottage.jpg"});
 #line 8
-    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table1, "And ");
+    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table2, "And ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "CheckInDaysFromNow",
                             "CheckOutDaysFromNow"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "10",
                             "14"});
 #line 11
-    await testRunner.WhenAsync("I send a request to create a reservation with the following data:", ((string)(null)), table2, "When ");
+    await testRunner.WhenAsync("I send a request to create a reservation with the following data:", ((string)(null)), table3, "When ");
 #line hidden
 #line 14
     await testRunner.ThenAsync("The server response should have status 200 OK", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -205,7 +205,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
     await testRunner.AndAsync("I should receive the details of the created reservation in the response", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 16
-    await testRunner.AndAsync("The reservation should be saved in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+  await testRunner.AndAsync("The reservation should be saved in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -235,7 +235,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 19
     await testRunner.GivenAsync("I am registered and logged in as \"Guest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Title",
                             "Description",
                             "Type",
@@ -249,7 +249,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Building",
                             "Postal",
                             "Photos"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Beach House",
                             "Ocean view",
                             "House",
@@ -264,7 +264,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "81-700",
                             "https://example.com/beach.jpg"});
 #line 20
-    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table3, "And ");
+    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table4, "And ");
 #line hidden
 #line 23
     await testRunner.WhenAsync("I request available dates for the listing starting from 5 days from now for 10 da" +
@@ -304,7 +304,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 28
     await testRunner.GivenAsync("I am registered and logged in as \"Guest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Title",
                             "Description",
                             "Type",
@@ -318,7 +318,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Building",
                             "Postal",
                             "Photos"});
-                table4.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "City Apartment",
                             "Downtown",
                             "Apartment",
@@ -333,13 +333,13 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "00-100",
                             "https://example.com/city.jpg"});
 #line 29
-    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table4, "And ");
+await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table5, "And ");
 #line hidden
 #line 32
     await testRunner.AndAsync("The listing has an existing reservation from 7 days from now to 10 days from now", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 33
-    await testRunner.WhenAsync("I request available dates for the listing starting from 5 days from now for 10 da" +
+ await testRunner.WhenAsync("I request available dates for the listing starting from 5 days from now for 10 da" +
                         "ys", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 34
@@ -376,7 +376,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 38
     await testRunner.GivenAsync("I am registered and logged in as \"Guest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Title",
                             "Description",
                             "Type",
@@ -390,7 +390,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "Building",
                             "Postal",
                             "Photos"});
-                table5.AddRow(new string[] {
+                table6.AddRow(new string[] {
                             "Mountain Cottage",
                             "Beautiful views",
                             "House",
@@ -405,10 +405,10 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
                             "34-500",
                             "https://example.com/cottage.jpg"});
 #line 39
-    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table5, "And ");
+  await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table6, "And ");
 #line hidden
 #line 42
-    await testRunner.AndAsync("The listing has an existing reservation from 5 days from now to 8 days from now", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+  await testRunner.AndAsync("The listing has an existing reservation from 5 days from now to 8 days from now", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 43
     await testRunner.WhenAsync("I request available dates for the listing starting from 3 days from now for 10 da" +
@@ -420,14 +420,14 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line 45
     await testRunner.AndAsync("The available dates should not include the occupied period", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "CheckInDaysFromNow",
                             "CheckOutDaysFromNow"});
-                table6.AddRow(new string[] {
+                table7.AddRow(new string[] {
                             "10",
                             "14"});
 #line 46
-    await testRunner.WhenAsync("I send a request to create a reservation with the following data:", ((string)(null)), table6, "When ");
+    await testRunner.WhenAsync("I send a request to create a reservation with the following data:", ((string)(null)), table7, "When ");
 #line hidden
 #line 49
     await testRunner.ThenAsync("The server response should have status 200 OK", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -437,6 +437,81 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 #line hidden
 #line 51
     await testRunner.AndAsync("The reservation should be saved in the database", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::Xunit.SkippableFactAttribute(DisplayName="Fail to create reservation when dates overlap with existing reservation")]
+        [global::Xunit.TraitAttribute("FeatureTitle", "Reservation Creation")]
+        [global::Xunit.TraitAttribute("Description", "Fail to create reservation when dates overlap with existing reservation")]
+        public async global::System.Threading.Tasks.Task FailToCreateReservationWhenDatesOverlapWithExistingReservation()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "4";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Fail to create reservation when dates overlap with existing reservation", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 53
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 54
+    await testRunner.GivenAsync("I am registered and logged in as \"Guest\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "Title",
+                            "Description",
+                            "Type",
+                            "Beds",
+                            "MaxGuests",
+                            "Amount",
+                            "Currency",
+                            "Country",
+                            "City",
+                            "Street",
+                            "Building",
+                            "Postal",
+                            "Photos"});
+                table8.AddRow(new string[] {
+                            "Mountain Cottage",
+                            "Beautiful views",
+                            "House",
+                            "3",
+                            "6",
+                            "400",
+                            "PLN",
+                            "Poland",
+                            "Zakopane",
+                            "G�rska",
+                            "15",
+                            "34-500",
+                            "https://example.com/cottage.jpg"});
+#line 55
+    await testRunner.AndAsync("A listing exists with the following data:", ((string)(null)), table8, "And ");
+#line hidden
+#line 58
+    await testRunner.AndAsync("The listing has an existing reservation from 10 days from now to 15 days from now" +
+                        "", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                            "CheckInDaysFromNow",
+                            "CheckOutDaysFromNow"});
+                table9.AddRow(new string[] {
+                            "12",
+                            "17"});
+#line 59
+    await testRunner.WhenAsync("I send a request to create a reservation with the following data:", ((string)(null)), table9, "When ");
+#line hidden
+#line 62
+    await testRunner.ThenAsync("The server response should have status 400 Bad Request", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

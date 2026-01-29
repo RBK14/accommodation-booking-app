@@ -47,6 +47,11 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
                 _unitOfWork.Reservations.Add(reservation);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
+            catch (DomainValidationException ex)
+            {
+                await _unitOfWork.RollbackAsync(cancellationToken);
+                return Error.Validation("Reservation.ValidationFailed", ex.Message);
+            }
             catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);

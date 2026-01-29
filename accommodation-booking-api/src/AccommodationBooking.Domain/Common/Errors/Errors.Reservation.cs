@@ -17,6 +17,10 @@ namespace AccommodationBooking.Domain.Common.Errors
             public static Error UpdateFailed => Error.Failure(
                 code: "Reservation.UpdateFailed",
                 description: "Nie udało się zaktualizować rezerwacji.");
+
+            public static Error DateOccupied => Error.Conflict(
+                code: "Reservation.Occupied",
+                description: "Nie udało się złożyć rezerwacji ponieważ termin jest już zajęty.");
         }
     }
 }
