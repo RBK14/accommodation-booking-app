@@ -35,13 +35,16 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
 
             try
             {
+                var addressCopy = listing.Address.Copy();
+                var priceCopy = listing.PricePerDay.Copy();
+
                 reservation = Reservation.Create(
                     listingId,
                     guestProfileId,
                     listing.HostProfileId,
                     listing.Title,
-                    listing.Address,
-                    listing.PricePerDay,
+                    addressCopy,
+                    priceCopy,
                     checkIn,
                     checkOut);
 

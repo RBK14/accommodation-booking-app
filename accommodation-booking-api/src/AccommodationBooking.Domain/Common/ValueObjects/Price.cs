@@ -25,6 +25,14 @@ namespace AccommodationBooking.Domain.Common.ValueObjects
             return new Price(amount, currency);
         }
 
+        /// <summary>
+        /// Creates a copy of this price.
+        /// </summary>
+        public Price Copy()
+        {
+            return new Price(Amount, Currency);
+        }
+
         public override IEnumerable<object> GetEqualityComponents()
         {
             yield return Amount;

@@ -45,6 +45,19 @@ namespace AccommodationBooking.Domain.Common.ValueObjects
                 buildingNumber);
         }
 
+        /// <summary>
+        /// Creates a copy of this address.
+        /// </summary>
+        public Address Copy()
+        {
+            return new Address(
+                Country,
+                City,
+                PostalCode,
+                Street,
+                BuildingNumber);
+        }
+
         public override IEnumerable<object> GetEqualityComponents()
         {
             yield return Country;

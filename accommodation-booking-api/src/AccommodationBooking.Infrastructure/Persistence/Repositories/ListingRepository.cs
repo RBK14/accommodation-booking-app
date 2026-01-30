@@ -28,7 +28,11 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default)
         {
-            var query = _context.Listings.AsQueryable();
+            var query = _context.Listings
+                .Include(l => l.ScheduleSlots)
+                .Include(l => l.Reviews)
+                .AsSplitQuery()
+                .AsQueryable();
 
             if (filters is not null)
             {
@@ -57,7 +61,6 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
                 .SelectMany(l => l.Reviews)
                 .FirstOrDefaultAsync(r => r.Id == reviewId, cancellationToken);
         }
-
 
         public async Task<IEnumerable<Review>> SearchReviewsAsync(IEnumerable<IFilterable<Review>> filters, CancellationToken cancellationToken = default)
         {
