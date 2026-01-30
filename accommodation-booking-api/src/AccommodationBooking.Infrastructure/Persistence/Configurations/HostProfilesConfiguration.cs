@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.HostProfileAggregate;
+using AccommodationBooking.Domain.HostProfileAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

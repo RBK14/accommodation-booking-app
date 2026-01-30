@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Contracts.Listings;
+using AccommodationBooking.Contracts.Listings;
 using AccommodationBooking.Infrastructure.Persistence;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,7 +60,7 @@ public class ListingSteps
         var createdListing = await response.Content.ReadFromJsonAsync<ListingResponse>();
 
         createdListing.Should().NotBeNull();
-        createdListing!.Title.Should().Be("Apartament Wrocław");
+        createdListing!.Title.Should().Be("Apartament Wroclaw");
         createdListing.Id.Should().NotBeEmpty();
         createdListing.HostProfileId.Should().NotBeEmpty();
 
@@ -78,6 +78,6 @@ public class ListingSteps
         var listingInDb = dbContext.Listings.FirstOrDefault(l => l.Id == createdListing.Id);
 
         listingInDb.Should().NotBeNull();
-        listingInDb!.Title.Should().Be("Apartament Wrocław");
+        listingInDb!.Title.Should().Be("Apartament Wroclaw");
     }
 }

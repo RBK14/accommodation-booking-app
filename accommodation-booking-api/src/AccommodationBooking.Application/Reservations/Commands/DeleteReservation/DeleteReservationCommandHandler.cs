@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.GuestProfileAggregate;
@@ -41,7 +41,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.DeleteReservati
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Error.Failure(
                     "Reservation.DeleteFailed",
-                    "Nie udało się usunąc rezerwacji.");
+                    "Nie udalo sie usunac rezerwacji.");
             }
 
             return Unit.Value;

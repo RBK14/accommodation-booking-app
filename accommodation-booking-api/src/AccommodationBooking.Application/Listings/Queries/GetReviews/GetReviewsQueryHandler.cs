@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Application.Listings.Common;
 using AccommodationBooking.Domain.ListingAggregate.Entities;
 using MediatR;

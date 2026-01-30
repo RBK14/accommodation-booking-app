@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.ListingAggregate.Enums;
 using AccommodationBooking.Domain.Common.Errors;
@@ -26,7 +26,7 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateListing
             if (!isAdmin && !isOwner)
                 return Error.Forbidden(
                     "Reservation.InvalidOwner",
-                    "Nie posiadasz uprawnień do edycji tej oferty.");
+                    "Nie posiadasz uprawnien do edycji tej oferty.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 

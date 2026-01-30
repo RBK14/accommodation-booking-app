@@ -1,6 +1,6 @@
-﻿using AccommodationBooking.Application.Authentication.Common;
-using AccommodationBooking.Application.Common.Intrefaces.Authentication;
-using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Authentication.Common;
+using AccommodationBooking.Application.Common.Interfaces.Authentication;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.HostProfileAggregate;

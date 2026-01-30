@@ -1,6 +1,6 @@
-﻿using AccommodationBooking.Domain.ReservationAggregate;
+using AccommodationBooking.Domain.ReservationAggregate;
 using AccommodationBooking.Domain.ReservationAggregate.Enums;
-using AccommodationBooking.Domain.Common.ValueObjects; // Zakładam Address i Price
+using AccommodationBooking.Domain.Common.ValueObjects; // Zakladam Address i Price
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

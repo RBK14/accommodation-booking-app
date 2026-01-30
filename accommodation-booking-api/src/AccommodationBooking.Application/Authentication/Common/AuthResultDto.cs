@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.UserAggregate;
+using AccommodationBooking.Domain.UserAggregate;
 
 namespace AccommodationBooking.Application.Authentication.Common
 {

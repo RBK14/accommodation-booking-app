@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace AccommodationBooking.Application.Authentication.Commands.UpdateEmail
 {
@@ -8,7 +8,7 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdateEmail
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Adres e-mail jest wymagany.")
-                .EmailAddress().WithMessage("Adres e-mail jest nieprawidłowy.");
+                .EmailAddress().WithMessage("Adres e-mail jest nieprawidlowy.");
         }
     }
 }

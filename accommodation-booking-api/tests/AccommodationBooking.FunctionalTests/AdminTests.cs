@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.FunctionalTests
+namespace AccommodationBooking.FunctionalTests
 {
     /// <summary>
     /// Functional tests for admin user management operations.

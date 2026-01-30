@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace AccommodationBooking.Application.Reservations.Commands.CreateReservation
 {
@@ -12,7 +12,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.CreateReservati
             RuleFor(x => x.CheckOut)
                 .NotEmpty().WithMessage("Data wymeldowania jest wymagana.")
                 .GreaterThan(x => x.CheckIn)
-                .WithMessage("Data wymeldowania musi być późniejsza niż data zameldowania.");
+                .WithMessage("Data wymeldowania musi byc p�zniejsza niz data zameldowania.");
         }
     }
 }

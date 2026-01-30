@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.ReservationAggregate;
+using AccommodationBooking.Domain.ReservationAggregate;
 using MediatR;
 
 namespace AccommodationBooking.Application.Reservations.Queries.GetReservations

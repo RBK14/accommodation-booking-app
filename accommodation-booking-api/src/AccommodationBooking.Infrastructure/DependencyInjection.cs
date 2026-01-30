@@ -1,5 +1,5 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
-using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Authentication;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Infrastructure.Authentication;
 using AccommodationBooking.Infrastructure.BackgroundJobs;
 using AccommodationBooking.Infrastructure.Persistence;

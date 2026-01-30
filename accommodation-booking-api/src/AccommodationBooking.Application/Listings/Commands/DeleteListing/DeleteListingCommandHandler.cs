@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Application.Reservations.Common;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.HostProfileAggregate;
@@ -22,7 +22,7 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteListing
             if (listing.HostProfileId != command.HostProfileId && command.HostProfileId != Guid.Empty)
                 return Error.Forbidden(
                     "Listing.InvalidOwner",
-                    "Nie posiadasz uprawnień do usunięcia tej oferty.");
+                    "Nie posiadasz uprawnien do usuniecia tej oferty.");
 
             var listingReservations = await _unitOfWork.Reservations.SearchAsync(new List<IFilterable<Reservation>> { new ListingIdFilter(listing.Id) }, cancellationToken);
 
@@ -34,7 +34,7 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteListing
             {
                 return Error.Conflict(
                     "Listing.CannotDeleteActive",
-                    "Nie można usunąc oferty, która posiada nadchodzące lub trwające rezerwacje");
+                    "Nie mozna usunac oferty, kt�ra posiada nadchodzace lub trwajace rezerwacje");
             }
 
             if (await _unitOfWork.HostProfiles.GetByIdAsync(listing.HostProfileId, cancellationToken) is not HostProfile hostProfile)
@@ -56,7 +56,7 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteListing
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Error.Failure(
                     "Listing.DeleteFailed",
-                    "Nie udało się usunąc oferty.");
+                    "Nie udalo sie usunac oferty.");
             }
 
             return Unit.Value;

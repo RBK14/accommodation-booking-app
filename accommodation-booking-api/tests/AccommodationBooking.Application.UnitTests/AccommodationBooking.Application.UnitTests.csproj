@@ -28,4 +28,12 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CreateListing\" />
+    <Folder Include="CreateReservation\" />
+    <Folder Include="DeleteListing\" />
+    <Folder Include="DeleteUser\" />
+    <Folder Include="GetAvailableDates\" />
+  </ItemGroup>
+
 </Project>

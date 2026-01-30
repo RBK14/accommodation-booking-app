@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.ListingAggregate.Entities;
+using AccommodationBooking.Domain.ListingAggregate.Entities;
 using MediatR;
 
 namespace AccommodationBooking.Application.Listings.Queries.GetReviews

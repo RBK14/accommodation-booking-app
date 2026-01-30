@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.ListingAggregate;
@@ -26,14 +26,14 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateReview
             if (review is null)
                 return Errors.Review.NotFound;
 
-            // Sprawdzenie uprawnień
+            // Sprawdzenie uprawnien
             bool isAdmin = command.ProfileId == Guid.Empty;
             bool isOwner = command.ProfileId == review.GuestProfileId;
 
             if (!isAdmin && !isOwner)
                 return Error.Forbidden(
                     "Review.InvalidOwnerUpdate",
-                    "Nie posiadasz uprawnień do edycji tej opinii.");
+                    "Nie posiadasz uprawnien do edycji tej opinii.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
@@ -51,7 +51,7 @@ namespace AccommodationBooking.Application.Listings.Commands.UpdateReview
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Error.Failure(
                    "Review.CreationFailed",
-                   "Nie udało się utworzyć opinii.");
+                   "Nie udalo sie utworzyc opinii.");
             }
 
             return review;

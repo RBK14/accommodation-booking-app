@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.FunctionalTests.Configuration;
+using AccommodationBooking.FunctionalTests.Configuration;
 
 namespace AccommodationBooking.FunctionalTests
 {

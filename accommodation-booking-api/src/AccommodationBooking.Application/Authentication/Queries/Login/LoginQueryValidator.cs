@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace AccommodationBooking.Application.Authentication.Queries.Login
 {
@@ -10,7 +10,7 @@ namespace AccommodationBooking.Application.Authentication.Queries.Login
                 .NotEmpty().WithMessage("Adres e-mail jest wymagany.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Hasło jest wymagane.");
+                .NotEmpty().WithMessage("Haslo jest wymagane.");
         }
     }
 }

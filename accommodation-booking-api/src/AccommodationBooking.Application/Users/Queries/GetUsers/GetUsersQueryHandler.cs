@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Application.Users.Common;
 using AccommodationBooking.Domain.UserAggregate;
 using AccommodationBooking.Domain.UserAggregate.Enums;

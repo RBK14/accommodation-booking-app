@@ -11,9 +11,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         private const string LoginUrl = TestConfiguration.LoginUrl;
 
         private readonly By _emailInput = By.XPath("//input[@type='email']");
-        private readonly By _passwordInput = By.XPath("//label[contains(text(), 'Hasło')]/following-sibling::div//input");
+        private readonly By _passwordInput = By.XPath("//label[contains(text(), 'Has?o')]/following-sibling::div//input");
         private readonly By _loginButton = By.XPath("//button[@type='submit']");
-        private readonly By _registerLink = By.XPath("//span[contains(text(), 'Zarejestruj się')]");
+        private readonly By _registerLink = By.XPath("//span[contains(text(), 'Zarejestruj si?')]");
         private readonly By _errorAlert = By.CssSelector(".MuiAlert-standardError");
         private readonly By _showPasswordButton = By.CssSelector("button[aria-label='toggle password visibility']");
 

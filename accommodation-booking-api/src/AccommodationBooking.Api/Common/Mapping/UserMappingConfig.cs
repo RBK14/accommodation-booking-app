@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails;
+﻿using AccommodationBooking.Application.Users.Commands.UpdatePersonalDetails;
 using AccommodationBooking.Contracts.Users;
 using AccommodationBooking.Domain.UserAggregate;
 using Mapster;

@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Application.Listings.Common;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
@@ -32,7 +32,7 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteReview
             if (!isAdmin && !isOwner)
                 return Error.Forbidden(
                        "Review.InvalidOwnerDelete",
-                       "Nie posiadasz uprawnień do edycji tej opinii.");
+                       "Nie posiadasz uprawnien do edycji tej opinii.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
@@ -47,7 +47,7 @@ namespace AccommodationBooking.Application.Listings.Commands.DeleteReview
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Error.Failure(
                     "Review.DeleteFailed",
-                    "Nie udało się usunąć oferty.");
+                    "Nie udalo sie usunac oferty.");
             }
 
             return Unit.Value;

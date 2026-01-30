@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.ListingAggregate.Entities;
+using AccommodationBooking.Domain.ListingAggregate.Entities;
 using ErrorOr;
 using MediatR;
 

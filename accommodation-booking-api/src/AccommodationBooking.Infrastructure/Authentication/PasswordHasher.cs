@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Interfaces.Authentication;
 
 namespace AccommodationBooking.Infrastructure.Authentication
 {

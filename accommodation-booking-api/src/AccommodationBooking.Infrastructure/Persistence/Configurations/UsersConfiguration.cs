@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.UserAggregate;
+using AccommodationBooking.Domain.UserAggregate;
 using AccommodationBooking.Domain.UserAggregate.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

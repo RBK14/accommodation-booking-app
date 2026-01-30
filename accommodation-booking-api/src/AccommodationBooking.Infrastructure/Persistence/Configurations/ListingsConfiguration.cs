@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.Common.Enums;
+using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ListingAggregate.Enums;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Authentication.Common;
+using AccommodationBooking.Application.Authentication.Common;
 using ErrorOr;
 using MediatR;
 

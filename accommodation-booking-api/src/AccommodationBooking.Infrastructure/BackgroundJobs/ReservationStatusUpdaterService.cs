@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Reservations.Commands.SystemUpdateReservationStatuses;
+using AccommodationBooking.Application.Reservations.Commands.SystemUpdateReservationStatuses;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

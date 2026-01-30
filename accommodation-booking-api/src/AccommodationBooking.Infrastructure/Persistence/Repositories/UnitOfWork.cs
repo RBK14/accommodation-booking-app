@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories

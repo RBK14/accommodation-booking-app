@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
@@ -26,9 +26,9 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteHost
             if (user.Id != hostProfile.UserId)
                 return Error.Conflict(
                     "User.InvalidProfile",
-                    "Nie możesz usunąc tego użytownika, ponieważ profil gospodarza jest nieprawidłowy");
+                    "Nie mozesz usunac tego uzytownika, poniewaz profil gospodarza jest nieprawidlowy");
 
-            // Pobranie ofert utworzonych przez użytkownika
+            // Pobranie ofert utworzonych przez uzytkownika
             var listings = await _unitOfWork.Listings.SearchAsync(
                     new List<IFilterable<Listing>> { new Listings.Common.HostProfileIdFilter(hostProfile.Id) },
                     cancellationToken);
@@ -42,7 +42,7 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteHost
             {
                 List<Reservation> reservationsToDelete = new();
 
-                // Sprawdzenie, czy gospodarz posiada oferty z nadchodzącymi lub trwającymi rezerwacjami.
+                // Sprawdzenie, czy gospodarz posiada oferty z nadchodzacymi lub trwajacymi rezerwacjami.
                 if (listingIds.Count > 0)
                 {
                     var listingReservations = await _unitOfWork.Reservations.SearchAsync(
@@ -57,7 +57,7 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteHost
                     {
                         return Error.Conflict(
                             "User.CannotDeleteActive",
-                            "Nie można usunąć użytkownika, który posiada posiadaja nadchodzące lub trwające rezerwacje");
+                            "Nie mozna usunac uzytkownika, kt�ry posiada posiadaja nadchodzace lub trwajace rezerwacje");
                     }
 
                     reservationsToDelete.AddRange(listingReservations);

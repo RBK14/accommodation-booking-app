@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.ListingAggregate;
@@ -19,13 +19,13 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateReview
             if (await _unitOfWork.Listings.GetByIdAsync(command.ListingId, cancellationToken) is not Listing listing)
                 return Errors.Listing.NotFound;
 
-            // Sprawdzenie, czy gość dodał już opinię
+            // Sprawdzenie, czy gosc dodal juz opinie
             if (listing.Reviews.Any(r => r.GuestProfileId == command.GuestProfileId))
                 return Error.Conflict(
                     "Review.AlreadyExists",
-                    "Możesz wystawić tylko jedną opinię dla danej oferty.");
+                    "Mozesz wystawic tylko jedna opinie dla danej oferty.");
 
-            // Sprawdzamy, czy gość ma zakończoną rezerwację związaną z tą ofertą
+            // Sprawdzamy, czy gosc ma zakonczona rezerwacje zwiazana z ta oferta
             var filters = new List<IFilterable<Reservation>>
             {
                 new Reservations.Common.ListingIdFilter(command.ListingId),
@@ -39,7 +39,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateReview
             if (!hasCompletedReservation)
                 return Error.Conflict(
                     "Review.NoCompletedReservation",
-                    "Nie możesz wystawić opinii, ponieważ nie posiadasz historii rezerwacji związanej z tą ofertą.");
+                    "Nie mozesz wystawic opinii, poniewaz nie posiadasz historii rezerwacji zwiazanej z ta oferta.");
 
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
@@ -61,7 +61,7 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateReview
                 await _unitOfWork.RollbackAsync(cancellationToken);
                 return Error.Failure(
                     "Review.CreationFailed",
-                    "Nie udało się utworzyć opinii.");
+                    "Nie udalo sie utworzyc opinii.");
             }
 
             return review;

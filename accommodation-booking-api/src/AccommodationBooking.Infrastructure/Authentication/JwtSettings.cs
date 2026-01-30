@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Infrastructure.Authentication
+namespace AccommodationBooking.Infrastructure.Authentication
 {
     public class JwtSettings
     {

@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.Common.Enums;
+using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.ListingAggregate.Enums;
 using FluentValidation;
 
@@ -9,62 +9,62 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateListing
         public CreateListingCommandValidator()
         {
             RuleFor(x => x.Title)
-                .NotEmpty().WithMessage("Tytuł jest wymagany.")
-                .MaximumLength(200).WithMessage("Nazwa nie może być dłuższa niż 200 znaków.");
+                .NotEmpty().WithMessage("Tytul jest wymagany.")
+                .MaximumLength(200).WithMessage("Nazwa nie moze byc dluzsza niz 200 znak�w.");
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Opis jest wymagany.")
-                .MaximumLength(2000).WithMessage("Opis nie może być dłuższy niż 2000 znaków.");
+                .MaximumLength(2000).WithMessage("Opis nie moze byc dluzszy niz 2000 znak�w.");
 
             RuleFor(x => x.AccommodationType)
                 .NotEmpty().WithMessage("Typ zakwaterowania jest wymagany.")
                 .Must(AccommodationTypeExtensions.IsValidAccommodationType)
-                .WithMessage("Nieprawidłowy typ zakwaterowania.");
+                .WithMessage("Nieprawidlowy typ zakwaterowania.");
 
             RuleFor(x => x.Beds)
-                .GreaterThan(0).WithMessage("Liczba łóżek musi być większa od zera.");
+                .GreaterThan(0).WithMessage("Liczba l�zek musi byc wieksza od zera.");
 
             RuleFor(x => x.MaxGuests)
-                .GreaterThan(0).WithMessage("Liczba gości musi być większa od zera.")
+                .GreaterThan(0).WithMessage("Liczba gosci musi byc wieksza od zera.")
                 .GreaterThanOrEqualTo(x => x.Beds)
-                .WithMessage("Liczba gości nie może być mniejsza niż liczba łóżek.");
+                .WithMessage("Liczba gosci nie moze byc mniejsza niz liczba l�zek.");
 
             RuleFor(x => x.Country)
                 .NotEmpty().WithMessage("Kraj jest wymagany.")
-                .MaximumLength(100).WithMessage("Nazwa kraju nie może być dłuższa niż 100 znaków.");
+                .MaximumLength(100).WithMessage("Nazwa kraju nie moze byc dluzsza niz 100 znak�w.");
 
             RuleFor(x => x.City)
                 .NotEmpty().WithMessage("Miasto jest wymagane.")
-                .MaximumLength(100).WithMessage("Nazwa miasta nie może być dłuższa niż 100 znaków.");
+                .MaximumLength(100).WithMessage("Nazwa miasta nie moze byc dluzsza niz 100 znak�w.");
 
             RuleFor(x => x.PostalCode)
                 .NotEmpty().WithMessage("Kod pocztowy jest wymagany.")
-                .Matches(@"^[0-9A-Za-z\- ]{3,10}$").WithMessage("Kod pocztowy ma nieprawidłowy format.");
+                .Matches(@"^[0-9A-Za-z\- ]{3,10}$").WithMessage("Kod pocztowy ma nieprawidlowy format.");
 
             RuleFor(x => x.Street)
                 .NotEmpty().WithMessage("Ulica jest wymagana.")
-                .MaximumLength(150).WithMessage("Nazwa ulicy nie może być dłuższa niż 150 znaków.");
+                .MaximumLength(150).WithMessage("Nazwa ulicy nie moze byc dluzsza niz 150 znak�w.");
 
             RuleFor(x => x.BuildingNumber)
                 .NotEmpty().WithMessage("Numer budynku jest wymagany.")
-                .MaximumLength(20).WithMessage("Numer budynku nie może być dłuższy niż 20 znaków.");
+                .MaximumLength(20).WithMessage("Numer budynku nie moze byc dluzszy niz 20 znak�w.");
 
             RuleFor(x => x.AmountPerDay)
-                .GreaterThan(0).WithMessage("Kwota za dzień musi być większa od zera.");
+                .GreaterThan(0).WithMessage("Kwota za dzien musi byc wieksza od zera.");
 
             RuleFor(x => x.Currency)
                 .NotEmpty().WithMessage("Waluta jest wymagana.")
                 .Must(CurrencyExtensions.IsValidCurrency)
-                .WithMessage("Nieprawidłowy kod waluty.");
+                .WithMessage("Nieprawidlowy kod waluty.");
 
             RuleFor(x => x.Photos)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Lista zdjęć nie może być pusta.")
+                .NotEmpty().WithMessage("Lista zdjec nie moze byc pusta.")
                 .Must(photos => photos.Count() == photos.Distinct().Count())
-                .WithMessage("Lista zdjęć nie może zawierać duplikatów.");
+                .WithMessage("Lista zdjec nie moze zawierac duplikat�w.");
 
             RuleForEach(x => x.Photos)
-                .NotEmpty().WithMessage("Adres URL zdjęcia nie może być pusty.");
+                .NotEmpty().WithMessage("Adres URL zdjecia nie moze byc pusty.");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ListingAggregate.Entities;
 using Microsoft.EntityFrameworkCore;

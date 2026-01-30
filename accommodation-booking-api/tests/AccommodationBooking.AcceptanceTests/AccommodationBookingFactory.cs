@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using AccommodationBooking.Infrastructure.Persistence;
 using AccommodationBooking.Api;
-using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Interfaces.Authentication;
 using AccommodationBooking.Domain.UserAggregate;
-using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Infrastructure.Persistence.Repositories;
 using AccommodationBooking.Infrastructure.BackgroundJobs;
 

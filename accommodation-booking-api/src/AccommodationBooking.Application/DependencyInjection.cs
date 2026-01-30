@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Behaviors;
+using AccommodationBooking.Application.Common.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

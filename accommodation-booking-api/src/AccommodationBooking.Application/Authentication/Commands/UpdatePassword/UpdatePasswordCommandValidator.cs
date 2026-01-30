@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace AccommodationBooking.Application.Authentication.Commands.UpdatePassword
 {
@@ -7,15 +7,15 @@ namespace AccommodationBooking.Application.Authentication.Commands.UpdatePasswor
         public UpdatePasswordCommandValidator()
         {
             RuleFor(x => x.Password)
-                   .NotEmpty().WithMessage("Hasło jest wymagane.");
+                   .NotEmpty().WithMessage("Haslo jest wymagane.");
 
             RuleFor(x => x.Password)
-                   .NotEmpty().WithMessage("Nowe hasło jest wymagane.")
-                   .MinimumLength(8).WithMessage("Nowe hasło musi mieć co najmniej 8 znaków.")
-                   .Matches(@"[A-Z]").WithMessage("Nowe hasło musi zawierać co najmniej jedną wielką literę.")
-                   .Matches(@"[a-z]").WithMessage("Nowe hasło musi zawierać co najmniej jedną małą literę.")
-                   .Matches(@"\d").WithMessage("Nowe hasło musi zawierać co najmniej jedną cyfrę.")
-                   .Matches(@"[\W_]").WithMessage("Nowe hasło musi zawierać co najmniej jeden znak specjalny.");
+                   .NotEmpty().WithMessage("Nowe haslo jest wymagane.")
+                   .MinimumLength(8).WithMessage("Nowe haslo musi miec co najmniej 8 znak�w.")
+                   .Matches(@"[A-Z]").WithMessage("Nowe haslo musi zawierac co najmniej jedna wielka litere.")
+                   .Matches(@"[a-z]").WithMessage("Nowe haslo musi zawierac co najmniej jedna mala litere.")
+                   .Matches(@"\d").WithMessage("Nowe haslo musi zawierac co najmniej jedna cyfre.")
+                   .Matches(@"[\W_]").WithMessage("Nowe haslo musi zawierac co najmniej jeden znak specjalny.");
         }
     }
 }

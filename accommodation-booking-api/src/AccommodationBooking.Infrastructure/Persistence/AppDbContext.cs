@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.GuestProfileAggregate;
+using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.HostProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
 using AccommodationBooking.Domain.ReservationAggregate;

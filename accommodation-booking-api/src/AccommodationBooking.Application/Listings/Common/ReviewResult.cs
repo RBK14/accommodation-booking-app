@@ -1,4 +1,4 @@
-﻿namespace AccommodationBooking.Application.Listings.Common
+namespace AccommodationBooking.Application.Listings.Common
 {
     public record ReviewResult(
         Guid ReviewId,

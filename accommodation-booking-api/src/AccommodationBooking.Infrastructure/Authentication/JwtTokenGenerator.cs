@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Authentication;
+using AccommodationBooking.Application.Common.Interfaces.Authentication;
 using AccommodationBooking.Domain.UserAggregate;
 using AccommodationBooking.Domain.UserAggregate.Enums;
 using Microsoft.Extensions.Options;

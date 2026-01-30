@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.Common.Exceptions;
 using AccommodationBooking.Domain.ListingAggregate;
@@ -50,7 +50,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
                     case ReservationStatus.Accepted:
                         return Error.Validation(
                             "Reservation.InvalidTransition",
-                            "Nie możesz zmienić statusu rezerwacji na zaakceptowana.");
+                            "Nie mozesz zmienic statusu rezerwacji na zaakceptowana.");
 
                 }
 
@@ -59,7 +59,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
             catch (DomainException)
             {
                 await _unitOfWork.RollbackAsync(cancellationToken);
-                return Error.Failure("Reservation.UpdateFailed", "Nie udało się zaktualizować rezerwacji.");
+                return Error.Failure("Reservation.UpdateFailed", "Nie udalo sie zaktualizowac rezerwacji.");
             }
 
             return Unit.Value;

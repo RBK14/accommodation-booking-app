@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Domain.ReservationAggregate.Enums;
+using AccommodationBooking.Domain.ReservationAggregate.Enums;
 using FluentValidation;
 
 namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservationStatus
@@ -10,7 +10,7 @@ namespace AccommodationBooking.Application.Reservations.Commands.UpdateReservati
             RuleFor(x => x.Status)
                 .NotEmpty().WithMessage("Status jest wymagany.")
                 .Must(ReservationStatusExtensions.IsValidReservationStatus)
-                .WithMessage("Nieprawidłowy status");
+                .WithMessage("Nieprawidlowy status");
         }
     }
 }

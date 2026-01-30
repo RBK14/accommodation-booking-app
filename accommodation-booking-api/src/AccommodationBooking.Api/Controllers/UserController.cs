@@ -1,7 +1,7 @@
 ﻿using AccommodationBooking.Application.Users.Commands.DeleteAdmin;
 using AccommodationBooking.Application.Users.Commands.DeleteGuest;
 using AccommodationBooking.Application.Users.Commands.DeleteHost;
-using AccommodationBooking.Application.Users.Commands.UpdatePesonalDetails;
+using AccommodationBooking.Application.Users.Commands.UpdatePersonalDetails;
 using AccommodationBooking.Application.Users.Queries.GetUser;
 using AccommodationBooking.Application.Users.Queries.GetUsers;
 using AccommodationBooking.Contracts.Users;

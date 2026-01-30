@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.FunctionalTests.Configuration;
+using AccommodationBooking.FunctionalTests.Configuration;
 using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
@@ -8,8 +8,8 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
     /// </summary>
     public class ReservationPage : BasePage
     {
-        private readonly By _confirmButton = By.XPath("//button[contains(., 'Potwierdź rezerwację')]");
-        private readonly By _totalPriceLabel = By.XPath("//*[contains(text(), 'Całkowita cena:')]");
+        private readonly By _confirmButton = By.XPath("//button[contains(., 'Potwierdz rezerwacje')]");
+        private readonly By _totalPriceLabel = By.XPath("//*[contains(text(), 'Calkowita cena:')]");
         private readonly By _listingTitle = By.XPath("//h6");
         private readonly By _successToast = By.CssSelector(".Toastify__toast--success");
         private readonly By _errorToast = By.CssSelector(".Toastify__toast--error");

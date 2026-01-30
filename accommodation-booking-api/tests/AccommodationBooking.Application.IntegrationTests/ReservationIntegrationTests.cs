@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Listings.Commands.DeleteListing;
+using AccommodationBooking.Application.Listings.Commands.DeleteListing;
 using AccommodationBooking.Application.Reservations.Commands.CreateReservation;
 using AccommodationBooking.Domain.Common.Enums;
 using AccommodationBooking.Domain.Common.Errors;
@@ -31,12 +31,12 @@ namespace AccommodationBooking.Application.IntegrationTests
 
             var listing = Listing.Create(
                 hostProfile.Id,
-                "Tytuł",
+                "Tytul",
                 "Opis",
                 AccommodationType.Apartment,
                 2,
                 1,
-                "Polska", "Wrocław", "50-000", "Rynek", "13",
+                "Polska", "Wroclaw", "50-000", "Rynek", "13",
                 100, Currency.PLN);
 
             dbContext.Listings.Add(listing);
@@ -105,7 +105,7 @@ namespace AccommodationBooking.Application.IntegrationTests
 
             var listing = Listing.Create(
                 hostProfile.Id,
-                "Tytuł",
+                "Tytul",
                 "Opis",
                 AccommodationType.Apartment,
                 2,
@@ -124,7 +124,7 @@ namespace AccommodationBooking.Application.IntegrationTests
             var deleteCommand = new DeleteListingCommand(targetListingId, hostProfile.Id);
             var deleteResult = await deleteListingHandler.Handle(deleteCommand, CancellationToken.None);
 
-            deleteResult.IsError.Should().BeFalse("Host powinien móc usunąć swoją ofertę bez błędów");
+            deleteResult.IsError.Should().BeFalse("Host powinien m�c usunac swoja oferte bez bled�w");
 
             var reservationCommand = new CreateReservationCommand(
                 targetListingId,
@@ -161,7 +161,7 @@ namespace AccommodationBooking.Application.IntegrationTests
 
             var listing = Listing.Create(
                 hostProfile.Id,
-                "Tytuł",
+                "Tytul",
                 "Opis",
                 AccommodationType.Apartment,
                 2,

@@ -1,4 +1,4 @@
-﻿using AccommodationBooking.Application.Common.Intrefaces.Persistence;
+using AccommodationBooking.Application.Common.Interfaces.Persistence;
 using AccommodationBooking.Domain.Common.Errors;
 using AccommodationBooking.Domain.GuestProfileAggregate;
 using AccommodationBooking.Domain.ListingAggregate;
@@ -26,7 +26,7 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteGuest
             if (user.Id != guestProfile.UserId)
                 return Error.Conflict(
                     "User.InvalidProfile",
-                    "Nie możesz usunąc tego użytownika, ponieważ profil gościa jest nieprawidłowy");
+                    "Nie mozesz usunac tego uzytownika, poniewaz profil goscia jest nieprawidlowy");
 
             // Pobranie rezerwacji
             var guestReservations = await _unitOfWork.Reservations.SearchAsync(
@@ -57,7 +57,7 @@ namespace AccommodationBooking.Application.Users.Commands.DeleteGuest
                         cancellationToken);
                 }
 
-                // Zwolnienie terminów i usunięcie rezerwacji
+                // Zwolnienie termin�w i usuniecie rezerwacji
                 foreach (var reservation in guestReservations)
                 {
                     if (reservation.Status == ReservationStatus.Accepted)

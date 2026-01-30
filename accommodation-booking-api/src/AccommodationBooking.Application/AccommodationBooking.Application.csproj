@@ -16,4 +16,10 @@
     <PackageReference Include="MediatR" Version="13.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Intrefaces\Authentication\" />
+    <Folder Include="Common\Intrefaces\Persistence\" />
+    <Folder Include="Users\Commands\UpdatePesonalDetails\" />
+  </ItemGroup>
+
 </Project>

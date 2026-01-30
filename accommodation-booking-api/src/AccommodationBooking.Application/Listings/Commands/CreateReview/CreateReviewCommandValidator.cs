@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 
 namespace AccommodationBooking.Application.Listings.Commands.CreateReview
 {
@@ -8,11 +8,11 @@ namespace AccommodationBooking.Application.Listings.Commands.CreateReview
         {
             RuleFor(x => x.Rating)
                 .InclusiveBetween(1, 5)
-                .WithMessage("Ocena musi być w przedziale od 1 do 5.");
+                .WithMessage("Ocena musi byc w przedziale od 1 do 5.");
 
             RuleFor(x => x.Comment)
-                .NotEmpty().WithMessage("Treść opinii jest wymagana.")
-                .MaximumLength(1000).WithMessage("Treść opinii nie może być dłuższa niż 1000 znaków.");
+                .NotEmpty().WithMessage("Tresc opinii jest wymagana.")
+                .MaximumLength(1000).WithMessage("Tresc opinii nie moze byc dluzsza niz 1000 znak�w.");
         }
     }
 }
