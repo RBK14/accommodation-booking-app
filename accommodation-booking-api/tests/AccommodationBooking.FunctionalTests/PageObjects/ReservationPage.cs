@@ -3,6 +3,9 @@ using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
 {
+    /// <summary>
+    /// Page object for the reservation page.
+    /// </summary>
     public class ReservationPage : BasePage
     {
         private readonly By _confirmButton = By.XPath("//button[contains(., 'Potwierdź rezerwację')]");
@@ -18,6 +21,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         {
         }
 
+        /// <summary>
+        /// Navigates to the reservation page for a specific listing.
+        /// </summary>
         public void NavigateToReservation(string listingId)
         {
             var url = $"{TestConfiguration.BaseUrl}/reservation/{listingId}";
@@ -26,6 +32,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             Thread.Sleep(2000);
         }
 
+        /// <summary>
+        /// Selects a check-in date from the calendar.
+        /// </summary>
         public void SelectCheckInDate()
         {
             Thread.Sleep(1000);
@@ -67,6 +76,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             Thread.Sleep(1500);
         }
 
+        /// <summary>
+        /// Selects a check-out date from the calendar.
+        /// </summary>
         public void SelectCheckOutDate()
         {
             Thread.Sleep(1000);
@@ -101,6 +113,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             Thread.Sleep(1500);
         }
 
+        /// <summary>
+        /// Clicks the confirm reservation button.
+        /// </summary>
         public void ClickConfirmButton()
         {
             var button = WaitForElement(_confirmButton);
@@ -109,6 +124,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             button.Click();
         }
 
+        /// <summary>
+        /// Checks if the confirm button is enabled.
+        /// </summary>
         public bool IsConfirmButtonEnabled()
         {
             try
@@ -123,6 +141,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Checks if the total price is displayed.
+        /// </summary>
         public bool HasTotalPrice()
         {
             try
@@ -137,6 +158,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Checks if a success toast notification is displayed.
+        /// </summary>
         public bool IsSuccessToastDisplayed()
         {
             try
@@ -151,6 +175,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Gets the error message from toast notification.
+        /// </summary>
         public string GetErrorMessage()
         {
             try
@@ -164,8 +191,14 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Checks if currently on the reservation page.
+        /// </summary>
         public bool IsOnReservationPage() => Driver.Url.Contains("/reservation/");
 
+        /// <summary>
+        /// Gets the listing title from the page.
+        /// </summary>
         public string GetListingTitle()
         {
             try { return GetText(_listingTitle); }

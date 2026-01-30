@@ -14,6 +14,9 @@ using System.Security.Claims;
 
 namespace AccommodationBooking.Api.Controllers
 {
+    /// <summary>
+    /// Controller for managing accommodation listings.
+    /// </summary>
     [Route("api/listings")]
     public class ListingController(
         ISender mediator,
@@ -22,6 +25,9 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        /// <summary>
+        /// Creates a new listing.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Host")]
         public async Task<IActionResult> CreateListing(CreateListingRequest request)
@@ -38,6 +44,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Updates an existing listing.
+        /// </summary>
         [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Host")]
         public async Task<IActionResult> UpdateListing(UpdateListingRequest request, Guid id)
@@ -63,6 +72,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes a listing.
+        /// </summary>
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin, Host")]
         public async Task<IActionResult> DeleteListing(Guid id)
@@ -88,6 +100,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Gets all listings with optional filtering by host.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetListings(Guid? hostProfileId)
         {
@@ -101,6 +116,9 @@ namespace AccommodationBooking.Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets a specific listing by ID.
+        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetListing(Guid id)
         {
@@ -115,8 +133,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
-        
-
+        /// <summary>
+        /// Gets available dates for a listing.
+        /// </summary>
         [HttpGet("{id:guid}/get-dates")]
         public async Task<IActionResult> GetAvailableDates(Guid id, DateOnly? from, int? days)
         {

@@ -15,6 +15,9 @@ using NSubstitute;
 
 namespace AccommodationBooking.Application.UnitTests.DeleteUser
 {
+    /// <summary>
+    /// Unit tests for DeleteHostCommandHandler.
+    /// </summary>
     public class DeleteHostCommandHandlerTests
     {
         private readonly IUnitOfWork _unitOfWorkMock;
@@ -41,7 +44,7 @@ namespace AccommodationBooking.Application.UnitTests.DeleteUser
         }
 
         private static Address CreateValidAddress() =>
-            Address.Create("Poland", "Warsaw", "Mazowieckie", "00-110", "ul. Marszałkowska 123");
+            Address.Create("Poland", "Warsaw", "Mazowieckie", "00-110", "ul. Marszalkowska 123");
 
         private static Price CreateValidPrice(decimal amount = 100) =>
             Price.Create(amount, Currency.PLN);

@@ -8,6 +8,9 @@ using NSubstitute;
 
 namespace AccommodationBooking.Application.UnitTests.CreateListing
 {
+    /// <summary>
+    /// Unit tests for CreateListingCommandHandler.
+    /// </summary>
     public class CreateListingCommandHandlerTests
     {
         private readonly IUnitOfWork _unitOfWorkMock;
@@ -112,7 +115,7 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Country: "Poland",
                 City: "Warsaw",
                 PostalCode: "00-001",
-                Street: "Marszałkowska",
+                Street: "Marszalkowska",
                 BuildingNumber: "10",
                 AmountPerDay: 200,
                 Currency: "PLN",

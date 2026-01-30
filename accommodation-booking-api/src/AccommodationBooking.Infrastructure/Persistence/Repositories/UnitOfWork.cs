@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
+    /// <summary>
+    /// Implementation of Unit of Work pattern for managing database transactions.
+    /// </summary>
     public class UnitOfWork(
         AppDbContext context,
         IUserRepository users,

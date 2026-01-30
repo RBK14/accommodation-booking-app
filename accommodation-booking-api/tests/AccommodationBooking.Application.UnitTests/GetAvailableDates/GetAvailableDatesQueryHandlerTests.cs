@@ -9,6 +9,9 @@ using NSubstitute;
 
 namespace AccommodationBooking.Application.UnitTests.GetAvailableDates
 {
+    /// <summary>
+    /// Unit tests for GetAvailableDatesQueryHandler.
+    /// </summary>
     public class GetAvailableDatesQueryHandlerTests
     {
         private readonly IUnitOfWork _unitOfWorkMock;
@@ -111,7 +114,6 @@ namespace AccommodationBooking.Application.UnitTests.GetAvailableDates
 
         private static Listing CreateListing()
         {
-            // Używamy fabryki domenowej
             return Listing.Create(
                 Guid.NewGuid(),
                 "Title", "Desc", AccommodationType.Apartment, 2, 4,

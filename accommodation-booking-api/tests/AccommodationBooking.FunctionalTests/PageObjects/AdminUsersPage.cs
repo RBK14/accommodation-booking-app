@@ -3,11 +3,13 @@ using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
 {
+    /// <summary>
+    /// Page object for the admin users management page.
+    /// </summary>
     public class AdminUsersPage : BasePage
     {
         private const string AdminUsersUrl = $"{TestConfiguration.BaseUrl}/admin/users";
 
-        // Lokalizatory elementów
         private readonly By _usersTable = By.CssSelector("table");
         private readonly By _tableRows = By.XPath("//table//tbody//tr");
         private readonly By _successToast = By.XPath("//*[contains(text(), 'usuni?ty') or contains(text(), 'usu?')]");
@@ -16,46 +18,54 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         {
         }
 
+        /// <summary>
+        /// Navigates to the admin users page.
+        /// </summary>
         public void NavigateTo()
         {
             Driver.Navigate().GoToUrl(AdminUsersUrl);
             WaitForPageLoad();
         }
 
+        /// <summary>
+        /// Checks if currently on the admin users page.
+        /// </summary>
         public bool IsOnAdminUsersPage()
         {
             return Driver.Url.Contains("/admin/users");
         }
 
+        /// <summary>
+        /// Checks if the users table is displayed.
+        /// </summary>
         public bool HasUsersTable()
         {
             return IsElementDisplayed(_usersTable);
         }
 
+        /// <summary>
+        /// Deletes a user by their email address.
+        /// </summary>
         public void DeleteUserByEmail(string email)
         {
             try
             {
-                Thread.Sleep(2000); // Poczekaj na za?adowanie tabeli
-                
-                // Znajd? wiersz z u?ytkownikiem o podanym emailu
+                Thread.Sleep(2000);
+
                 var userRow = By.XPath($"//td[contains(text(), '{email}')]/ancestor::tr");
                 var row = WaitForElement(userRow);
-                
-                // Znajd? wszystkie przyciski w wierszu
+
                 var buttons = row.FindElements(By.TagName("button"));
-                
-                // Ostatni przycisk to przycisk usu? (kolejno??: View, Edit, Delete)
+
                 if (buttons.Count >= 3)
                 {
                     var deleteButton = buttons[buttons.Count - 1];
                     ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", deleteButton);
                     Thread.Sleep(500);
                     deleteButton.Click();
-                    
+
                     Thread.Sleep(1000);
-                    
-                    // Potwierd? usuni?cie w oknie dialogowym przegl?darki
+
                     try
                     {
                         var alert = Driver.SwitchTo().Alert();
@@ -64,21 +74,23 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
                     }
                     catch
                     {
-                        // Je?li nie ma alertu, kontynuuj
                     }
                 }
                 else
                 {
-                    throw new Exception($"Nie znaleziono wystarczaj?cej liczby przycisków w wierszu u?ytkownika {email}");
+                    throw new Exception($"Not enough buttons found in user row for {email}");
                 }
             }
             catch (Exception ex)
             {
                 TakeScreenshot($"DeleteUser_Error_{DateTime.Now:yyyyMMdd_HHmmss}");
-                throw new Exception($"Nie mo?na usun?? u?ytkownika o emailu '{email}'. Szczegó?y: {ex.Message}", ex);
+                throw new Exception($"Cannot delete user with email '{email}'. Details: {ex.Message}", ex);
             }
         }
 
+        /// <summary>
+        /// Checks if a user was deleted.
+        /// </summary>
         public bool IsUserDeleted(string email)
         {
             try
@@ -89,15 +101,21 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
             catch
             {
-                return true; // Je?li nie mo?na znale??, to znaczy ?e zosta? usuni?ty
+                return true;
             }
         }
 
+        /// <summary>
+        /// Checks if a success toast is displayed.
+        /// </summary>
         public bool IsSuccessToastDisplayed()
         {
             return IsElementDisplayed(_successToast);
         }
 
+        /// <summary>
+        /// Gets the total number of users in the table.
+        /// </summary>
         public int GetUsersCount()
         {
             try
@@ -111,6 +129,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Checks if a user exists by their email.
+        /// </summary>
         public bool UserExistsByEmail(string email)
         {
             try

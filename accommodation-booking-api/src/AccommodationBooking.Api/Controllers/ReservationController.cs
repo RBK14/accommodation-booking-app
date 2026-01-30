@@ -15,6 +15,9 @@ using System.Security.Claims;
 
 namespace AccommodationBooking.Api.Controllers
 {
+    /// <summary>
+    /// Controller for managing reservations.
+    /// </summary>
     [Route("api/reservations")]
     public class ReservationController(
         ISender mediator,
@@ -23,6 +26,9 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        /// <summary>
+        /// Creates a new reservation.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Guest")]
         public async Task<IActionResult> CreateReservation(CreateReservationRequest request)
@@ -30,8 +36,6 @@ namespace AccommodationBooking.Api.Controllers
             var profileIdValue = User.FindFirstValue("ProfileId");
             if (!Guid.TryParse(profileIdValue, out var profileId))
                 return Unauthorized("Sesja wygasła. Zaloguj się ponownie.");
-
-            Console.WriteLine(request);
 
             var command = _mapper.Map<CreateReservationCommand>((request, profileId));
             var result = await _mediator.Send(command);
@@ -41,6 +45,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Updates the status of a reservation.
+        /// </summary>
         [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Host, Guest")]
         public async Task<IActionResult> UpdateStatus(UpdateReservationStatusRequest request, Guid id)
@@ -70,6 +77,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes a reservation.
+        /// </summary>
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteReservation(Guid id)
@@ -85,6 +95,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Gets reservations with optional filtering.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetReservations(Guid? listingId, Guid? guestProfileId, Guid? hostProfileId)
         {
@@ -98,6 +111,9 @@ namespace AccommodationBooking.Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets a specific reservation by ID.
+        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetReservation(Guid id)
         {

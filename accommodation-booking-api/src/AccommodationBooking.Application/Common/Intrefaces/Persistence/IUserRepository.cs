@@ -2,6 +2,9 @@
 
 namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
 {
+    /// <summary>
+    /// Repository interface for user entities.
+    /// </summary>
     public interface IUserRepository
     {
         void Add(User user);

@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AccommodationBooking.Infrastructure.Persistence.Repositories
 {
+    /// <summary>
+    /// Repository for managing listing entities.
+    /// </summary>
     public class ListingRepository(AppDbContext context) : IListingRepository
     {
         private readonly AppDbContext _context = context;
@@ -22,6 +25,7 @@ namespace AccommodationBooking.Infrastructure.Persistence.Repositories
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
         }
+
         public async Task<IEnumerable<Listing>> SearchAsync(IEnumerable<IFilterable<Listing>> filters, CancellationToken cancellationToken = default)
         {
             var query = _context.Listings.AsQueryable();

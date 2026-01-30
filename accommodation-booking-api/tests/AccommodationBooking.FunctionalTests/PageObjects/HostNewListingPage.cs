@@ -3,11 +3,13 @@ using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
 {
+    /// <summary>
+    /// Page object for the new listing creation page.
+    /// </summary>
     public class HostNewListingPage : BasePage
     {
         private const string NewListingUrl = $"{TestConfiguration.BaseUrl}/host/new-listing";
 
-        // Lokalizatory elementów formularza
         private readonly By _titleInput = By.XPath("//input[@name='title']");
         private readonly By _descriptionInput = By.XPath("//textarea[@name='description']");
         private readonly By _accommodationTypeSelect = By.XPath("//label[text()='Typ zakwaterowania']/following-sibling::div");
@@ -30,22 +32,34 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         {
         }
 
+        /// <summary>
+        /// Navigates to the new listing page.
+        /// </summary>
         public void NavigateTo()
         {
             Driver.Navigate().GoToUrl(NewListingUrl);
             WaitForPageLoad();
         }
 
+        /// <summary>
+        /// Enters the listing title.
+        /// </summary>
         public void EnterTitle(string title)
         {
             SendKeys(_titleInput, title);
         }
 
+        /// <summary>
+        /// Enters the listing description.
+        /// </summary>
         public void EnterDescription(string description)
         {
             SendKeys(_descriptionInput, description);
         }
 
+        /// <summary>
+        /// Selects the accommodation type.
+        /// </summary>
         public void SelectAccommodationType(string type)
         {
             Click(_accommodationTypeSelect);
@@ -54,46 +68,73 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             Click(option);
         }
 
+        /// <summary>
+        /// Enters the number of beds.
+        /// </summary>
         public void EnterBeds(int beds)
         {
             SendKeys(_bedsInput, beds.ToString());
         }
 
+        /// <summary>
+        /// Enters the maximum number of guests.
+        /// </summary>
         public void EnterMaxGuests(int maxGuests)
         {
             SendKeys(_maxGuestsInput, maxGuests.ToString());
         }
 
+        /// <summary>
+        /// Enters the country.
+        /// </summary>
         public void EnterCountry(string country)
         {
             SendKeys(_countryInput, country);
         }
 
+        /// <summary>
+        /// Enters the city.
+        /// </summary>
         public void EnterCity(string city)
         {
             SendKeys(_cityInput, city);
         }
 
+        /// <summary>
+        /// Enters the postal code.
+        /// </summary>
         public void EnterPostalCode(string postalCode)
         {
             SendKeys(_postalCodeInput, postalCode);
         }
 
+        /// <summary>
+        /// Enters the street name.
+        /// </summary>
         public void EnterStreet(string street)
         {
             SendKeys(_streetInput, street);
         }
 
+        /// <summary>
+        /// Enters the building number.
+        /// </summary>
         public void EnterBuildingNumber(string buildingNumber)
         {
             SendKeys(_buildingNumberInput, buildingNumber);
         }
 
+        /// <summary>
+        /// Enters the price per day.
+        /// </summary>
         public void EnterAmountPerDay(decimal amount)
         {
             SendKeys(_amountPerDayInput, amount.ToString("0.00"));
         }
 
+        /// <summary>
+        /// Selects the currency.
+        /// </summary>
         public void SelectCurrency(string currency)
         {
             Click(_currencySelect);
@@ -102,20 +143,20 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             Click(option);
         }
 
+        /// <summary>
+        /// Adds an image URL to the listing.
+        /// </summary>
         public void AddImage(string imageUrl)
         {
             try
             {
-                // Przewi? do przycisku
                 var button = WaitForElement(_addImageButton);
                 ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", button);
                 Thread.Sleep(500);
                 
-                // Kliknij u?ywaj?c JavaScript
                 ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].click();", button);
                 Thread.Sleep(500);
                 
-                // Obs?uga alertu prompt
                 var alert = Driver.SwitchTo().Alert();
                 alert.SendKeys(imageUrl);
                 alert.Accept();
@@ -124,39 +165,56 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             catch (Exception ex)
             {
                 TakeScreenshot($"AddImage_Error_{DateTime.Now:yyyyMMdd_HHmmss}");
-                throw new Exception($"Nie mo?na doda? zdj?cia. Szczegó?y: {ex.Message}", ex);
+                throw new Exception($"Cannot add image. Details: {ex.Message}", ex);
             }
         }
 
+        /// <summary>
+        /// Clicks the save button.
+        /// </summary>
         public void ClickSaveButton()
         {
-            // Przewi? do przycisku Zapisz
             var button = WaitForElement(_saveButton);
             ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", button);
             Thread.Sleep(500);
             Click(_saveButton);
         }
 
+        /// <summary>
+        /// Clicks the cancel button.
+        /// </summary>
         public void ClickCancelButton()
         {
             Click(_cancelButton);
         }
 
+        /// <summary>
+        /// Checks if an error alert is displayed.
+        /// </summary>
         public bool IsErrorAlertDisplayed()
         {
             return IsElementDisplayed(_errorAlert);
         }
 
+        /// <summary>
+        /// Gets the error message text.
+        /// </summary>
         public string GetErrorMessage()
         {
             return GetText(_errorAlert);
         }
 
+        /// <summary>
+        /// Checks if currently on the new listing page.
+        /// </summary>
         public bool IsOnNewListingPage()
         {
             return Driver.Url.Contains("/host/new-listing");
         }
 
+        /// <summary>
+        /// Checks if there are any images added.
+        /// </summary>
         public bool HasImages()
         {
             try
@@ -170,6 +228,9 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Creates a complete listing with all required fields.
+        /// </summary>
         public void CreateListing(
             string title,
             string description,

@@ -3,8 +3,14 @@ using Microsoft.OpenApi.Models;
 
 namespace AccommodationBooking.Api
 {
+    /// <summary>
+    /// Dependency injection configuration for the Presentation layer.
+    /// </summary>
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Registers presentation layer services including controllers and mapping.
+        /// </summary>
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
             services.AddControllers();
@@ -14,9 +20,11 @@ namespace AccommodationBooking.Api
             return services;
         }
 
+        /// <summary>
+        /// Configures Swagger with JWT authentication support.
+        /// </summary>
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            // SwaggerUI Authorization Config for Development
             services.AddSwaggerGen(cfg =>
             {
                 cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -31,15 +39,15 @@ namespace AccommodationBooking.Api
                 cfg.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
                     }
                 });
             });

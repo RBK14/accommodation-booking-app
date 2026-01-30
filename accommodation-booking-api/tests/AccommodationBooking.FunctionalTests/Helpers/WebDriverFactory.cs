@@ -4,8 +4,14 @@ using OpenQA.Selenium.Chrome;
 
 namespace AccommodationBooking.FunctionalTests.Helpers
 {
+    /// <summary>
+    /// Factory for creating WebDriver instances.
+    /// </summary>
     public static class WebDriverFactory
     {
+        /// <summary>
+        /// Creates a Chrome WebDriver with configured options.
+        /// </summary>
         public static IWebDriver CreateChromeDriver()
         {
             var options = new ChromeOptions();

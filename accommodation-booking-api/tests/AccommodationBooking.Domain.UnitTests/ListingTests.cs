@@ -7,18 +7,21 @@ using FluentAssertions;
 
 namespace AccommodationBooking.Domain.UnitTests
 {
+    /// <summary>
+    /// Unit tests for the Listing aggregate root.
+    /// </summary>
     public class ListingTests
     {
         private static Listing CreateValidListing()
         {
             return Listing.Create(
                 Guid.NewGuid(),
-                "Luksusowy apartament",
-                "Opis apartamentu...",
+                "Luxury apartment",
+                "Apartment description...",
                 AccommodationType.Apartment,
                 2,
                 4,
-                "Poland", "Krakow", "30-001", "Rynek Główny", "1",
+                "Poland", "Krakow", "30-001", "Main Square", "1",
                 250,
                 Currency.PLN);
         }
@@ -27,16 +30,16 @@ namespace AccommodationBooking.Domain.UnitTests
         public void Create_Should_ReturnListing_When_DataIsValid()
         {
             var hostId = Guid.NewGuid();
-            var title = "Przytulna chatka w górach";
+            var title = "Cozy mountain cottage";
 
             var listing = Listing.Create(
                 hostId,
                 title,
-                "Piękny widok na Tatry",
+                "Beautiful view of the Tatras",
                 AccommodationType.House,
                 4,
                 6,
-                "Poland", "Zakopane", "34-500", "Krupówki", "10",
+                "Poland", "Zakopane", "34-500", "Krupowki", "10",
                 500,
                 Currency.PLN);
 
@@ -105,10 +108,10 @@ namespace AccommodationBooking.Domain.UnitTests
             var listing = CreateValidListing();
             var guestId = Guid.NewGuid();
             var rating = 5;
-            var comment = "Wspaniałe miejsce!";
+            var comment = "Wonderful place!";
 
             listing.AddReview(guestId, rating, comment);
-            // Assert
+
             listing.Reviews.Should().HaveCount(1);
             var addedReview = listing.Reviews.First();
             addedReview.GuestProfileId.Should().Be(guestId);
@@ -122,9 +125,9 @@ namespace AccommodationBooking.Domain.UnitTests
             var listing = CreateValidListing();
             var guestId = Guid.NewGuid();
 
-            listing.AddReview(guestId, 5, "Pierwsza opinia");
+            listing.AddReview(guestId, 5, "First review");
 
-            Action act = () => listing.AddReview(guestId, 3, "Druga opinia");
+            Action act = () => listing.AddReview(guestId, 3, "Second review");
 
             act.Should().Throw<DomainIllegalStateException>()
                .WithMessage("Guest has already reviewed this listing.");
@@ -134,8 +137,8 @@ namespace AccommodationBooking.Domain.UnitTests
         public void UpdateListing_Should_UpdateFields_When_DataIsValid()
         {
             var listing = CreateValidListing();
-            var newTitle = "Zmieniony tytuł";
-            var newDesc = "Nowy opis";
+            var newTitle = "Changed title";
+            var newDesc = "New description";
             var newPrice = Price.Create(999, Currency.PLN);
             var originalUpdatedAt = listing.UpdatedAt;
 

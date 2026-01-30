@@ -9,10 +9,16 @@ using System.Text;
 
 namespace AccommodationBooking.Infrastructure.Authentication
 {
+    /// <summary>
+    /// Generates JWT access tokens for authenticated users.
+    /// </summary>
     public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGenerator
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
+        /// <summary>
+        /// Generates a JWT access token for the specified user.
+        /// </summary>
         public string GenerateAccessToken(User user, Guid profileId)
         {
             var signingCredentials = new SigningCredentials(
@@ -32,7 +38,6 @@ namespace AccommodationBooking.Infrastructure.Authentication
 
             if (user.Role == UserRole.Guest)
                 claims.Add(new Claim("ProfileId", profileId.ToString()));
-
             else if (user.Role == UserRole.Host)
                 claims.Add(new Claim("ProfileId", profileId.ToString()));
 

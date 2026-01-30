@@ -2,6 +2,9 @@
 
 namespace AccommodationBooking.Domain.Common.ValueObjects
 {
+    /// <summary>
+    /// Represents a physical address.
+    /// </summary>
     public sealed class Address : ValueObject
     {
         public string Country { get; init; }
@@ -24,6 +27,9 @@ namespace AccommodationBooking.Domain.Common.ValueObjects
             BuildingNumber = buildingNumber;
         }
 
+        /// <summary>
+        /// Creates a new address instance.
+        /// </summary>
         public static Address Create(
             string country,
             string city,

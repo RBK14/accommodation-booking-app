@@ -11,6 +11,9 @@ using NSubstitute;
 
 namespace AccommodationBooking.Application.UnitTests.CreateReservation
 {
+    /// <summary>
+    /// Unit tests for CreateReservationCommandHandler.
+    /// </summary>
     public class CreateReservationCommandHandlerTests
     {
         private readonly IUnitOfWork _unitOfWorkMock;

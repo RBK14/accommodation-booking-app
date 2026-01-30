@@ -3,11 +3,13 @@ using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
 {
+    /// <summary>
+    /// Page object for the registration page.
+    /// </summary>
     public class RegisterPage : BasePage
     {
         private const string RegisterUrl = TestConfiguration.RegisterUrl;
 
-        // Lokalizatory elementów - zaktualizowane dla Material-UI
         private readonly By _userRoleSelect = By.XPath("//label[text()='Typ konta']/following-sibling::div");
         private readonly By _userRoleGuestOption = By.XPath("//li[@data-value='Guest']");
         private readonly By _userRoleHostOption = By.XPath("//li[@data-value='Host']");
@@ -26,19 +28,24 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         {
         }
 
+        /// <summary>
+        /// Navigates to the registration page.
+        /// </summary>
         public void NavigateTo()
         {
             Driver.Navigate().GoToUrl(RegisterUrl);
             WaitForPageLoad();
         }
 
+        /// <summary>
+        /// Selects the user role from the dropdown.
+        /// </summary>
         public void SelectUserRole(string role)
         {
             try
             {
-                // Kliknij w Select aby otworzyć menu
                 Click(_userRoleSelect);
-                Thread.Sleep(500); // Czekaj na otwarcie menu
+                Thread.Sleep(500);
                 
                 if (role.Equals("Guest", StringComparison.OrdinalIgnoreCase))
                 {
@@ -51,47 +58,70 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
             catch (Exception ex)
             {
-                // Zapisz screenshot dla debugowania
                 TakeScreenshot($"SelectUserRole_Error_{DateTime.Now:yyyyMMdd_HHmmss}");
-                throw new Exception($"Nie można wybrać roli użytkownika '{role}'. Szczegóły: {ex.Message}", ex);
+                throw new Exception($"Cannot select user role '{role}'. Details: {ex.Message}", ex);
             }
         }
 
+        /// <summary>
+        /// Enters the first name.
+        /// </summary>
         public void EnterFirstName(string firstName)
         {
             SendKeys(_firstNameInput, firstName);
         }
 
+        /// <summary>
+        /// Enters the last name.
+        /// </summary>
         public void EnterLastName(string lastName)
         {
             SendKeys(_lastNameInput, lastName);
         }
 
+        /// <summary>
+        /// Enters the email address.
+        /// </summary>
         public void EnterEmail(string email)
         {
             SendKeys(_emailInput, email);
         }
 
+        /// <summary>
+        /// Enters the phone number.
+        /// </summary>
         public void EnterPhone(string phone)
         {
             SendKeys(_phoneInput, phone);
         }
 
+        /// <summary>
+        /// Enters the password.
+        /// </summary>
         public void EnterPassword(string password)
         {
             SendKeys(_passwordInput, password);
         }
 
+        /// <summary>
+        /// Enters the password confirmation.
+        /// </summary>
         public void EnterConfirmPassword(string confirmPassword)
         {
             SendKeys(_confirmPasswordInput, confirmPassword);
         }
 
+        /// <summary>
+        /// Clicks the register button.
+        /// </summary>
         public void ClickRegisterButton()
         {
             Click(_registerButton);
         }
 
+        /// <summary>
+        /// Performs full registration with all required fields.
+        /// </summary>
         public void Register(string userRole, string firstName, string lastName, string email, 
             string phone, string password, string confirmPassword)
         {
@@ -105,31 +135,49 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             ClickRegisterButton();
         }
 
+        /// <summary>
+        /// Clicks the login link.
+        /// </summary>
         public void ClickLoginLink()
         {
             Click(_loginLink);
         }
 
+        /// <summary>
+        /// Clicks the show password button.
+        /// </summary>
         public void ClickShowPasswordButton()
         {
             Click(_showPasswordButton);
         }
 
+        /// <summary>
+        /// Clicks the show confirm password button.
+        /// </summary>
         public void ClickShowConfirmPasswordButton()
         {
             Click(_showConfirmPasswordButton);
         }
 
+        /// <summary>
+        /// Gets the password input type attribute.
+        /// </summary>
         public string GetPasswordInputType()
         {
             return WaitForElement(_passwordInput).GetDomProperty("type");
         }
 
+        /// <summary>
+        /// Gets the confirm password input type attribute.
+        /// </summary>
         public string GetConfirmPasswordInputType()
         {
             return WaitForElement(_confirmPasswordInput).GetDomProperty("type");
         }
 
+        /// <summary>
+        /// Checks if the register button is enabled.
+        /// </summary>
         public bool IsRegisterButtonEnabled()
         {
             try
@@ -142,17 +190,26 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Checks if currently on the registration page.
+        /// </summary>
         public bool IsOnRegisterPage()
         {
             return Driver.Url.Contains("/register");
         }
 
+        /// <summary>
+        /// Waits for the success toast notification.
+        /// </summary>
         public void WaitForSuccessToast()
         {
             var toastLocator = By.XPath("//*[contains(text(), 'Rejestracja zakończona sukcesem')]");
             WaitForElement(toastLocator);
         }
 
+        /// <summary>
+        /// Waits for the error toast notification.
+        /// </summary>
         public void WaitForErrorToast()
         {
             var toastLocator = By.CssSelector(".Toastify__toast--error");

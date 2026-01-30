@@ -14,6 +14,9 @@ using System.Security.Claims;
 
 namespace AccommodationBooking.Api.Controllers
 {
+    /// <summary>
+    /// Controller for managing user accounts.
+    /// </summary>
     [Route("api/users")]
     public class UserController(
         ISender mediator,
@@ -22,6 +25,9 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        /// <summary>
+        /// Updates user's personal details.
+        /// </summary>
         [HttpPost("{id:guid}/update-personal-details")]
         public async Task<IActionResult> UpdatePersonalDetails(UpdatePersonalDetailsRequest request, Guid id)
         {
@@ -36,6 +42,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes a guest account.
+        /// </summary>
         [HttpDelete("delete-guest/{id:guid}")]
         [Authorize(Roles = "Admin, Guest")]
         public async Task<IActionResult> DeleteGuest(Guid id)
@@ -51,6 +60,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes a host account.
+        /// </summary>
         [HttpDelete("delete-host/{id:guid}")]
         [Authorize(Roles = "Admin, Host")]
         public async Task<IActionResult> DeleteHost(Guid id)
@@ -66,6 +78,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes an admin account.
+        /// </summary>
         [HttpDelete("delete-admin/{id:guid}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAdmin(Guid id)
@@ -81,6 +96,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Gets all users with optional role filtering.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetUsers(string? userRole)
         {
@@ -94,6 +112,9 @@ namespace AccommodationBooking.Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets a specific user by ID.
+        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetUser(Guid id)
         {

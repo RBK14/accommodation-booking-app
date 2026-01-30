@@ -3,6 +3,9 @@ using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.ListingAggregate.Entities
 {
+    /// <summary>
+    /// Represents a guest review for a listing.
+    /// </summary>
     public class Review : Entity<Guid>
     {
         public Guid ListingId { get; init; }

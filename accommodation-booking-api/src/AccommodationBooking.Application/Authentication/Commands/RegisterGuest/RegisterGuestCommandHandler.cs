@@ -9,6 +9,9 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
 {
+    /// <summary>
+    /// Handler for guest user registration.
+    /// </summary>
     public class RegisterGuestCommandHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : IRequestHandler<RegisterGuestCommand, ErrorOr<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -27,11 +30,11 @@ namespace AccommodationBooking.Application.Authentication.Commands.RegisterGuest
             try
             {
                 var user = User.CreateGuest(
-                email,
-                passwordHash,
-                command.FirstName,
-                command.LastName,
-                command.Phone);
+                    email,
+                    passwordHash,
+                    command.FirstName,
+                    command.LastName,
+                    command.Phone);
 
                 var profile = GuestProfile.Create(user.Id);
 

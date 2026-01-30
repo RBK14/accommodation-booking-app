@@ -4,6 +4,9 @@ using FluentAssertions;
 
 namespace AccommodationBooking.Domain.UnitTests
 {
+    /// <summary>
+    /// Unit tests for the GuestProfile aggregate root.
+    /// </summary>
     public class GuestProfileTests
     {
         [Fact]

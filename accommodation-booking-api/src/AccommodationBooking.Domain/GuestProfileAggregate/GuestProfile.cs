@@ -3,14 +3,15 @@ using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.GuestProfileAggregate
 {
+    /// <summary>
+    /// Represents a guest profile aggregate root.
+    /// </summary>
     public class GuestProfile : AggregateRoot<Guid>
     {
         private readonly List<Guid> _reservationIds = new();
 
         public Guid UserId { get; init; }
-
         public IReadOnlyCollection<Guid> ReservationIds => _reservationIds.AsReadOnly();
-
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
@@ -28,6 +29,9 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
             UpdatedAt = updatedAt;
         }
 
+        /// <summary>
+        /// Creates a new guest profile for a user.
+        /// </summary>
         public static GuestProfile Create(Guid userId)
         {
             return new GuestProfile(
@@ -37,6 +41,9 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
                 DateTime.UtcNow);
         }
 
+        /// <summary>
+        /// Associates a reservation with this guest profile.
+        /// </summary>
         public void AddReservationId(Guid reservationId)
         {
             if (reservationId == Guid.Empty)
@@ -49,6 +56,9 @@ namespace AccommodationBooking.Domain.GuestProfileAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Removes a reservation association from this guest profile.
+        /// </summary>
         public void RemoveReservationId(Guid reservationId)
         {
             if (_reservationIds.Contains(reservationId))

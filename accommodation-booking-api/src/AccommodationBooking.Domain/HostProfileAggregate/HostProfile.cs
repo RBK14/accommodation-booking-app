@@ -3,14 +3,15 @@ using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.HostProfileAggregate
 {
+    /// <summary>
+    /// Represents a host profile aggregate root.
+    /// </summary>
     public class HostProfile : AggregateRoot<Guid>
     {
         private readonly List<Guid> _listingIds = new();
 
         public Guid UserId { get; init; }
-
         public IReadOnlyCollection<Guid> ListingIds => _listingIds.AsReadOnly();
-
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
@@ -28,6 +29,9 @@ namespace AccommodationBooking.Domain.HostProfileAggregate
             UpdatedAt = updatedAt;
         }
 
+        /// <summary>
+        /// Creates a new host profile for a user.
+        /// </summary>
         public static HostProfile Create(Guid userId)
         {
             return new HostProfile(
@@ -37,6 +41,9 @@ namespace AccommodationBooking.Domain.HostProfileAggregate
                 DateTime.UtcNow);
         }
 
+        /// <summary>
+        /// Associates a listing with this host profile.
+        /// </summary>
         public void AddListingId(Guid listingId)
         {
             if (listingId == Guid.Empty)
@@ -49,6 +56,9 @@ namespace AccommodationBooking.Domain.HostProfileAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Removes a listing association from this host profile.
+        /// </summary>
         public void RemoveListingId(Guid listingId)
         {
             if (_listingIds.Contains(listingId))

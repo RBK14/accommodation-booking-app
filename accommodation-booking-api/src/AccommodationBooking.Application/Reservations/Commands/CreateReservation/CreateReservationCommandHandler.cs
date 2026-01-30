@@ -9,6 +9,9 @@ using MediatR;
 
 namespace AccommodationBooking.Application.Reservations.Commands.CreateReservation
 {
+    /// <summary>
+    /// Handler for creating new reservations.
+    /// </summary>
     public class CreateReservationCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateReservationCommand, ErrorOr<Reservation>>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

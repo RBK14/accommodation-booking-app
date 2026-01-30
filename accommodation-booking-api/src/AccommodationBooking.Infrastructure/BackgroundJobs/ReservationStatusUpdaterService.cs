@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AccommodationBooking.Infrastructure.BackgroundJobs
 {
+    /// <summary>
+    /// Background service that automatically updates reservation statuses based on check-in/check-out dates.
+    /// </summary>
     public class ReservationStatusUpdaterService(
         IServiceScopeFactory serviceScopeFactory,
         ILogger<ReservationStatusUpdaterService> logger) : BackgroundService

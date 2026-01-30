@@ -7,10 +7,13 @@ using FluentAssertions;
 
 namespace AccommodationBooking.Domain.UnitTests
 {
+    /// <summary>
+    /// Unit tests for the Reservation aggregate root.
+    /// </summary>
     public class ReservationTests
     {
         private static Address CreateValidAddress() =>
-            Address.Create("Poland", "Warsaw", "Mazowieckie", "00-110", "ul. Marszałkowska 123");
+            Address.Create("Poland", "Warsaw", "Mazowieckie", "00-110", "ul. Marszalkowska 123");
 
         private static Price CreateValidPrice(decimal amount = 100) =>
             Price.Create(amount, Currency.PLN);
@@ -31,7 +34,7 @@ namespace AccommodationBooking.Domain.UnitTests
                 listingId,
                 guestId,
                 hostId,
-                "Przytulny apartament w Centrum",
+                "Cozy apartment in the Center",
                 CreateValidAddress(),
                 pricePerDay,
                 checkIn,
@@ -55,7 +58,7 @@ namespace AccommodationBooking.Domain.UnitTests
                 Guid.NewGuid(),
                 Guid.NewGuid(),
                 Guid.NewGuid(),
-                "Tytuł oferty",
+                "Listing title",
                 CreateValidAddress(),
                 CreateValidPrice(),
                 checkIn,
@@ -131,7 +134,7 @@ namespace AccommodationBooking.Domain.UnitTests
         {
             var reservation = Reservation.Create(
                 Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
-                "Tytuł oferty", CreateValidAddress(), CreateValidPrice(),
+                "Listing title", CreateValidAddress(), CreateValidPrice(),
                 DateTime.UtcNow, DateTime.UtcNow.AddDays(1));
 
             if (targetStatus == ReservationStatus.Accepted)

@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 namespace AccommodationBooking.FunctionalTests
 {
     /// <summary>
-    /// Klasa bazowa dla testów funkcjonalnych zapewniająca wspólną funkcjonalność
+    /// Base class for functional tests providing common functionality.
     /// </summary>
     public abstract class BaseTest : IDisposable
     {
@@ -32,7 +32,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Generuje unikalny email dla testów
+        /// Generates a unique email for tests.
         /// </summary>
         protected string GenerateUniqueEmail(string prefix = "test")
         {
@@ -41,7 +41,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Loguje użytkownika gościa
+        /// Logs in as a guest user.
         /// </summary>
         protected void LoginAsGuest()
         {
@@ -54,7 +54,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Loguje użytkownika gospodarza
+        /// Logs in as a host user.
         /// </summary>
         protected void LoginAsHost()
         {
@@ -67,7 +67,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Loguje użytkownika administratora
+        /// Logs in as an admin user.
         /// </summary>
         protected void LoginAsAdmin()
         {
@@ -80,7 +80,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Rejestruje nowego użytkownika gościa
+        /// Registers a new guest user.
         /// </summary>
         protected void RegisterNewGuest(
             string? email = null,
@@ -102,7 +102,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Rejestruje nowego użytkownika gospodarza
+        /// Registers a new host user.
         /// </summary>
         protected void RegisterNewHost(
             string? email = null,
@@ -124,7 +124,7 @@ namespace AccommodationBooking.FunctionalTests
         }
 
         /// <summary>
-        /// Oczekuje przez określony czas (pomocnicza metoda dla czytelności)
+        /// Waits for the specified amount of time.
         /// </summary>
         protected void Wait(int milliseconds)
         {

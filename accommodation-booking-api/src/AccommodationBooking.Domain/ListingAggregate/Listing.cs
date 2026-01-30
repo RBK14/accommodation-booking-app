@@ -7,6 +7,9 @@ using AccommodationBooking.Domain.ListingAggregate.Enums;
 
 namespace AccommodationBooking.Domain.ListingAggregate
 {
+    /// <summary>
+    /// Represents an accommodation listing aggregate root.
+    /// </summary>
     public class Listing : AggregateRoot<Guid>
     {
         private readonly List<string> _photoUrls = new();
@@ -72,6 +75,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = updatedAt;
         }
 
+        /// <summary>
+        /// Creates a new listing.
+        /// </summary>
         public static Listing Create(
             Guid hostProfileId,
             string title,
@@ -103,6 +109,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
                 DateTime.UtcNow);
         }
 
+        /// <summary>
+        /// Updates the listing properties.
+        /// </summary>
         public void UpdateListing(
             string title,
             string description,
@@ -139,6 +148,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
                 UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Adds a photo URL to the listing.
+        /// </summary>
         public void AddPhoto(string photoUrl)
         {
             if (string.IsNullOrWhiteSpace(photoUrl))
@@ -156,6 +168,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Replaces all photo URLs with new ones.
+        /// </summary>
         public void UpdatePhotos(IEnumerable<string> newPhotoUrls)
         {
             if (newPhotoUrls is null) return;
@@ -167,6 +182,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             }
         }
 
+        /// <summary>
+        /// Reserves dates for a reservation.
+        /// </summary>
         public void ReserveDates(Guid reservationId, DateTime start, DateTime end)
         {
             if (reservationId == Guid.Empty)
@@ -184,6 +202,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Cancels a reservation and frees the reserved dates.
+        /// </summary>
         public void CancelReservation(Guid reservationId)
         {
             var slot = _scheduleSlots.FirstOrDefault(s => s.ReservationId == reservationId);
@@ -195,12 +216,18 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Checks if the specified date range overlaps with existing reservations.
+        /// </summary>
         public bool IsOverlapping(DateTime start, DateTime end)
         {
             return _scheduleSlots.Any(s =>
                 start < s.EndDate && end > s.StartDate);
         }
 
+        /// <summary>
+        /// Adds a review from a guest.
+        /// </summary>
         public void AddReview(Guid guestProfileId, int rating, string comment)
         {
             if (_reviews.Any(r => r.GuestProfileId == guestProfileId))
@@ -212,6 +239,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Updates an existing review.
+        /// </summary>
         public void UpdateReview(Guid reviewId, string comment, int? rating = null)
         {
             var review = _reviews.FirstOrDefault(r => r.Id == reviewId);
@@ -222,6 +252,9 @@ namespace AccommodationBooking.Domain.ListingAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Deletes a review.
+        /// </summary>
         public void DeleteReview(Guid reviewId)
         {
             var review = _reviews.FirstOrDefault(r => r.Id == reviewId);

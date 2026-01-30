@@ -1,5 +1,8 @@
 ﻿namespace AccommodationBooking.FunctionalTests
 {
+    /// <summary>
+    /// Functional tests for admin user management operations.
+    /// </summary>
     public class AdminTests : BaseTest
     {
         [Fact]
@@ -15,17 +18,17 @@
             AdminUsersPage.NavigateTo();
             Wait(2000);
 
-            Assert.True(AdminUsersPage.IsOnAdminUsersPage(), "Powinna być na stronie administratora - użytkownicy");
-            Assert.True(AdminUsersPage.HasUsersTable(), "Powinna być widoczna tabela użytkowników");
+            Assert.True(AdminUsersPage.IsOnAdminUsersPage(), "Should be on admin users page");
+            Assert.True(AdminUsersPage.HasUsersTable(), "Users table should be visible");
 
             var userExistsBefore = AdminUsersPage.UserExistsByEmail(guestEmail);
-            Assert.True(userExistsBefore, $"Użytkownik o emailu {guestEmail} powinien istnieć przed usunięciem");
+            Assert.True(userExistsBefore, $"User with email {guestEmail} should exist before deletion");
 
             AdminUsersPage.DeleteUserByEmail(guestEmail);
             Wait(3000);
 
             var userExistsAfter = AdminUsersPage.UserExistsByEmail(guestEmail);
-            Assert.False(userExistsAfter, $"U?ytkownik o emailu {guestEmail} powinien by? usuni?ty");
+            Assert.False(userExistsAfter, $"User with email {guestEmail} should be deleted");
         }
 
         [Fact]
@@ -41,17 +44,17 @@
             AdminUsersPage.NavigateTo();
             Wait(2000);
 
-            Assert.True(AdminUsersPage.IsOnAdminUsersPage(), "Powinna by? na stronie administratora - u?ytkownicy");
-            Assert.True(AdminUsersPage.HasUsersTable(), "Powinna by? widoczna tabela u?ytkowników");
+            Assert.True(AdminUsersPage.IsOnAdminUsersPage(), "Should be on admin users page");
+            Assert.True(AdminUsersPage.HasUsersTable(), "Users table should be visible");
 
             var userExistsBefore = AdminUsersPage.UserExistsByEmail(hostEmail);
-            Assert.True(userExistsBefore, $"U?ytkownik o emailu {hostEmail} powinien istnie? przed usuni?ciem");
+            Assert.True(userExistsBefore, $"User with email {hostEmail} should exist before deletion");
 
             AdminUsersPage.DeleteUserByEmail(hostEmail);
             Wait(3000);
 
             var userExistsAfter = AdminUsersPage.UserExistsByEmail(hostEmail);
-            Assert.False(userExistsAfter, $"U?ytkownik o emailu {hostEmail} powinien by? usuni?ty");
+            Assert.False(userExistsAfter, $"User with email {hostEmail} should be deleted");
         }
     }
 }

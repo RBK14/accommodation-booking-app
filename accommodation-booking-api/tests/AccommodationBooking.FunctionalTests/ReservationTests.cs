@@ -2,6 +2,9 @@
 
 namespace AccommodationBooking.FunctionalTests
 {
+    /// <summary>
+    /// Functional tests for the reservation workflow.
+    /// </summary>
     public class ReservationTests : BaseTest
     {
         [Fact]
@@ -14,44 +17,44 @@ namespace AccommodationBooking.FunctionalTests
             string listingId = TestConfiguration.TestData.Listing.ListingId;
             ReservationPage.NavigateToReservation(listingId);
 
-            Assert.True(ReservationPage.IsOnReservationPage(), "Powinien być na stronie rezerwacji");
+            Assert.True(ReservationPage.IsOnReservationPage(), "Should be on reservation page");
 
             var title = ReservationPage.GetListingTitle();
-            Assert.False(string.IsNullOrEmpty(title), $"Oferta o ID {listingId} nie istnieje w bazie danych.");
+            Assert.False(string.IsNullOrEmpty(title), $"Listing with ID {listingId} does not exist in database.");
 
-            // Act - wybierz daty
+            // Act - select dates
             ReservationPage.SelectCheckInDate();
             ReservationPage.SelectCheckOutDate();
             Wait(2000);
 
-            // Assert - sprawdź czy cena się wyświetla i przycisk jest aktywny
-            Assert.True(ReservationPage.HasTotalPrice(), "Powinna być widoczna całkowita cena po wyborze dat");
-            Assert.True(ReservationPage.IsConfirmButtonEnabled(), "Przycisk potwierdzenia powinien być aktywny");
+            // Assert - verify price is displayed and button is enabled
+            Assert.True(ReservationPage.HasTotalPrice(), "Total price should be visible after selecting dates");
+            Assert.True(ReservationPage.IsConfirmButtonEnabled(), "Confirm button should be enabled");
 
-            // Act - potwierdź rezerwację
+            // Act - confirm reservation
             ReservationPage.ClickConfirmButton();
             Wait(3000);
 
-            // Assert - test jest uznany za sukces jeśli:
-            // 1. Pojawił się toast sukcesu, LUB
-            // 2. Przekierowano ze strony rezerwacji (sukces), LUB
-            // 3. Pojawił się komunikat o konflikcie dat (oznacza że formularz działa poprawnie, ale termin jest zajęty)
+            // Assert - test is considered successful if:
+            // 1. Success toast appeared, OR
+            // 2. Redirected from reservation page (success), OR
+            // 3. Date conflict message appeared (means form works but dates are taken)
             var isSuccess = ReservationPage.IsSuccessToastDisplayed() || !ReservationPage.IsOnReservationPage();
             
-            // Jeśli nie ma sukcesu, sprawdź czy to konflikt dat (termin zajęty) - to też jest akceptowalne
+            // If not success, check if it's a date conflict (date is taken) - this is also acceptable
             if (!isSuccess)
             {
-                // Sprawdź czy jest toast z błędem - jeśli tak, to formularz działa, tylko termin jest zajęty
+                // Check if there's an error toast - if so, the form works, just the date is taken
                 var errorMessage = ReservationPage.GetErrorMessage();
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    Console.WriteLine($"Rezerwacja nie powiodła się: {errorMessage}");
-                    // Akceptujemy błąd "termin zajęty" jako sukces testu funkcjonalnego
+                    Console.WriteLine($"Reservation failed: {errorMessage}");
+                    // Accepting the "date taken" error as a success for the functional test
                     isSuccess = true;
                 }
             }
             
-            Assert.True(isSuccess, "Formularz rezerwacji powinien działać poprawnie");
+            Assert.True(isSuccess, "Reservation form should work correctly");
         }
     }
 }

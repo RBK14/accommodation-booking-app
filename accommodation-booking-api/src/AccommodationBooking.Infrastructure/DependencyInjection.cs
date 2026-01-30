@@ -14,8 +14,14 @@ using System.Text;
 
 namespace AccommodationBooking.Infrastructure
 {
+    /// <summary>
+    /// Dependency injection configuration for the Infrastructure layer.
+    /// </summary>
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Registers infrastructure layer services including authentication and persistence.
+        /// </summary>
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
             ConfigurationManager configuration)
@@ -27,6 +33,9 @@ namespace AccommodationBooking.Infrastructure
             return services;
         }
 
+        /// <summary>
+        /// Configures JWT authentication services.
+        /// </summary>
         public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
@@ -56,6 +65,9 @@ namespace AccommodationBooking.Infrastructure
             return services;
         }
 
+        /// <summary>
+        /// Configures database persistence and repositories.
+        /// </summary>
         public static IServiceCollection AddPersistence(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.AddDbContext<AppDbContext>(options =>

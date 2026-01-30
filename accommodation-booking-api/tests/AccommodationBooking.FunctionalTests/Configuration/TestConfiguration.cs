@@ -1,18 +1,21 @@
 namespace AccommodationBooking.FunctionalTests.Configuration
 {
+    /// <summary>
+    /// Configuration settings for functional tests.
+    /// </summary>
     public static class TestConfiguration
     {
-        // URL aplikacji
         public const string BaseUrl = "http://localhost:5173";
         public const string LoginUrl = $"{BaseUrl}/login";
         public const string RegisterUrl = $"{BaseUrl}/register";
 
-        // Timeouty
         public const int DefaultTimeout = 10;
         public const int LongTimeout = 30;
         public const int ShortTimeout = 5;
 
-        // Dane testowe
+        /// <summary>
+        /// Test data for different user roles.
+        /// </summary>
         public static class TestData
         {
             public static class Guest
@@ -39,7 +42,9 @@ namespace AccommodationBooking.FunctionalTests.Configuration
             }
         }
 
-        // Opcje przeglądarki
+        /// <summary>
+        /// Browser configuration options.
+        /// </summary>
         public static class BrowserOptions
         {
             public const bool Headless = false;

@@ -1,7 +1,13 @@
 ﻿namespace AccommodationBooking.Domain.Common.Models
 {
+    /// <summary>
+    /// Base class for value objects implementing structural equality.
+    /// </summary>
     public abstract class ValueObject : IEquatable<ValueObject>
     {
+        /// <summary>
+        /// Returns the components used for equality comparison.
+        /// </summary>
         public abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object? obj)

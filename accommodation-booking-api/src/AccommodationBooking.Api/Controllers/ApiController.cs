@@ -5,10 +5,16 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AccommodationBooking.Api.Controllers;
 
+/// <summary>
+/// Base controller providing common error handling functionality.
+/// </summary>
 [ApiController]
 [Authorize]
 public class ApiController : ControllerBase
 {
+    /// <summary>
+    /// Converts a list of errors to an appropriate problem response.
+    /// </summary>
     protected IActionResult Problem(List<Error> errors)
     {
         var count = errors.Count;
@@ -48,7 +54,6 @@ public class ApiController : ControllerBase
                 error.Description);
         }
 
-        //return ValidationProblem(modelStateDictionary);
         return Problem(errors.FirstOrDefault());
     }
 }

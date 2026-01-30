@@ -3,6 +3,9 @@ using AccommodationBooking.Domain.ListingAggregate.Entities;
 
 namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
 {
+    /// <summary>
+    /// Repository interface for listing entities and reviews.
+    /// </summary>
     public interface IListingRepository
     {
         void Add(Listing listing);

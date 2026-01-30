@@ -6,8 +6,14 @@ using System.Reflection;
 
 namespace AccommodationBooking.Application
 {
+    /// <summary>
+    /// Dependency injection configuration for the Application layer.
+    /// </summary>
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Registers application layer services.
+        /// </summary>
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>

@@ -2,6 +2,9 @@
 
 namespace AccommodationBooking.Application.Common.Intrefaces.Persistence
 {
+    /// <summary>
+    /// Repository interface for guest profile entities.
+    /// </summary>
     public interface IGuestProfileRepository
     {
         void Add(GuestProfile guestProfile);

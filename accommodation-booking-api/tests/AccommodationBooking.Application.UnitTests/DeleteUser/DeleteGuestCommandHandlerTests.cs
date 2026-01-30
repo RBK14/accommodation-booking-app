@@ -16,6 +16,9 @@ using NSubstitute;
 
 namespace AccommodationBooking.Application.UnitTests.DeleteUser
 {
+    /// <summary>
+    /// Unit tests for DeleteGuestCommandHandler.
+    /// </summary>
     public class DeleteGuestCommandHandlerTests
     {
         private readonly IUnitOfWork _unitOfWorkMock;

@@ -5,6 +5,9 @@ using FluentAssertions;
 
 namespace AccommodationBooking.Domain.UnitTests
 {
+    /// <summary>
+    /// Unit tests for the User aggregate root.
+    /// </summary>
     public class UserTests
     {
         [Fact]
@@ -49,7 +52,6 @@ namespace AccommodationBooking.Domain.UnitTests
             var user = User.CreateGuest("old@test.com", "hash", "J", "K", "123");
             var originalUpdatedAt = user.UpdatedAt;
 
-            // Czekamy chwilę dla różnicy w UpdatedAt
             Thread.Sleep(10);
 
             // Act
@@ -67,12 +69,11 @@ namespace AccommodationBooking.Domain.UnitTests
             var user = User.CreateGuest("test@test.com", "hash", "OldName", "OldSurname", "OldPhone");
 
             // Act
-            // Zmieniamy tylko imię i telefon, nazwisko zostaje stare
             user.UpdatePersonalDetails("NewName", "OldSurname", "NewPhone");
 
             // Assert
             user.FirstName.Should().Be("NewName");
-            user.LastName.Should().Be("OldSurname"); // Bez zmian
+            user.LastName.Should().Be("OldSurname");
             user.Phone.Should().Be("NewPhone");
             user.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }

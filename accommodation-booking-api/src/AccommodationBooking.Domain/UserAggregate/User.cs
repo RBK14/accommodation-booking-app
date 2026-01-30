@@ -4,17 +4,17 @@ using AccommodationBooking.Domain.UserAggregate.Enums;
 
 namespace AccommodationBooking.Domain.UserAggregate
 {
+    /// <summary>
+    /// Represents a system user aggregate root.
+    /// </summary>
     public class User : AggregateRoot<Guid>
     {
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
-
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Phone {  get; private set; }
-
         public UserRole Role { get; init; }
-
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
@@ -44,6 +44,9 @@ namespace AccommodationBooking.Domain.UserAggregate
             UpdatedAt = updatedAt;
         }
 
+        /// <summary>
+        /// Creates a new guest user.
+        /// </summary>
         public static User CreateGuest(string email, string passwordHash, string firstName, string lastName, string phone)
         {
             var id = Guid.NewGuid();
@@ -60,6 +63,9 @@ namespace AccommodationBooking.Domain.UserAggregate
                 DateTime.UtcNow); 
         }
 
+        /// <summary>
+        /// Creates a new host user.
+        /// </summary>
         public static User CreateHost(string email, string passwordHash, string firstName, string lastName, string phone)
         {
             var id = Guid.NewGuid();
@@ -76,6 +82,9 @@ namespace AccommodationBooking.Domain.UserAggregate
                 DateTime.UtcNow);
         }
 
+        /// <summary>
+        /// Creates a new admin user.
+        /// </summary>
         public static User CreateAdmin(string email, string passwordHash, string firstName, string lastName, string phone)
         {
             return new User(
@@ -90,6 +99,9 @@ namespace AccommodationBooking.Domain.UserAggregate
                 DateTime.UtcNow);
         }
 
+        /// <summary>
+        /// Updates the user's email address.
+        /// </summary>
         public void UpdateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -102,6 +114,9 @@ namespace AccommodationBooking.Domain.UserAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Updates the user's password hash.
+        /// </summary>
         public void UpdatePasswordHash(string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(passwordHash))
@@ -114,6 +129,9 @@ namespace AccommodationBooking.Domain.UserAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Updates the user's personal details.
+        /// </summary>
         public void UpdatePersonalDetails(
             string firstName,
             string lastName,

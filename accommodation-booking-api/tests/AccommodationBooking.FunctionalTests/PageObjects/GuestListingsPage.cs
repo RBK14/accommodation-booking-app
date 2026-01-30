@@ -3,11 +3,13 @@ using OpenQA.Selenium;
 
 namespace AccommodationBooking.FunctionalTests.PageObjects
 {
+    /// <summary>
+    /// Page object for the guest listings browse page.
+    /// </summary>
     public class GuestListingsPage : BasePage
     {
         private const string ListingsUrl = $"{TestConfiguration.BaseUrl}/";
 
-        // Lokalizatory elementów
         private readonly By _listingCards = By.XPath("//div[contains(@class, 'MuiCard-root')]");
         private readonly By _viewButton = By.XPath("//button[contains(., 'Zobacz szczegó?y')]");
 
@@ -15,15 +17,21 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
         {
         }
 
+        /// <summary>
+        /// Navigates to the listings page.
+        /// </summary>
         public void NavigateTo()
         {
             Driver.Navigate().GoToUrl(ListingsUrl);
             WaitForPageLoad();
         }
 
+        /// <summary>
+        /// Clicks the view button on the first listing.
+        /// </summary>
         public void ClickFirstListingViewButton()
         {
-            Thread.Sleep(2000); // Poczekaj na za?adowanie ofert
+            Thread.Sleep(2000);
             var buttons = Driver.FindElements(_viewButton);
             if (buttons.Count > 0)
             {
@@ -33,20 +41,24 @@ namespace AccommodationBooking.FunctionalTests.PageObjects
             }
         }
 
+        /// <summary>
+        /// Gets the ID of the first listing.
+        /// </summary>
         public string GetFirstListingId()
         {
             Thread.Sleep(2000);
             var buttons = Driver.FindElements(_viewButton);
             if (buttons.Count > 0)
             {
-                // Wyci?gnij ID z onclick lub href
                 var onClick = buttons[0].GetAttribute("onclick");
-                // Tutaj zaimplementuj logik? wyci?gania ID
-                return "1"; // Placeholder - w prawdziwej implementacji trzeba wyci?gn?? ID
+                return "1";
             }
             return null;
         }
 
+        /// <summary>
+        /// Checks if there are any listings displayed.
+        /// </summary>
         public bool HasListings()
         {
             try

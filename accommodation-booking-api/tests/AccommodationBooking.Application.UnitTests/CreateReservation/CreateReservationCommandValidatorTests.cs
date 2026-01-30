@@ -3,6 +3,9 @@ using FluentValidation.TestHelper;
 
 namespace AccommodationBooking.Application.UnitTests.CreateReservation
 {
+    /// <summary>
+    /// Unit tests for CreateReservationCommandValidator.
+    /// </summary>
     public class CreateReservationCommandValidatorTests
     {
         private readonly CreateReservationCommandValidator _validator;

@@ -5,22 +5,21 @@ using AccommodationBooking.Domain.ReservationAggregate.Enums;
 
 namespace AccommodationBooking.Domain.ReservationAggregate
 {
+    /// <summary>
+    /// Represents a reservation aggregate root.
+    /// </summary>
     public class Reservation : AggregateRoot<Guid>
     {
         public Guid ListingId { get; init; }
         public Guid GuestProfileId { get; init; }
         public Guid HostProfileId { get; init; }
-
         public string ListingTitle { get; private set; }
         public Address ListingAddress { get; private set; }
         public Price ListingPricePerDay { get; private set; }
-
         public DateTime CheckIn { get; private set; }
         public DateTime CheckOut { get; private set; }
         public Price TotalPrice { get; private set; }
-
         public ReservationStatus Status { get; private set; }
-
         public DateTime CreatedAt { get; init; }
         public DateTime UpdatedAt { get; private set; }
 
@@ -70,6 +69,9 @@ namespace AccommodationBooking.Domain.ReservationAggregate
                 throw new DomainValidationException("Total price cannot be null.");
         }
 
+        /// <summary>
+        /// Creates a new reservation.
+        /// </summary>
         public static Reservation Create(
             Guid listingId,
             Guid guestProfileId,
@@ -112,6 +114,9 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             return Price.Create(totalAmount, pricePerDay.Currency);
         }
 
+        /// <summary>
+        /// Marks the reservation as in progress when the stay begins.
+        /// </summary>
         public void MarkAsInProgress()
         {
             if (Status != ReservationStatus.Accepted)
@@ -121,6 +126,9 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Marks the reservation as completed when the stay ends.
+        /// </summary>
         public void MarkAsCompleted()
         {
             if (Status != ReservationStatus.InProgress)
@@ -130,6 +138,9 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Cancels the reservation.
+        /// </summary>
         public void Cancel()
         {
             if (Status == ReservationStatus.Completed)
@@ -139,6 +150,9 @@ namespace AccommodationBooking.Domain.ReservationAggregate
             UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Marks the reservation as no-show when the guest doesn't arrive.
+        /// </summary>
         public void MarkAsNoShow()
         {
             if (Status != ReservationStatus.InProgress)

@@ -3,6 +3,9 @@ using AccommodationBooking.Domain.Common.Models;
 
 namespace AccommodationBooking.Domain.Common.ValueObjects
 {
+    /// <summary>
+    /// Represents a monetary value with currency.
+    /// </summary>
     public sealed class Price : ValueObject
     {
         public decimal Amount { get; init; }
@@ -14,6 +17,9 @@ namespace AccommodationBooking.Domain.Common.ValueObjects
             Currency = currency;
         }
 
+        /// <summary>
+        /// Creates a new price instance.
+        /// </summary>
         public static Price Create(decimal amount, Currency currency)
         {
             return new Price(amount, currency);

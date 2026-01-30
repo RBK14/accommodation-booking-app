@@ -3,7 +3,7 @@ using AccommodationBooking.FunctionalTests.Configuration;
 namespace AccommodationBooking.FunctionalTests
 {
     /// <summary>
-    /// Testy E2E dla różnych scenariuszy użycia
+    /// End-to-end tests for authentication and authorization scenarios.
     /// </summary>
     public class AuthorizationTests : BaseTest
     {

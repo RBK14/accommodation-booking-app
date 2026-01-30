@@ -3,6 +3,9 @@ using FluentValidation.TestHelper;
 
 namespace AccommodationBooking.Application.UnitTests.CreateListing
 {
+    /// <summary>
+    /// Unit tests for CreateListingCommandValidator.
+    /// </summary>
     public class CreateListingCommandValidatorTests
     {
         private readonly CreateListingCommandValidator _validator;
@@ -117,7 +120,7 @@ namespace AccommodationBooking.Application.UnitTests.CreateListing
                 Title: "Test Listing",
                 Description: "Test Description",
                 AccommodationType: "Apartment",
-                   Beds: 2,
+                Beds: 2,
                 MaxGuests: 4,
                 Country: "Poland",
                 City: "Warsaw",

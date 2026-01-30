@@ -13,12 +13,18 @@ using System.Security.Claims;
 
 namespace AccommodationBooking.Api.Controllers
 {
+    /// <summary>
+    /// Controller for managing listing reviews.
+    /// </summary>
     [Route("api/reviews")]
     public class ReviewsController(ISender mediator, IMapper mapper) : ApiController
     {
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        /// <summary>
+        /// Creates a new review for a listing.
+        /// </summary>
         [HttpPost()]
         [Authorize(Roles = "Guest")]
         public async Task<IActionResult> CreateReview(CreateReviewRequest request)
@@ -35,6 +41,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Updates an existing review.
+        /// </summary>
         [HttpPost("{id:guid}")]
         [Authorize(Roles = "Admin, Guest")]
         public async Task<IActionResult> UpdateReview(UpdateReviewRequest request, Guid id)
@@ -60,6 +69,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Deletes a review.
+        /// </summary>
         [HttpDelete("{id:guid}")]
         [Authorize(Roles = "Admin, Guest")]
         public async Task<IActionResult> DeleteReview(Guid id)
@@ -85,6 +97,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Gets reviews with optional filtering.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetReviews(Guid? listingId, Guid? guestProfileId)
         {
@@ -98,6 +113,9 @@ namespace AccommodationBooking.Api.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Gets a specific review by ID.
+        /// </summary>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetReview(Guid id)
         {

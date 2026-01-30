@@ -14,7 +14,9 @@ using System.Security.Claims;
 
 namespace AccommodationBooking.Api.Controllers
 {
-
+    /// <summary>
+    /// Controller for authentication and user registration operations.
+    /// </summary>
     [Route("api/auth")]
     [AllowAnonymous]
     public class AuthController(
@@ -24,6 +26,9 @@ namespace AccommodationBooking.Api.Controllers
         private readonly ISender _mediator = mediator;
         private readonly IMapper _mapper = mapper;
 
+        /// <summary>
+        /// Registers a new guest user.
+        /// </summary>
         [HttpPost("register-guest")]
         public async Task<IActionResult> RegisterGuest(RegisterRequest request)
         {
@@ -35,6 +40,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Registers a new host user.
+        /// </summary>
         [HttpPost("register-host")]
         public async Task<IActionResult> RegisterHost(RegisterRequest request)
         {
@@ -46,6 +54,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Registers a new admin user.
+        /// </summary>
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin(RegisterRequest request)
         {
@@ -57,6 +68,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Authenticates a user and returns an access token.
+        /// </summary>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
@@ -68,6 +82,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Updates a user's email address.
+        /// </summary>
         [HttpPost("{userId:guid}/update-email")]
         [Authorize]
         public async Task<IActionResult> UpdateEmail(UpdateEmailRequest request, Guid userId)
@@ -90,6 +107,9 @@ namespace AccommodationBooking.Api.Controllers
                 errors => Problem(errors));
         }
 
+        /// <summary>
+        /// Updates a user's password.
+        /// </summary>
         [HttpPost("{userId:guid}/update-password")]
         [Authorize]
         public async Task<IActionResult> UpdatePassword(UpdatePasswordRequest request, Guid userId)

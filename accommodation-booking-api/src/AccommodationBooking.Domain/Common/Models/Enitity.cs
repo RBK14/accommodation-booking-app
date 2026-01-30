@@ -1,8 +1,15 @@
 ﻿namespace AccommodationBooking.Domain.Common.Models
 {
+    /// <summary>
+    /// Base class for domain entities with identity comparison.
+    /// </summary>
+    /// <typeparam name="TId">The type of the entity identifier.</typeparam>
     public abstract class Entity<TId> : IEquatable<Entity<TId>>
         where TId : notnull
     {
+        /// <summary>
+        /// Gets the unique identifier of the entity.
+        /// </summary>
         public TId Id { get; protected set; }
 
         protected Entity(TId id)
