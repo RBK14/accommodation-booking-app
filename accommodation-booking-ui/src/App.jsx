@@ -1,38 +1,43 @@
-import { Outlet, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import MainLayout from './layouts/MainLayout';
-import AuthLayout from './layouts/AuthLayout';
-import AdminLayout from './layouts/AdminLayout';
-import HostLayout from './layouts/HostLayout';
-import GuestLayout from './layouts/GuestLayout';
+// Layouts
+import { MainLayout, AuthLayout, AdminLayout, HostLayout, GuestLayout } from './layouts';
 
-import ProtectedRoute from './router/ProtectedRoute';
+// Router
+import { ProtectedRoute } from './router';
 
-import HomePage from './pages/guest/HomePage';
-import ListingsPage from './pages/guest/ListingsPage';
-import GuestListingPage from './pages/guest/GuestListingPage';
-import ReservationPage from './pages/guest/ReservationPage';
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminUserPage from './pages/admin/AdminUserPage';
-import AdminEditUserPage from './pages/admin/AdminEditUserPage';
-import AdminListingsPage from './pages/admin/AdminListingsPage';
-import AdminListingPage from './pages/admin/AdminListingPage';
-import AdminEditListingPage from './pages/admin/AdminEditListingPage';
-import HostListingsPage from './pages/host/HostListingsPage';
-import HostListingPage from './pages/host/HostListingPage';
-import HostEditListingPage from './pages/host/HostEditListingPage';
-import HostNewListingPage from './pages/host/HostNewListingPage';
-import HostReservationsPage from './pages/host/HostReservationsPage';
-import HostReviewPage from './pages/host/HostReviewPage';
-import HostAccountPage from './pages/host/HostAccountPage';
-import GuestAccountPage from './pages/guest/GuestAccountPage';
-import GuestReservationsPage from './pages/guest/GuestReservationsPage';
-import GuestCreateReviewPage from './pages/guest/GuestCreateReviewPage';
-import AdminAccountPage from './pages/admin/AdminAccountPage';
+// Pages
+import {
+  // Auth
+  LoginPage,
+  RegisterPage,
+  // Guest
+  HomePage,
+  ListingsPage,
+  GuestListingPage,
+  ReservationPage,
+  GuestAccountPage,
+  GuestReservationsPage,
+  GuestCreateReviewPage,
+  // Host
+  HostListingsPage,
+  HostListingPage,
+  HostEditListingPage,
+  HostNewListingPage,
+  HostReservationsPage,
+  HostReviewPage,
+  HostAccountPage,
+  // Admin
+  AdminUsersPage,
+  AdminUserPage,
+  AdminEditUserPage,
+  AdminListingsPage,
+  AdminListingPage,
+  AdminEditListingPage,
+  AdminAccountPage,
+} from './pages';
 
 function App() {
   return (

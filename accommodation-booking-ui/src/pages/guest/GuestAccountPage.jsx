@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Stack } from '@mui/material';
 import { toast } from 'react-toastify';
 import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
-import AuthContext from '../../context/AuthProvider';
+import { AuthContext } from '../../context';
 import { useAuthApi, useUsersApi } from '../../hooks';
 
 const GuestAccountPage = () => {
@@ -28,20 +28,20 @@ const GuestAccountPage = () => {
         lastName: data.lastName,
         phone: data.phone,
       });
-      toast.success('Dane kontaktowe zaktualizowane pomyœlnie');
+      toast.success('Dane kontaktowe zaktualizowane pomyï¿½lnie');
     } else {
-      toast.error(result.error || 'B³¹d aktualizacji danych kontaktowych');
+      toast.error(result.error || 'Bï¿½ï¿½d aktualizacji danych kontaktowych');
     }
   };
 
   const handleSaveEmail = async (data) => {
     const result = await updateEmail(auth.id, data.email, auth.token);
     if (result.success) {
-      toast.success('Email zaktualizowany pomyœlnie - wylogowywanie...');
+      toast.success('Email zaktualizowany pomyï¿½lnie - wylogowywanie...');
       logout();
       navigate('/login');
     } else {
-      toast.error(result.error || 'B³¹d aktualizacji email');
+      toast.error(result.error || 'Bï¿½ï¿½d aktualizacji email');
     }
   };
 
@@ -52,11 +52,11 @@ const GuestAccountPage = () => {
       auth.token
     );
     if (result.success) {
-      toast.success('Has³o zmienione pomyœlnie - wylogowywanie...');
+      toast.success('Hasï¿½o zmienione pomyï¿½lnie - wylogowywanie...');
       logout();
       navigate('/login');
     } else {
-      toast.error(result.error || 'B³¹d zmiany has³a');
+      toast.error(result.error || 'Bï¿½ï¿½d zmiany hasï¿½a');
     }
   };
 

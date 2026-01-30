@@ -4,7 +4,7 @@ import { Box, Typography, Stack } from '@mui/material';
 import { toast } from 'react-toastify';
 import { ContactInfoForm, EmailForm, PasswordChangeForm } from '../../components/shared';
 import { DARK_GRAY } from '../../assets/styles/colors';
-import AuthContext from '../../context/AuthProvider';
+import { AuthContext } from '../../context';
 import { useAuthApi, useUsersApi } from '../../hooks';
 
 const HostAccountPage = () => {

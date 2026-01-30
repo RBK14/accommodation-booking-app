@@ -21,7 +21,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 // Logika i style
-import AuthContext from '../context/AuthProvider';
+import { AuthContext } from '../context';
 import { PRIMARY_BLUE, DARK_GRAY, LIGHT_GRAY, TEXT_WHITE } from '../assets/styles/colors';
 
 const DRAWER_WIDTH = 240;

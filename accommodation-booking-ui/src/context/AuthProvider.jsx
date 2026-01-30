@@ -1,6 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
-
-const AuthContext = createContext(null);
+import { useState, useEffect } from 'react';
+import AuthContext from './AuthContext';
 
 // Funkcja do dekodowania JWT tokena
 const decodeToken = (token) => {
@@ -90,10 +89,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, userData, isLoading, login, logout, updateUserData, decodeToken }}>
+    <AuthContext.Provider
+      value={{ auth, userData, isLoading, login, logout, updateUserData, decodeToken }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-export default AuthContext;
+export default AuthProvider;
