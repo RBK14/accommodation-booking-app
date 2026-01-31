@@ -27,7 +27,7 @@ const HostListingPage = () => {
     const fetchData = async () => {
       if (!auth?.token) return;
 
-      const listingResult = await getListing(id, auth.token);
+      const listingResult = await getListing(id);
       if (listingResult.success) {
         setListing(listingResult.data);
 

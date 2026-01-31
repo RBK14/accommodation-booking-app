@@ -43,10 +43,10 @@ const ReservationPage = () => {
 
   useEffect(() => {
     const fetchListing = async () => {
-      if (!auth?.token || !listingId) return;
+      if (!listingId) return;
 
       setLoading(true);
-      const result = await getListing(listingId, auth.token);
+      const result = await getListing(listingId);
       if (result.success) {
         setListing(result.data);
       } else {
@@ -56,7 +56,7 @@ const ReservationPage = () => {
     };
 
     fetchListing();
-  }, [listingId, auth?.token]);
+  }, [listingId]);
 
   useEffect(() => {
     const fetchAvailableDates = async () => {

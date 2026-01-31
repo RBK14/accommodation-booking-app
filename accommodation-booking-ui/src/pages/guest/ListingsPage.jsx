@@ -21,16 +21,14 @@ const ListingsPage = () => {
 
   useEffect(() => {
     const fetchListings = async () => {
-      if (!auth?.token) return;
-
-      const result = await getListings(null, auth.token);
+      const result = await getListings();
       if (result.success) {
         setAllListings(result.data);
       }
     };
 
     fetchListings();
-  }, [auth?.token]);
+  }, []);
 
   /**
    * Filters listings based on search parameters (location, guests).

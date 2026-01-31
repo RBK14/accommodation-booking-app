@@ -18,6 +18,7 @@ namespace AccommodationBooking.Api.Controllers
     /// Controller for managing accommodation listings.
     /// </summary>
     [Route("api/listings")]
+    [AllowAnonymous]
     public class ListingController(
         ISender mediator,
         IMapper mapper) : ApiController

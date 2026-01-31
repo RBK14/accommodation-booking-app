@@ -33,16 +33,16 @@ const HostListingsPage = () => {
    */
   useEffect(() => {
     const fetchListings = async () => {
-      if (!userData?.profileId || !auth?.token) return;
+      if (!userData?.profileId) return;
 
-      const result = await getListings(userData.profileId, auth.token);
+      const result = await getListings(userData.profileId);
       if (result.success) {
         setListings(result.data);
       }
     };
 
     fetchListings();
-  }, [userData?.profileId, auth?.token]);
+  }, [userData?.profileId]);
 
   /**
    * Navigates to listing details page.

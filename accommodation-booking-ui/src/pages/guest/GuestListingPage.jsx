@@ -20,10 +20,10 @@ const GuestListingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!auth?.token || !id) return;
+      if (!id) return;
 
       // Fetch listing data
-      const listingResult = await getListing(id, auth.token);
+      const listingResult = await getListing(id);
       if (listingResult.success) {
         setListing(listingResult.data);
         if (listingResult.data.photos && listingResult.data.photos.length > 0) {

@@ -79,15 +79,14 @@ export const useListingsApi = () => {
   /**
    * Fetches listings with optional host filter.
    * @param {string|null} hostProfileId - Optional host profile ID
-   * @param {string} token - JWT token
    * @returns {Promise<object>} Result with success status and data/error
    */
-  const handleGetListings = async (hostProfileId = null, token) => {
+  const handleGetListings = async (hostProfileId = null) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await listingsApi.getListings(hostProfileId, token);
+      const response = await listingsApi.getListings(hostProfileId);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Failed to fetch listings';
@@ -101,15 +100,14 @@ export const useListingsApi = () => {
   /**
    * Fetches a single listing by ID.
    * @param {string} id - Listing identifier
-   * @param {string} token - JWT token
    * @returns {Promise<object>} Result with success status and data/error
    */
-  const handleGetListing = async (id, token) => {
+  const handleGetListing = async (id) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await listingsApi.getListing(id, token);
+      const response = await listingsApi.getListing(id);
       return { success: true, data: response };
     } catch (err) {
       const errorMessage = err.message || 'Failed to fetch listing';

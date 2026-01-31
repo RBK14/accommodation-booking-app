@@ -64,13 +64,19 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/listing/:id" element={<GuestListingPage />} />
-          <Route path="/reservation/:listingId" element={<ReservationPage />} />
         </Route>
 
         {/* AUTH */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
+        {/* RESERVATION - Protected for Guest */}
+        <Route element={<ProtectedRoute allowedRoles={['Guest']} />}>
+          <Route element={<MainLayout />}>
+            <Route path="/reservation/:listingId" element={<ReservationPage />} />
+          </Route>
         </Route>
 
         {/* GUEST - Guest Panel */}

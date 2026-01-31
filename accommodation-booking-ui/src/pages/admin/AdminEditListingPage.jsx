@@ -53,9 +53,9 @@ const AdminEditListingPage = () => {
 
   useEffect(() => {
     const fetchListing = async () => {
-      if (!auth?.token || !id) return;
+      if (!id) return;
 
-      const result = await getListing(id, auth.token);
+      const result = await getListing(id);
       if (result.success) {
         const listing = result.data;
         setFormData({

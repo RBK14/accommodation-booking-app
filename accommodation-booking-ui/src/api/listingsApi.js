@@ -88,15 +88,13 @@ export const deleteListing = async (id, token) => {
 /**
  * Retrieves listings, optionally filtered by host profile.
  * @param {string|null} hostProfileId - Optional host profile ID filter
- * @param {string} token - JWT authentication token
  * @returns {Promise<Array>} Array of listing objects
  * @throws {Error} Fetch error message
  */
-export const getListings = async (hostProfileId = null, token) => {
+export const getListings = async (hostProfileId = null) => {
   try {
-    const authClient = createAuthClient(token);
     const params = hostProfileId ? { hostProfileId } : {};
-    const response = await authClient.get('/listings', { params });
+    const response = await apiClient.get('/listings', { params });
     return response.data;
   } catch (error) {
     throw new Error(
@@ -108,14 +106,12 @@ export const getListings = async (hostProfileId = null, token) => {
 /**
  * Retrieves a single listing by ID.
  * @param {string} id - Listing identifier
- * @param {string} token - JWT authentication token
  * @returns {Promise<object>} Listing data
  * @throws {Error} Fetch error message
  */
-export const getListing = async (id, token) => {
+export const getListing = async (id) => {
   try {
-    const authClient = createAuthClient(token);
-    const response = await authClient.get(`/listings/${id}`);
+    const response = await apiClient.get(`/listings/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(
