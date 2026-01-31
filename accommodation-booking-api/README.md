@@ -2,9 +2,10 @@
 
 REST API dla systemu rezerwacji noclegów zbudowane w architekturze Clean Architecture z wykorzystaniem .NET 8.
 
+> 📖 Ogólny opis aplikacji, funkcjonalności i role użytkowników znajdziesz w [głównym README](../README.md).
+
 ## 📋 Spis treści
 
-- [Opis projektu](#-opis-projektu)
 - [Architektura](#-architektura)
 - [Technologie](#-technologie)
 - [Wymagania](#-wymagania)
@@ -15,14 +16,7 @@ REST API dla systemu rezerwacji noclegów zbudowane w architekturze Clean Archit
 - [Autentykacja](#-autentykacja)
 - [Testowanie](#-testowanie)
 - [Baza danych](#-baza-danych)
-
-## 📝 Opis projektu
-
-AccommodationBooking API to backendowa część systemu rezerwacji noclegów. System umożliwia:
-
-- **Gościom (Guest)**: przeglądanie ofert, składanie rezerwacji, dodawanie opinii
-- **Gospodarzom (Host)**: zarządzanie ofertami noclegów, przeglądanie rezerwacji
-- **Administratorom (Admin)**: pełne zarządzanie systemem, użytkownikami i treścią
+- [Powiązane zasoby](#-powiązane-zasoby)
 
 ## 🏗 Architektura
 
@@ -57,17 +51,17 @@ Projekt został zbudowany zgodnie z zasadami **Clean Architecture**:
 
 ## 🛠 Technologie
 
-| Kategoria          | Technologia            | Wersja |
-|--------------------|------------------------|--------|
-| Framework          | .NET                   | 8.0    |
-| ORM                | Entity Framework Core  | 9.0.8  |
-| Baza danych        | SQL Server             | -      |
-| Autentykacja       | JWT Bearer             | 8.0.19 |
-| Walidacja          | FluentValidation       | 12.0.0 |
-| Mediator           | MediatR                | 13.0.0 |
-| Mapping            | Mapster                | 7.4.0  |
-| Haszowanie haseł   | BCrypt.Net             | 4.0.3  |
-| Dokumentacja API   | Swagger/OpenAPI        | 6.6.2  |
+| Kategoria        | Technologia           | Wersja |
+| ---------------- | --------------------- | ------ |
+| Framework        | .NET                  | 8.0    |
+| ORM              | Entity Framework Core | 9.0.8  |
+| Baza danych      | SQL Server            | -      |
+| Autentykacja     | JWT Bearer            | 8.0.19 |
+| Walidacja        | FluentValidation      | 12.0.0 |
+| Mediator         | MediatR               | 13.0.0 |
+| Mapping          | Mapster               | 7.4.0  |
+| Haszowanie haseł | BCrypt.Net            | 4.0.3  |
+| Dokumentacja API | Swagger/OpenAPI       | 6.6.2  |
 
 ## 📦 Wymagania
 
@@ -108,6 +102,7 @@ dotnet run --project src/AccommodationBooking.Api
 ```
 
 Aplikacja będzie dostępna pod adresami:
+
 - **HTTPS**: https://localhost:7295
 - **HTTP**: http://localhost:5016
 - **Swagger UI**: https://localhost:7295/swagger
@@ -132,11 +127,11 @@ Aplikacja będzie dostępna pod adresami:
 
 ### Zmienne środowiskowe
 
-| Zmienna                      | Opis                          | Domyślna wartość |
-|------------------------------|-------------------------------|------------------|
-| `ASPNETCORE_ENVIRONMENT`     | Środowisko uruchomieniowe     | `Development`    |
-| `ConnectionStrings__SqlServer` | Connection string do bazy   | -                |
-| `JwtSettings__Secret`        | Klucz JWT (min. 32 znaki)     | -                |
+| Zmienna                        | Opis                      | Domyślna wartość |
+| ------------------------------ | ------------------------- | ---------------- |
+| `ASPNETCORE_ENVIRONMENT`       | Środowisko uruchomieniowe | `Development`    |
+| `ConnectionStrings__SqlServer` | Connection string do bazy | -                |
+| `JwtSettings__Secret`          | Klucz JWT (min. 32 znaki) | -                |
 
 ## 📁 Struktura projektu
 
@@ -199,56 +194,56 @@ Application/
 
 ### Authentication (`/api/auth`)
 
-| Metoda | Endpoint                 | Opis                       | Autoryzacja    |
-|--------|--------------------------|----------------------------|----------------|
-| POST   | `/register-guest`        | Rejestracja gościa         | -              |
-| POST   | `/register-host`         | Rejestracja gospodarza     | -              |
-| POST   | `/register-admin`        | Rejestracja administratora | -              |
-| POST   | `/login`                 | Logowanie (zwraca JWT)     | -              |
-| POST   | `/{userId}/update-email` | Zmiana email               | User/Admin     |
-| POST   | `/{userId}/update-password` | Zmiana hasła            | User           |
+| Metoda | Endpoint                    | Opis                       | Autoryzacja |
+| ------ | --------------------------- | -------------------------- | ----------- |
+| POST   | `/register-guest`           | Rejestracja gościa         | -           |
+| POST   | `/register-host`            | Rejestracja gospodarza     | -           |
+| POST   | `/register-admin`           | Rejestracja administratora | -           |
+| POST   | `/login`                    | Logowanie (zwraca JWT)     | -           |
+| POST   | `/{userId}/update-email`    | Zmiana email               | User/Admin  |
+| POST   | `/{userId}/update-password` | Zmiana hasła               | User        |
 
 ### Users (`/api/users`)
 
-| Metoda | Endpoint                       | Opis                     | Autoryzacja     |
-|--------|--------------------------------|--------------------------|-----------------|
-| GET    | `/`                            | Lista użytkowników       | -               |
-| GET    | `/{id}`                        | Szczegóły użytkownika    | User/Admin      |
-| POST   | `/{id}/update-personal-details`| Aktualizacja danych      | User/Admin      |
-| DELETE | `/delete-guest/{id}`           | Usunięcie gościa         | Guest/Admin     |
-| DELETE | `/delete-host/{id}`            | Usunięcie gospodarza     | Host/Admin      |
-| DELETE | `/delete-admin/{id}`           | Usunięcie administratora | Admin           |
+| Metoda | Endpoint                        | Opis                     | Autoryzacja |
+| ------ | ------------------------------- | ------------------------ | ----------- |
+| GET    | `/`                             | Lista użytkowników       | -           |
+| GET    | `/{id}`                         | Szczegóły użytkownika    | User/Admin  |
+| POST   | `/{id}/update-personal-details` | Aktualizacja danych      | User/Admin  |
+| DELETE | `/delete-guest/{id}`            | Usunięcie gościa         | Guest/Admin |
+| DELETE | `/delete-host/{id}`             | Usunięcie gospodarza     | Host/Admin  |
+| DELETE | `/delete-admin/{id}`            | Usunięcie administratora | Admin       |
 
 ### Listings (`/api/listings`)
 
-| Metoda | Endpoint         | Opis                | Autoryzacja     |
-|--------|------------------|---------------------|-----------------|
-| GET    | `/`              | Lista ofert         | -               |
-| GET    | `/{id}`          | Szczegóły oferty    | -               |
-| GET    | `/{id}/get-dates`| Dostępne daty       | -               |
-| POST   | `/`              | Utworzenie oferty   | Host            |
-| POST   | `/{id}`          | Aktualizacja oferty | Host/Admin      |
-| DELETE | `/{id}`          | Usunięcie oferty    | Host/Admin      |
+| Metoda | Endpoint          | Opis                | Autoryzacja |
+| ------ | ----------------- | ------------------- | ----------- |
+| GET    | `/`               | Lista ofert         | -           |
+| GET    | `/{id}`           | Szczegóły oferty    | -           |
+| GET    | `/{id}/get-dates` | Dostępne daty       | -           |
+| POST   | `/`               | Utworzenie oferty   | Host        |
+| POST   | `/{id}`           | Aktualizacja oferty | Host/Admin  |
+| DELETE | `/{id}`           | Usunięcie oferty    | Host/Admin  |
 
 ### Reservations (`/api/reservations`)
 
-| Metoda | Endpoint | Opis                  | Autoryzacja           |
-|--------|----------|-----------------------|-----------------------|
-| GET    | `/`      | Lista rezerwacji      | -                     |
-| GET    | `/{id}`  | Szczegóły rezerwacji  | -                     |
-| POST   | `/`      | Utworzenie rezerwacji | Guest                 |
-| POST   | `/{id}`  | Zmiana statusu        | Guest/Host/Admin      |
-| DELETE | `/{id}`  | Usunięcie rezerwacji  | Admin                 |
+| Metoda | Endpoint | Opis                  | Autoryzacja      |
+| ------ | -------- | --------------------- | ---------------- |
+| GET    | `/`      | Lista rezerwacji      | -                |
+| GET    | `/{id}`  | Szczegóły rezerwacji  | -                |
+| POST   | `/`      | Utworzenie rezerwacji | Guest            |
+| POST   | `/{id}`  | Zmiana statusu        | Guest/Host/Admin |
+| DELETE | `/{id}`  | Usunięcie rezerwacji  | Admin            |
 
 ### Reviews (`/api/reviews`)
 
-| Metoda | Endpoint | Opis               | Autoryzacja     |
-|--------|----------|--------------------|-----------------|
-| GET    | `/`      | Lista opinii       | -               |
-| GET    | `/{id}`  | Szczegóły opinii   | -               |
-| POST   | `/`      | Dodanie opinii     | Guest           |
-| POST   | `/{id}`  | Aktualizacja opinii| Guest/Admin     |
-| DELETE | `/{id}`  | Usunięcie opinii   | Guest/Admin     |
+| Metoda | Endpoint | Opis                | Autoryzacja |
+| ------ | -------- | ------------------- | ----------- |
+| GET    | `/`      | Lista opinii        | -           |
+| GET    | `/{id}`  | Szczegóły opinii    | -           |
+| POST   | `/`      | Dodanie opinii      | Guest       |
+| POST   | `/{id}`  | Aktualizacja opinii | Guest/Admin |
+| DELETE | `/{id}`  | Usunięcie opinii    | Guest/Admin |
 
 ## 🔐 Autentykacja
 
@@ -257,6 +252,7 @@ API wykorzystuje **JWT (JSON Web Tokens)** do autentykacji.
 ### Struktura tokena
 
 Token zawiera następujące claims:
+
 - `sub` (NameIdentifier) - ID użytkownika
 - `email` - adres email
 - `given_name` - imię
@@ -276,7 +272,7 @@ Authorization: Bearer <your_jwt_token>
 ### Role użytkowników
 
 | Rola      | Uprawnienia                                                            |
-|-----------|------------------------------------------------------------------ -----|
+| --------- | ---------------------------------------------------------------------- |
 | **Guest** | Przeglądanie ofert, tworzenie rezerwacji, dodawanie opinii             |
 | **Host**  | Zarządzanie własnymi ofertami, przeglądanie rezerwacji na swoje oferty |
 | **Admin** | Pełny dostęp do wszystkich zasobów                                     |
@@ -336,15 +332,15 @@ tests/
 
 ### Tabele
 
-| Tabela           | Opis                                      |
-|------------------|-------------------------------------------|
-| `Users`          | Użytkownicy systemu (Guest, Host, Admin)  |
-| `GuestProfiles`  | Profile gości z listą rezerwacji          |
-| `HostProfiles`   | Profile gospodarzy z listą ofert          |
-| `Listings`       | Oferty noclegów z adresem i ceną          |
-| `ScheduleSlots`  | Zarezerwowane przedziały czasowe          |
-| `Reviews`        | Opinie gości o ofertach                   |
-| `Reservations`   | Rezerwacje ze szczegółami i statusem      |
+| Tabela          | Opis                                     |
+| --------------- | ---------------------------------------- |
+| `Users`         | Użytkownicy systemu (Guest, Host, Admin) |
+| `GuestProfiles` | Profile gości z listą rezerwacji         |
+| `HostProfiles`  | Profile gospodarzy z listą ofert         |
+| `Listings`      | Oferty noclegów z adresem i ceną         |
+| `ScheduleSlots` | Zarezerwowane przedziały czasowe         |
+| `Reviews`       | Opinie gości o ofertach                  |
+| `Reservations`  | Rezerwacje ze szczegółami i statusem     |
 
 ### Migracje
 
@@ -359,3 +355,12 @@ dotnet ef database update
 # Cofnięcie migracji
 dotnet ef database update <PreviousMigrationName>
 ```
+
+## 🔗 Powiązane zasoby
+
+- [Główne README](../README.md) - Opis aplikacji i funkcjonalności
+- [Frontend UI](../accommodation-booking-ui/README.md) - Dokumentacja techniczna aplikacji React
+- [Entity Framework Core](https://docs.microsoft.com/ef/core/) - Dokumentacja ORM
+- [MediatR](https://github.com/jbogard/MediatR) - Dokumentacja wzorca Mediator
+
+---
