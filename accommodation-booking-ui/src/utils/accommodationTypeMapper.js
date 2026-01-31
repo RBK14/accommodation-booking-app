@@ -1,29 +1,31 @@
 /**
- * Mapa konwersji typów zakwaterowania z angielskiego na polski
+ * Accommodation Type Mapper
+ * Provides mapping between backend accommodation type keys and display labels.
  */
+
 const ACCOMMODATION_TYPE_MAP = {
-  Apartment: 'Apartament',
-  House: 'Dom',
-  Hotel: 'Pokój hotelowy',
-  Villa: 'Willa',
-  Room: 'Pokój',
+  Apartment: 'Apartment',
+  House: 'House',
+  Hotel: 'Hotel Room',
+  Villa: 'Villa',
+  Room: 'Room',
   Loft: 'Loft',
   Studio: 'Studio',
 };
 
 /**
- * Konwertuje typ zakwaterowania z angielskiego na polski
- * @param {string} type - Typ zakwaterowania w języku angielskim
- * @returns {string} Typ zakwaterowania w języku polskim
+ * Translates accommodation type key to display label.
+ * @param {string} type - Accommodation type key
+ * @returns {string} Display label or original type if not found
  */
 export const translateAccommodationType = (type) => {
   return ACCOMMODATION_TYPE_MAP[type] || type;
 };
 
 /**
- * Zwraca odwrotne mapowanie - z polskiego na angielski
- * @param {string} type - Typ zakwaterowania w języku polskim
- * @returns {string} Typ zakwaterowania w języku angielskim
+ * Reverse translates display label back to accommodation type key.
+ * @param {string} type - Display label
+ * @returns {string} Type key or original label if not found
  */
 export const reverseTranslateAccommodationType = (type) => {
   const reverseMap = Object.fromEntries(
@@ -33,16 +35,16 @@ export const reverseTranslateAccommodationType = (type) => {
 };
 
 /**
- * Zwraca wszystkie dostępne typy zakwaterowania (angielskie klucze)
- * @returns {string[]} Tablica z typami zakwaterowania w języku angielskim
+ * Returns all available accommodation type keys.
+ * @returns {Array<string>} Array of type keys
  */
 export const getAccommodationTypes = () => {
   return Object.keys(ACCOMMODATION_TYPE_MAP);
 };
 
 /**
- * Zwraca wszystkie dostępne typy zakwaterowania (polskie wartości)
- * @returns {string[]} Tablica z typami zakwaterowania w języku polskim
+ * Returns all accommodation type display labels.
+ * @returns {Array<string>} Array of display labels
  */
 export const getAccommodationTypesTranslated = () => {
   return Object.values(ACCOMMODATION_TYPE_MAP);

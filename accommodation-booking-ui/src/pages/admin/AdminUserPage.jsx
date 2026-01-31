@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
@@ -44,7 +44,9 @@ const AdminUserPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm(`Czy na pewno chcesz usunąć użytkownika ${user.firstName} ${user.lastName}?`)) {
+    if (
+      !window.confirm(`Czy na pewno chcesz usunąć użytkownika ${user.firstName} ${user.lastName}?`)
+    ) {
       return;
     }
 
@@ -106,7 +108,14 @@ const AdminUserPage = () => {
     <Box sx={{ p: 3 }}>
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              mb: 3,
+            }}
+          >
             <Box>
               <Typography variant="h4" sx={{ fontWeight: 'bold', color: DARK_GRAY, mb: 1 }}>
                 {user.firstName} {user.lastName}
@@ -153,9 +162,12 @@ const AdminUserPage = () => {
           <Divider sx={{ my: 3 }} />
 
           <Stack spacing={3}>
-            {/* ID Użytkownika */}
+            {/* User ID */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 ID Użytkownika
               </Typography>
               <Typography
@@ -168,15 +180,21 @@ const AdminUserPage = () => {
 
             {/* Email */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 Adres email
               </Typography>
               <Typography variant="body1">{user.email}</Typography>
             </Box>
 
-            {/* Imię */}
+            {/* First name */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 Imię
               </Typography>
               <Typography variant="body1">{user.firstName}</Typography>
@@ -184,7 +202,10 @@ const AdminUserPage = () => {
 
             {/* Nazwisko */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 Nazwisko
               </Typography>
               <Typography variant="body1">{user.lastName}</Typography>
@@ -192,7 +213,10 @@ const AdminUserPage = () => {
 
             {/* Telefon */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 Numer telefonu
               </Typography>
               <Typography variant="body1">{user.phone || 'Brak numeru telefonu'}</Typography>
@@ -200,7 +224,10 @@ const AdminUserPage = () => {
 
             {/* Rola */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 0.5 }}
+              >
                 Rola w systemie
               </Typography>
               <Chip

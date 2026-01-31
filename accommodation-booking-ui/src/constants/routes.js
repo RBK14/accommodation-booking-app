@@ -1,18 +1,18 @@
-// Definicje wszystkich ścieżek w aplikacji
-// Ułatwia utrzymanie spójności i refaktoryzację
+/**
+ * Application Route Definitions
+ * Centralized route constants for consistent navigation throughout the application.
+ * Use these constants instead of hardcoded strings to prevent typos and enable refactoring.
+ */
 
 export const ROUTES = {
-  // Public routes
   HOME: '/',
   LISTINGS: '/listings',
   LISTING_DETAILS: '/listing/:id',
   RESERVATION: '/reservation/:listingId',
 
-  // Auth routes
   LOGIN: '/login',
   REGISTER: '/register',
 
-  // Guest routes
   GUEST: {
     ROOT: '/guest',
     ACCOUNT: '/guest/account',
@@ -20,7 +20,6 @@ export const ROUTES = {
     CREATE_REVIEW: '/guest/review/:reservationId',
   },
 
-  // Host routes
   HOST: {
     ROOT: '/host',
     ACCOUNT: '/host/account',
@@ -32,7 +31,6 @@ export const ROUTES = {
     REVIEW: '/host/review',
   },
 
-  // Admin routes
   ADMIN: {
     ROOT: '/admin',
     ACCOUNT: '/admin/account',
@@ -44,11 +42,13 @@ export const ROUTES = {
     EDIT_LISTING: '/admin/listing/:id/edit',
   },
 
-  // Error routes
   UNAUTHORIZED: '/unauthorized',
 };
 
-// Helper functions do generowania ścieżek z parametrami
+/**
+ * Path generator functions for routes with dynamic parameters.
+ * Use these helpers to generate URLs with actual values instead of placeholders.
+ */
 export const generatePath = {
   listingDetails: (id) => `/listing/${id}`,
   reservation: (listingId) => `/reservation/${listingId}`,

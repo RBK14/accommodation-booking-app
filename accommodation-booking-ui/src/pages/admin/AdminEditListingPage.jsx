@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
@@ -93,7 +93,7 @@ const AdminEditListingPage = () => {
   };
 
   const handleAddImage = () => {
-    const imageUrl = prompt('Podaj URL zdjęcia:');
+    const imageUrl = prompt('Enter photo URL:');
     if (imageUrl && imageUrl.trim()) {
       setImages([...images, imageUrl.trim()]);
     }
@@ -119,10 +119,10 @@ const AdminEditListingPage = () => {
     setIsSaving(false);
 
     if (result.success) {
-      toast.success('Ogłoszenie zostało zaktualizowane');
+      toast.success('Listing has been updated');
       navigate(`/admin/listing/${id}`);
     } else {
-      toast.error(result.error || 'Nie udało się zaktualizować ogłoszenia');
+      toast.error(result.error || 'Failed to update listing');
     }
   };
 
@@ -151,14 +151,14 @@ const AdminEditListingPage = () => {
       <Card>
         <CardContent>
           <Box sx={{ display: 'flex', gap: 3 }}>
-            {/* Lewa strona - Formularz */}
+            {}
             <Box
               sx={{ display: 'flex', flexDirection: 'column', width: 450, minWidth: 300, gap: 2 }}
             >
               <Stack spacing={2}>
                 <TextField
                   fullWidth
-                  label="Nazwa ogłoszenia"
+                  label="Listing title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
@@ -167,7 +167,7 @@ const AdminEditListingPage = () => {
 
                 <TextField
                   fullWidth
-                  label="Opis"
+                  label="Description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
@@ -177,12 +177,12 @@ const AdminEditListingPage = () => {
                 />
 
                 <FormControl fullWidth>
-                  <InputLabel>Typ zakwaterowania</InputLabel>
+                  <InputLabel>Accommodation type</InputLabel>
                   <Select
                     name="accommodationType"
                     value={formData.accommodationType}
                     onChange={handleChange}
-                    label="Typ zakwaterowania"
+                    label="Accommodation type"
                   >
                     {getAccommodationTypes().map((type) => (
                       <MenuItem key={type} value={type}>
@@ -194,7 +194,7 @@ const AdminEditListingPage = () => {
 
                 <TextField
                   fullWidth
-                  label="Liczba łóżek"
+                  label="Number of beds"
                   name="beds"
                   type="number"
                   value={formData.beds}
@@ -204,7 +204,7 @@ const AdminEditListingPage = () => {
 
                 <TextField
                   fullWidth
-                  label="Maksimum gości"
+                  label="Maximum guests"
                   name="maxGuests"
                   type="number"
                   value={formData.maxGuests}
@@ -214,7 +214,7 @@ const AdminEditListingPage = () => {
 
                 <TextField
                   fullWidth
-                  label="Kraj"
+                  label="Country"
                   name="country"
                   value={formData.country}
                   onChange={handleChange}
@@ -225,7 +225,7 @@ const AdminEditListingPage = () => {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      label="Miasto"
+                      label="City"
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
@@ -235,7 +235,7 @@ const AdminEditListingPage = () => {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      label="Kod pocztowy"
+                      label="Postal code"
                       name="postalCode"
                       value={formData.postalCode}
                       onChange={handleChange}
@@ -248,7 +248,7 @@ const AdminEditListingPage = () => {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      label="Ulica"
+                      label="Street"
                       name="street"
                       value={formData.street}
                       onChange={handleChange}
@@ -258,7 +258,7 @@ const AdminEditListingPage = () => {
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      label="Numer budynku"
+                      label="Building number"
                       name="buildingNumber"
                       value={formData.buildingNumber}
                       onChange={handleChange}
@@ -271,7 +271,7 @@ const AdminEditListingPage = () => {
                   <Grid item xs={12} sm={8}>
                     <TextField
                       fullWidth
-                      label="Cena za noc"
+                      label="Price per night"
                       name="amountPerDay"
                       type="number"
                       value={formData.amountPerDay}
@@ -281,12 +281,12 @@ const AdminEditListingPage = () => {
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <FormControl fullWidth>
-                      <InputLabel>Waluta</InputLabel>
+                      <InputLabel>Currency</InputLabel>
                       <Select
                         name="currency"
                         value={formData.currency}
                         onChange={handleChange}
-                        label="Waluta"
+                        label="Currency"
                       >
                         <MenuItem value="PLN">PLN</MenuItem>
                         <MenuItem value="EUR">EUR</MenuItem>
@@ -297,7 +297,7 @@ const AdminEditListingPage = () => {
                 </Grid>
               </Stack>
 
-              {/* Przyciski */}
+              {}
               <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
                 <Button
                   variant="contained"
@@ -311,7 +311,7 @@ const AdminEditListingPage = () => {
                   }}
                   onClick={handleSave}
                 >
-                  {isSaving ? 'Zapisywanie...' : 'Zapisz'}
+                  {isSaving ? 'Saving...' : 'Save'}
                 </Button>
                 <Button
                   variant="outlined"
@@ -327,12 +327,12 @@ const AdminEditListingPage = () => {
                   }}
                   onClick={handleCancel}
                 >
-                  Anuluj
+                  Cancel
                 </Button>
               </Stack>
             </Box>
 
-            {/* Prawa strona - Galeria */}
+            {}
             <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Box
                 sx={{
@@ -343,7 +343,7 @@ const AdminEditListingPage = () => {
                 }}
               >
                 <Typography variant="subtitle2" sx={{ color: DARK_GRAY, fontWeight: 'bold' }}>
-                  Galeria zdjęć ({images.length})
+                  Photo gallery ({images.length})
                 </Typography>
                 <Button
                   variant="contained"
@@ -357,7 +357,7 @@ const AdminEditListingPage = () => {
                   }}
                   onClick={handleAddImage}
                 >
-                  Dodaj
+                  Add
                 </Button>
               </Box>
               <Box sx={{ height: '75vh', overflowY: 'auto', overflowX: 'hidden' }}>
@@ -376,7 +376,7 @@ const AdminEditListingPage = () => {
                         <img
                           srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                           src={`${image}?w=248&fit=crop&auto=format`}
-                          alt={`Zdjęcie ${index + 1}`}
+                          alt={`Photo ${index + 1}`}
                           loading="lazy"
                           style={{
                             borderRadius: '8px',
@@ -413,7 +413,7 @@ const AdminEditListingPage = () => {
                     }}
                   >
                     <Typography variant="body2" sx={{ color: 'textSecondary' }}>
-                      Brak zdjęć. Kliknij "Dodaj", aby dodać zdjęcie.
+                      No photos. Click "Add" to add a photo.
                     </Typography>
                   </Box>
                 )}

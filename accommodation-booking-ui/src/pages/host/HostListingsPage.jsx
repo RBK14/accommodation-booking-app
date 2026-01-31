@@ -1,3 +1,8 @@
+/**
+ * Host Listings Page Component
+ * Displays all listings owned by the current host.
+ * Provides navigation to create new listings and view individual listing details.
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -23,6 +28,9 @@ const HostListingsPage = () => {
   const { getListings, loading, error } = useListingsApi();
   const [listings, setListings] = useState([]);
 
+  /**
+   * Fetches listings for the current host on mount.
+   */
   useEffect(() => {
     const fetchListings = async () => {
       if (!userData?.profileId || !auth?.token) return;
@@ -36,10 +44,17 @@ const HostListingsPage = () => {
     fetchListings();
   }, [userData?.profileId, auth?.token]);
 
+  /**
+   * Navigates to listing details page.
+   * @param {string} id - Listing ID
+   */
   const handleView = (id) => {
     navigate(`/host/listing/${id}`);
   };
 
+  /**
+   * Navigates to new listing creation page.
+   */
   const handleAddNew = () => {
     navigate('/host/new-listing');
   };
@@ -135,7 +150,7 @@ const HostListingsPage = () => {
                 },
               }}
             >
-              {/* Zdjęcie */}
+              {/* Listing image */}
               <Box
                 sx={{
                   height: 280,
@@ -164,7 +179,7 @@ const HostListingsPage = () => {
                 )}
               </Box>
 
-              {/* Zawartość */}
+              {/* Card content */}
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography
                   gutterBottom
@@ -193,7 +208,7 @@ const HostListingsPage = () => {
                 </Typography>
               </CardContent>
 
-              {/* Przyciski */}
+              {/* Action buttons */}
               <CardActions sx={{ pt: 0 }}>
                 <Button
                   size="small"

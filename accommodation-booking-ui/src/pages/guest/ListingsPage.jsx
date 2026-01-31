@@ -1,3 +1,7 @@
+/**
+ * Listings Page Component
+ * Displays available accommodation listings with search and filtering capabilities.
+ */
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
@@ -15,7 +19,6 @@ const ListingsPage = () => {
   const location = searchParams.get('location') || '';
   const guests = searchParams.get('guests') || '';
 
-  // Pobierz wszystkie oferty
   useEffect(() => {
     const fetchListings = async () => {
       if (!auth?.token) return;
@@ -29,11 +32,13 @@ const ListingsPage = () => {
     fetchListings();
   }, [auth?.token]);
 
-  // Filtrowanie ofert
+  /**
+   * Filters listings based on search parameters (location, guests).
+   * Searches across city, street, and country fields.
+   */
   const filteredListings = useMemo(() => {
     let filtered = [...allListings];
 
-    // Filtrowanie po lokalizacji (miasto, ulica)
     if (location) {
       const locationLower = location.toLowerCase().trim();
       filtered = filtered.filter((listing) => {
@@ -41,7 +46,6 @@ const ListingsPage = () => {
         const street = (listing.street || '').toLowerCase();
         const country = (listing.country || '').toLowerCase();
 
-        // Sprawdź czy lokalizacja zawiera się w którymkolwiek polu
         return (
           city.includes(locationLower) ||
           street.includes(locationLower) ||
@@ -52,7 +56,6 @@ const ListingsPage = () => {
       });
     }
 
-    // Filtrowanie po liczbie gości
     if (guests) {
       const guestsNumber = parseInt(guests, 10);
       if (!isNaN(guestsNumber)) {

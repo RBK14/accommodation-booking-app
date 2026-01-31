@@ -1,3 +1,8 @@
+/**
+ * Reservation Page Component
+ * Allows guests to create reservations by selecting check-in and check-out dates.
+ * Displays listing details, available dates, and calculates total price.
+ */
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -36,7 +41,6 @@ const ReservationPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  // Pobierz szczegóły oferty
   useEffect(() => {
     const fetchListing = async () => {
       if (!auth?.token || !listingId) return;
@@ -54,7 +58,6 @@ const ReservationPage = () => {
     fetchListing();
   }, [listingId, auth?.token]);
 
-  // Pobierz dostępne terminy
   useEffect(() => {
     const fetchAvailableDates = async () => {
       if (!auth?.token || !listingId) return;
@@ -63,12 +66,11 @@ const ReservationPage = () => {
       const result = await getAvailableDates(
         listingId,
         today.toISOString().split('T')[0],
-        90, // pobierz dostępność na 90 dni
+        90,
         auth.token
       );
 
       if (result.success) {
-        // API zwraca tablicę dat w formacie ISO string
         setAvailableDates(result.data.map((date) => new Date(date)));
       }
     };
@@ -76,28 +78,38 @@ const ReservationPage = () => {
     fetchAvailableDates();
   }, [listingId, auth?.token]);
 
-  // Funkcja sprawdzająca czy data jest dostępna
+  /**
+   * Checks if a given date is available for booking.
+   * @param {Date} date - Date to check
+   * @returns {boolean} True if date is available
+   */
   const isDateAvailable = (date) => {
     return availableDates.some(
       (availableDate) => availableDate.toDateString() === date.toDateString()
     );
   };
 
-  // Funkcja blokująca niedostępne daty w DatePicker
+  /**
+   * Determines if a date should be disabled in the DatePicker.
+   * Disables past dates and unavailable dates.
+   * @param {Date} date - Date to check
+   * @returns {boolean} True if date should be disabled
+   */
   const shouldDisableDate = (date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Zablokuj daty w przeszłości
     if (date < today) {
       return true;
     }
 
-    // Zablokuj daty które nie są dostępne
     return !isDateAvailable(date);
   };
 
-  // Oblicz liczbę nocy i całkowitą cenę
+  /**
+   * Calculates the number of nights and total price for the reservation.
+   * @returns {object|null} Object with nights count and total price, or null if dates invalid
+   */
   const calculateTotalPrice = () => {
     if (!checkInDate || !checkOutDate || !listing) return null;
 
@@ -112,7 +124,9 @@ const ReservationPage = () => {
 
   const totalPrice = calculateTotalPrice();
 
-  // Obsługa rezerwacji
+  /**
+   * Handles reservation creation with validation.
+   */
   const handleCreateReservation = async () => {
     if (!checkInDate || !checkOutDate) {
       toast.error('Wybierz daty pobytu');
@@ -126,7 +140,6 @@ const ReservationPage = () => {
 
     setSubmitting(true);
 
-    // Format dat do YYYY-MM-DD
     const formatDate = (date) => {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -238,7 +251,7 @@ const ReservationPage = () => {
                   value={checkOutDate}
                   onChange={(newValue) => setCheckOutDate(newValue)}
                   shouldDisableDate={(date) => {
-                    // Data wyjazdu musi być po dacie przyjazdu
+                    // Check-out date must be after check-in date
                     if (checkInDate && date <= checkInDate) {
                       return true;
                     }

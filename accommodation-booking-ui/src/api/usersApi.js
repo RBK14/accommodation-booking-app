@@ -1,10 +1,11 @@
+/**
+ * Users API module
+ * Handles all user-related API calls including profile updates and user management.
+ */
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://localhost:7295/api';
 
-/**
- * Konfiguracja axios instance
- */
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -13,7 +14,9 @@ const apiClient = axios.create({
 });
 
 /**
- * Interceptor do dodawania tokenu do requestów
+ * Creates an authenticated axios client with Bearer token.
+ * @param {string} token - JWT authentication token
+ * @returns {AxiosInstance} Configured axios instance with auth header
  */
 const createAuthClient = (token) => {
   const authClient = axios.create({
@@ -27,10 +30,12 @@ const createAuthClient = (token) => {
 };
 
 /**
- * Aktualizacja danych osobowych użytkownika
- * @param {string} id - ID użytkownika
- * @param {Object} data - { firstName, lastName, phone }
- * @param {string} token - Token autoryzacyjny
+ * Updates user's personal details (name, phone).
+ * @param {string} id - User identifier
+ * @param {object} data - Personal details (firstName, lastName, phone)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Update response
+ * @throws {Error} Update error message
  */
 export const updatePersonalDetails = async (id, data, token) => {
   try {
@@ -39,15 +44,16 @@ export const updatePersonalDetails = async (id, data, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Usunięcie konta gościa (Admin i Guest)
- * @param {string} id - ID użytkownika
- * @param {string} token - Token autoryzacyjny
+ * Deletes a guest user account.
+ * @param {string} id - User identifier
+ * @param {string} token - JWT authentication token
+ * @throws {Error} Deletion error message
  */
 export const deleteGuest = async (id, token) => {
   try {
@@ -55,15 +61,16 @@ export const deleteGuest = async (id, token) => {
     await authClient.delete(`/users/delete-guest/${id}`);
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Usunięcie konta gospodarza (Admin i Host)
- * @param {string} id - ID użytkownika
- * @param {string} token - Token autoryzacyjny
+ * Deletes a host user account.
+ * @param {string} id - User identifier
+ * @param {string} token - JWT authentication token
+ * @throws {Error} Deletion error message
  */
 export const deleteHost = async (id, token) => {
   try {
@@ -71,15 +78,16 @@ export const deleteHost = async (id, token) => {
     await authClient.delete(`/users/delete-host/${id}`);
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Usunięcie konta admina (tylko Admin)
- * @param {string} id - ID użytkownika
- * @param {string} token - Token autoryzacyjny
+ * Deletes an admin user account.
+ * @param {string} id - User identifier
+ * @param {string} token - JWT authentication token
+ * @throws {Error} Deletion error message
  */
 export const deleteAdmin = async (id, token) => {
   try {
@@ -87,15 +95,17 @@ export const deleteAdmin = async (id, token) => {
     await authClient.delete(`/users/delete-admin/${id}`);
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Pobranie listy użytkowników
- * @param {string|null} userRole - Opcjonalnie filtruj według roli (Guest, Host, Admin)
- * @param {string} token - Token autoryzacyjny (WYMAGANY)
+ * Retrieves users list, optionally filtered by role.
+ * @param {string|null} userRole - Optional role filter (Guest, Host, Admin)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<Array>} Array of user objects
+ * @throws {Error} Fetch error message
  */
 export const getUsers = async (userRole = null, token) => {
   try {
@@ -105,15 +115,17 @@ export const getUsers = async (userRole = null, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Pobranie szczegółów użytkownika
- * @param {string} id - ID użytkownika
- * @param {string} token - Token autoryzacyjny (WYMAGANY)
+ * Retrieves a single user by ID.
+ * @param {string} id - User identifier
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} User data
+ * @throws {Error} Fetch error message
  */
 export const getUser = async (id, token) => {
   try {
@@ -122,7 +134,7 @@ export const getUser = async (id, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };

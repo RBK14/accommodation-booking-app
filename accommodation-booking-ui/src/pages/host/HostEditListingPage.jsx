@@ -1,3 +1,8 @@
+/**
+ * Host Edit Listing Page Component
+ * Form for editing existing accommodation listings.
+ * Loads listing data from location state or fetches from API.
+ */
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -51,12 +56,14 @@ const HostEditListingPage = () => {
   const [submitError, setSubmitError] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  // Pobierz dane oferty
+  /**
+   * Fetches listing data from location state or API.
+   * Prioritizes data passed via navigation state.
+   */
   useEffect(() => {
     const fetchListing = async () => {
       setInitialLoading(true);
 
-      // Sprawdź czy dane są w state (przesłane z poprzedniej strony)
       if (location.state?.listing) {
         setFormData(location.state.listing);
         if (location.state?.images) {
@@ -66,11 +73,9 @@ const HostEditListingPage = () => {
         }
         setInitialLoading(false);
       } else if (auth?.token) {
-        // Pobierz z API
         const result = await getListing(id, auth.token);
         if (result.success) {
           setFormData(result.data);
-          // Załaduj zdjęcia z API
           if (result.data.photos && result.data.photos.length > 0) {
             setImages(result.data.photos);
           }
@@ -82,6 +87,9 @@ const HostEditListingPage = () => {
     fetchListing();
   }, [id, location.state, auth?.token]);
 
+  /**
+   * Handles form field changes.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -90,6 +98,9 @@ const HostEditListingPage = () => {
     }));
   };
 
+  /**
+   * Prompts user for image URL and adds it to the images array.
+   */
   const handleAddImage = () => {
     const imageUrl = prompt('Podaj URL zdjęcia:');
     if (imageUrl && imageUrl.trim()) {
@@ -97,20 +108,25 @@ const HostEditListingPage = () => {
     }
   };
 
+  /**
+   * Removes an image from the images array by index.
+   * @param {number} index - Index of image to remove
+   */
   const handleDeleteImage = (index) => {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  /**
+   * Validates form data and submits listing update to API.
+   */
   const handleSave = async () => {
     setSubmitError(null);
 
-    // Walidacja
     if (!formData.title || !formData.description || !formData.accommodationType) {
       setSubmitError('Wypełnij wszystkie wymagane pola');
       return;
     }
 
-    // Przygotuj dane do wysłania
     const data = {
       title: formData.title,
       description: formData.description,
@@ -124,7 +140,7 @@ const HostEditListingPage = () => {
       buildingNumber: formData.buildingNumber,
       amountPerDay: parseFloat(formData.amountPerDay) || 0,
       currency: formData.currency,
-      photos: images, // Dodaj zdjęcia do danych
+      photos: images,
     };
 
     const result = await updateListing(id, data, auth.token);
@@ -135,6 +151,9 @@ const HostEditListingPage = () => {
     }
   };
 
+  /**
+   * Handles cancel action and navigates back.
+   */
   const handleCancel = () => {
     navigate(-1);
   };
@@ -162,7 +181,7 @@ const HostEditListingPage = () => {
       <Card>
         <CardContent>
           <Box sx={{ display: 'flex', gap: 3 }}>
-            {/* Lewa strona - Formularz */}
+            {/* Left side - Form */}
             <Box
               sx={{ display: 'flex', flexDirection: 'column', width: 450, minWidth: 300, gap: 2 }}
             >

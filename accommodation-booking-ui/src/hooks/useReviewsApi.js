@@ -1,15 +1,19 @@
+/**
+ * Reviews API Hook
+ * Provides review-related API operations with loading and error state management.
+ */
 import { useState } from 'react';
 import * as reviewsApi from '../api/reviewsApi';
 
-/**
- * Hook do obsługi API opinii
- */
 export const useReviewsApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   /**
-   * Utworzenie nowej opinii
+   * Creates a new review.
+   * @param {object} data - Review data (listingId, rating, comment)
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleCreateReview = async (data, token) => {
     setLoading(true);
@@ -19,7 +23,7 @@ export const useReviewsApi = () => {
       const response = await reviewsApi.createReview(data, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się utworzyć opinii';
+      const errorMessage = err.message || 'Failed to create review';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -28,7 +32,11 @@ export const useReviewsApi = () => {
   };
 
   /**
-   * Aktualizacja opinii
+   * Updates an existing review.
+   * @param {string} id - Review identifier
+   * @param {object} data - Updated review data
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleUpdateReview = async (id, data, token) => {
     setLoading(true);
@@ -38,7 +46,7 @@ export const useReviewsApi = () => {
       const response = await reviewsApi.updateReview(id, data, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się zaktualizować opinii';
+      const errorMessage = err.message || 'Failed to update review';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -47,7 +55,10 @@ export const useReviewsApi = () => {
   };
 
   /**
-   * Usunięcie opinii
+   * Deletes a review.
+   * @param {string} id - Review identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and error if failed
    */
   const handleDeleteReview = async (id, token) => {
     setLoading(true);
@@ -57,7 +68,7 @@ export const useReviewsApi = () => {
       await reviewsApi.deleteReview(id, token);
       return { success: true };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się usunąć opinii';
+      const errorMessage = err.message || 'Failed to delete review';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -66,7 +77,10 @@ export const useReviewsApi = () => {
   };
 
   /**
-   * Pobranie listy opinii
+   * Fetches reviews with optional filters.
+   * @param {object} filters - Filter options
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleGetReviews = async (filters = {}, token) => {
     setLoading(true);
@@ -76,7 +90,7 @@ export const useReviewsApi = () => {
       const response = await reviewsApi.getReviews(filters, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się pobrać opinii';
+      const errorMessage = err.message || 'Failed to fetch reviews';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -85,7 +99,10 @@ export const useReviewsApi = () => {
   };
 
   /**
-   * Pobranie szczegółów opinii
+   * Fetches a single review by ID.
+   * @param {string} id - Review identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleGetReview = async (id, token) => {
     setLoading(true);
@@ -95,7 +112,7 @@ export const useReviewsApi = () => {
       const response = await reviewsApi.getReview(id, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się pobrać opinii';
+      const errorMessage = err.message || 'Failed to fetch review';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -104,18 +121,13 @@ export const useReviewsApi = () => {
   };
 
   return {
-    // Stan
     loading,
     error,
-
-    // Metody
     createReview: handleCreateReview,
     updateReview: handleUpdateReview,
     deleteReview: handleDeleteReview,
     getReviews: handleGetReviews,
     getReview: handleGetReview,
-
-    // Pomocnicze
     clearError: () => setError(null),
   };
 };

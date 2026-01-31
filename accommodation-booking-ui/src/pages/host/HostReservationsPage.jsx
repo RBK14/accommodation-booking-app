@@ -1,5 +1,18 @@
-﻿import { useState, useEffect } from 'react';
-import { Box, CircularProgress, Alert, Button, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton } from '@mui/material';
+import { useState, useEffect } from 'react';
+import {
+  Box,
+  CircularProgress,
+  Alert,
+  Button,
+  Menu,
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  IconButton,
+} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
@@ -56,12 +69,12 @@ const HostReservationsPage = () => {
 
   const handleConfirmStatusChange = async () => {
     if (!selectedReservation || !newStatus || !auth?.token) {
-          return;
+      return;
     }
 
     if (!selectedReservation.id) {
-        toast.error('Błąd: Brak ID rezerwacji');
-        return;
+      toast.error('Blad: Brak ID rezerwacji');
+      return;
     }
 
     setConfirmDialogOpen(false);
@@ -69,10 +82,10 @@ const HostReservationsPage = () => {
     const result = await updateReservationStatus(selectedReservation.id, newStatus, auth.token);
 
     if (result.success) {
-      toast.success('Status rezerwacji został zaktualizowany');
+      toast.success('Status rezerwacji zostal zaktualizowany');
       fetchReservations();
     } else {
-      toast.error(result.error || 'Nie udało się zaktualizować statusu');
+      toast.error(result.error || 'Nie udalo sie zaktualizowac statusu');
     }
 
     setSelectedReservation(null);
@@ -142,17 +155,13 @@ const HostReservationsPage = () => {
         />
       </Box>
 
-      {/* Menu zmiany statusu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
+      {}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
         <MenuItem onClick={() => handleStatusChangeClick('Cancelled')}>
           <CancelIcon sx={{ mr: 1, color: '#dc3545' }} />
-          Anuluj rezerwację
+          Anuluj rezerwacje
         </MenuItem>
-        {/* NoShow tylko gdy rezerwacja jest InProgress */}
+        {}
         {selectedReservation && canMarkAsNoShow(selectedReservation) && (
           <MenuItem onClick={() => handleStatusChangeClick('NoShow')}>
             <EventBusyIcon sx={{ mr: 1, color: '#ffc107' }} />
@@ -161,15 +170,12 @@ const HostReservationsPage = () => {
         )}
       </Menu>
 
-      {/* Dialog potwierdzenia */}
-      <Dialog
-        open={confirmDialogOpen}
-        onClose={handleCancelDialog}
-      >
-        <DialogTitle>Potwierdź zmianę statusu</DialogTitle>
+      {}
+      <Dialog open={confirmDialogOpen} onClose={handleCancelDialog}>
+        <DialogTitle>Potwierdz zmiane statusu</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Czy na pewno chcesz zmienić status rezerwacji na "{getNewStatusLabel(newStatus)}"?
+            Czy na pewno chcesz zmienic status rezerwacji na "{getNewStatusLabel(newStatus)}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -181,14 +187,13 @@ const HostReservationsPage = () => {
             sx={{
               color: newStatus === 'Cancelled' ? '#dc3545' : '#ffc107',
               '&:hover': {
-                backgroundColor: newStatus === 'Cancelled' 
-                  ? 'rgba(220, 53, 69, 0.04)' 
-                  : 'rgba(255, 193, 7, 0.04)',
+                backgroundColor:
+                  newStatus === 'Cancelled' ? 'rgba(220, 53, 69, 0.04)' : 'rgba(255, 193, 7, 0.04)',
               },
             }}
             autoFocus
           >
-            Potwierdź
+            Potwierdz
           </Button>
         </DialogActions>
       </Dialog>

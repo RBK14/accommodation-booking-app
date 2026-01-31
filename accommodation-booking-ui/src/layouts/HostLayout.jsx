@@ -59,7 +59,7 @@ const HostLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: LIGHT_GRAY }}>
-      {/* AppBar */}
+      {}
       <AppBar
         position="fixed"
         sx={{
@@ -84,7 +84,7 @@ const HostLayout = () => {
             Panel gospodarza
           </Box>
 
-          {/* Profile Menu */}
+          {}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Box
               sx={{
@@ -133,7 +133,7 @@ const HostLayout = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar Drawer */}
+      {}
       <Drawer
         variant="permanent"
         sx={{
@@ -194,7 +194,7 @@ const HostLayout = () => {
         </List>
       </Drawer>
 
-      {/* Main Content */}
+      {}
       <Box
         component="main"
         sx={{

@@ -1,3 +1,11 @@
+/**
+ * Listings List Component
+ * Displays a paginated list of accommodation listings with search results.
+ * Shows listing cards with photos, details, pricing, and navigation to details page.
+ * @param {Object[]} listings - Array of listing objects to display
+ * @param {boolean} loading - Loading state indicator
+ * @param {string} error - Error message to display
+ */
 import { useState, useEffect } from 'react';
 import {
   Box,
@@ -27,29 +35,39 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [displayedListings, setDisplayedListings] = useState([]);
-
-  // Paginacja
   const totalPages = Math.ceil(listings.length / itemsPerPage);
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  // Lazy loading - ładujemy tylko aktualną stronę
+  /**
+   * Updates displayed listings when pagination changes.
+   */
   useEffect(() => {
     const currentPageListings = listings.slice(startIndex, endIndex);
     setDisplayedListings(currentPageListings);
   }, [listings, startIndex, endIndex]);
 
+  /**
+   * Handles page change event from pagination component.
+   */
   const handlePageChange = (event, value) => {
     setPage(value);
-    // Scroll do góry przy zmianie strony
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  /**
+   * Handles items per page selection change.
+   * Resets to first page when changed.
+   */
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(event.target.value);
-    setPage(1); // Reset do pierwszej strony
+    setPage(1);
   };
 
+  /**
+   * Navigates to listing details page.
+   * @param {string} id - Listing ID
+   */
   const handleViewListing = (id) => {
     navigate(`/listing/${id}`);
   };
@@ -80,7 +98,7 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
 
   return (
     <Box>
-      {/* Informacje o wynikach i kontrolki */}
+      {}
       <Box
         sx={{
           display: 'flex',
@@ -104,7 +122,7 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
         </FormControl>
       </Box>
 
-      {/* Lista ogłoszeń */}
+      {}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {displayedListings.map((listing) => (
           <Card
@@ -119,7 +137,7 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
               },
             }}
           >
-            {/* Zdjęcie po lewej stronie */}
+            {}
             <Box
               sx={{
                 width: { xs: '100%', sm: 280 },
@@ -151,7 +169,7 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
               )}
             </Box>
 
-            {/* Treść karty */}
+            {}
             <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minWidth: 0 }}>
               <CardContent sx={{ flexGrow: 1, pb: 1 }}>
                 <Box
@@ -259,7 +277,7 @@ const ListingsList = ({ listings = [], loading = false, error = null }) => {
         ))}
       </Box>
 
-      {/* Paginacja */}
+      {}
       {totalPages > 1 && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
           <Pagination

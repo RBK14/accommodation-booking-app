@@ -26,7 +26,7 @@ import { toast } from 'react-toastify';
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { registerGuest, registerHost, loading, error } = useAuthApi();
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -102,11 +102,7 @@ const RegisterPage = () => {
           Rejestracja
         </Typography>
 
-        {/* {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )} */}
+        {}
 
         <Stack spacing={2}>
           <FormControl fullWidth>

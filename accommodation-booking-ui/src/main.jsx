@@ -1,3 +1,7 @@
+/**
+ * Application Entry Point
+ * Renders the root React component with authentication context provider.
+ */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthProvider } from './context';

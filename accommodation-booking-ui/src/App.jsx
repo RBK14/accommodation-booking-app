@@ -1,3 +1,8 @@
+/**
+ * Main Application Component
+ * Defines routing configuration for all application pages.
+ * Includes public routes, protected routes, and role-based access control.
+ */
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -68,7 +73,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
-        {/* GUEST - Panel Gościa */}
+        {/* GUEST - Guest Panel */}
         <Route element={<ProtectedRoute allowedRoles={['Guest']} />}>
           <Route path="/guest" element={<GuestLayout />}>
             <Route index element={<Navigate to="/guest/account" replace />} />

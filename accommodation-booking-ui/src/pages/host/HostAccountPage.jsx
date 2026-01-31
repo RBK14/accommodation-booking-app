@@ -24,7 +24,7 @@ const HostAccountPage = () => {
       auth.token
     );
     if (result.success) {
-      // Zaktualizuj dane użytkownika w kontekście
+      // Update user data in context
       updateUserData({
         firstName: data.firstName,
         lastName: data.lastName,

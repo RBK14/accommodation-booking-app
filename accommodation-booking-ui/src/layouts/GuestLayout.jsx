@@ -1,4 +1,4 @@
-﻿import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import {
   AppBar,
@@ -53,7 +53,7 @@ const GuestLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: LIGHT_GRAY }}>
-      {/* AppBar */}
+      {}
       <AppBar
         position="fixed"
         sx={{
@@ -75,10 +75,10 @@ const GuestLayout = () => {
             }}
             onClick={handleHomeClick}
           >
-            Panel Gościa
+            Panel Goscia
           </Box>
 
-          {/* Profile Menu */}
+          {}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Box
               sx={{
@@ -116,18 +116,18 @@ const GuestLayout = () => {
             >
               <MenuItem onClick={handleHomeClick} sx={{ gap: 1 }}>
                 <AccountCircleIcon fontSize="small" />
-                Strona główna
+                Strona gl�wna
               </MenuItem>
               <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
                 <LogoutIcon fontSize="small" />
-                Wyloguj się
+                Wyloguj sie
               </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar Drawer */}
+      {}
       <Drawer
         variant="permanent"
         sx={{
@@ -188,7 +188,7 @@ const GuestLayout = () => {
         </List>
       </Drawer>
 
-      {/* Main Content */}
+      {}
       <Box
         component="main"
         sx={{

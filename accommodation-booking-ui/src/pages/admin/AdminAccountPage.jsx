@@ -24,7 +24,7 @@ const AdminAccountPage = () => {
       auth.token
     );
     if (result.success) {
-      // Zaktualizuj dane użytkownika w kontekście
+      // Update user data in context
       updateUserData({
         firstName: data.firstName,
         lastName: data.lastName,
@@ -40,7 +40,7 @@ const AdminAccountPage = () => {
     const result = await updateEmail(auth.id, data.email, auth.token);
     if (result.success) {
       toast.success('Email zaktualizowany pomyślnie - wylogowywanie...');
-      // Wyloguj użytkownika po zmianie email
+      // Logout user after email change
       logout();
       navigate('/auth/login');
     } else {
@@ -56,7 +56,7 @@ const AdminAccountPage = () => {
     );
     if (result.success) {
       toast.success('Hasło zmienione pomyślnie - wylogowywanie...');
-      // Wyloguj użytkownika po zmianie hasła
+      // Logout user after password change
       logout();
       navigate('/auth/login');
     } else {

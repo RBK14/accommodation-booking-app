@@ -1,6 +1,21 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Card, CardContent, CircularProgress, Alert, IconButton, Menu, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  CircularProgress,
+  Alert,
+  IconButton,
+  Menu,
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
@@ -20,7 +35,11 @@ const AdminListingPage = () => {
     loading: listingLoading,
     error: listingError,
   } = useListingsApi();
-  const { getReservations, updateReservationStatus, loading: reservationsLoading } = useReservationsApi();
+  const {
+    getReservations,
+    updateReservationStatus,
+    loading: reservationsLoading,
+  } = useReservationsApi();
   const { getReviews, loading: reviewsLoading } = useReviewsApi();
 
   const [listing, setListing] = useState(null);
@@ -65,16 +84,16 @@ const AdminListingPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Czy na pewno chcesz usunąć to ogłoszenie?')) {
+    if (!window.confirm('Czy na pewno chcesz usunac to ogloszenie?')) {
       return;
     }
 
     const result = await deleteListing(id, auth.token);
     if (result.success) {
-      toast.success('Ogłoszenie zostało usunięte');
+      toast.success('Ogloszenie zostalo usuniete');
       navigate('/admin/listings');
     } else {
-      toast.error(result.error || 'Nie udało się usunąć ogłoszenia');
+      toast.error(result.error || 'Nie udalo sie usunac ogloszenia');
     }
   };
 
@@ -89,11 +108,11 @@ const AdminListingPage = () => {
   const canChangeStatus = (reservation) => {
     const status = reservation.status?.toLowerCase();
     return status !== 'completed' && status !== 'cancelled' && status !== 'noshow';
-    };
+  };
 
   const canMarkAsNoShow = (reservation) => {
     return reservation.status?.toLowerCase() === 'inprogress';
-  };  
+  };
 
   const handleMenuOpen = (event, reservation) => {
     setAnchorEl(event.currentTarget);
@@ -118,10 +137,10 @@ const AdminListingPage = () => {
     const result = await updateReservationStatus(selectedReservation.id, newStatus, auth.token);
 
     if (result.success) {
-      toast.success('Status rezerwacji został zaktualizowany');
+      toast.success('Status rezerwacji zostal zaktualizowany');
       fetchData();
     } else {
-      toast.error(result.error || 'Nie udało się zaktualizować statusu');
+      toast.error(result.error || 'Nie udalo sie zaktualizowac statusu');
     }
 
     setSelectedReservation(null);
@@ -134,16 +153,16 @@ const AdminListingPage = () => {
     setNewStatus(null);
   };
 
-    const getNewStatusLabel = (status) => {
-        switch (status) {
-            case 'Cancelled':
-                return 'Anulowana';
-            case 'NoShow':
-                return 'Nieodbyta';
-            default:
-                return status;
-        }
-    };
+  const getNewStatusLabel = (status) => {
+    switch (status) {
+      case 'Cancelled':
+        return 'Anulowana';
+      case 'NoShow':
+        return 'Nieodbyta';
+      default:
+        return status;
+    }
+  };
 
   const reservationsWithActions = reservations.map((reservation) => {
     return {
@@ -184,7 +203,7 @@ const AdminListingPage = () => {
   if (!listing) {
     return (
       <Box sx={{ p: 3 }}>
-        <Alert severity="info">Nie znaleziono ogłoszenia</Alert>
+        <Alert severity="info">Nie znaleziono ogloszenia</Alert>
       </Box>
     );
   }
@@ -195,7 +214,11 @@ const AdminListingPage = () => {
         <Card sx={{ mb: 3 }}>
           <CardContent>
             <Box sx={{ display: 'flex', gap: 3 }}>
-              <ListingDetailsSection listing={listing} onEdit={handleEdit} onDelete={handleDelete} />
+              <ListingDetailsSection
+                listing={listing}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
               <ListingGallerySection images={images} />
             </Box>
           </CardContent>
@@ -203,7 +226,7 @@ const AdminListingPage = () => {
 
         <ReservationsSection
           reservations={reservationsWithActions}
-          title="Rezerwacje tego ogłoszenia"
+          title="Rezerwacje tego ogloszenia"
           showListingTitle={false}
           showAdminDetails={true}
         />
@@ -217,17 +240,13 @@ const AdminListingPage = () => {
         />
       </Box>
 
-      {/* Menu zmiany statusu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
+      {}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
         <MenuItem onClick={() => handleStatusChangeClick('Cancelled')}>
           <CancelIcon sx={{ mr: 1, color: '#dc3545' }} />
-          Anuluj rezerwację
+          Anuluj rezerwacje
         </MenuItem>
-        {/* NoShow tylko gdy rezerwacja jest InProgress */}
+        {}
         {selectedReservation && canMarkAsNoShow(selectedReservation) && (
           <MenuItem onClick={() => handleStatusChangeClick('NoShow')}>
             <EventBusyIcon sx={{ mr: 1, color: '#ffc107' }} />
@@ -236,15 +255,12 @@ const AdminListingPage = () => {
         )}
       </Menu>
 
-      {/* Dialog potwierdzenia */}
-      <Dialog
-        open={confirmDialogOpen}
-        onClose={handleCancelDialog}
-      >
-        <DialogTitle>Potwierdź zmianę statusu</DialogTitle>
+      {}
+      <Dialog open={confirmDialogOpen} onClose={handleCancelDialog}>
+        <DialogTitle>Potwierdz zmiane statusu</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Czy na pewno chcesz zmienić status rezerwacji na "{getNewStatusLabel(newStatus)}"?
+            Czy na pewno chcesz zmienic status rezerwacji na "{getNewStatusLabel(newStatus)}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -261,7 +277,7 @@ const AdminListingPage = () => {
             }}
             autoFocus
           >
-            Potwierdź
+            Potwierdz
           </Button>
         </DialogActions>
       </Dialog>

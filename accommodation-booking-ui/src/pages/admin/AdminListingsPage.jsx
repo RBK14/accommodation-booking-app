@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -58,7 +58,7 @@ const AdminListingsPage = () => {
     const result = await deleteListing(id, auth.token);
     if (result.success) {
       toast.success('Ogłoszenie zostało usunięte');
-      // Odśwież listę ogłoszeń
+      // Refresh listings list
       const refreshResult = await getListings(null, auth.token);
       if (refreshResult.success) {
         setListings(refreshResult.data);
@@ -152,10 +152,10 @@ const AdminListingsPage = () => {
                     {listing.street} {listing.buildingNumber}
                   </TableCell>
 
-                  {/* AKCJE */}
+                  {/* Actions */}
                   <TableCell align="center">
                     <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.5 }}>
-                      {/* Zielone Oczko */}
+                      {/* View button */}
                       <Tooltip title="Podgląd">
                         <IconButton
                           size="small"
@@ -166,7 +166,7 @@ const AdminListingsPage = () => {
                         </IconButton>
                       </Tooltip>
 
-                      {/* Niebieski Długopis */}
+                      {/* Edit button */}
                       <Tooltip title="Edytuj">
                         <IconButton
                           size="small"
@@ -177,7 +177,7 @@ const AdminListingsPage = () => {
                         </IconButton>
                       </Tooltip>
 
-                      {/* Czerwony Kosz */}
+                      {/* Delete button */}
                       <Tooltip title="Usuń">
                         <IconButton
                           size="small"

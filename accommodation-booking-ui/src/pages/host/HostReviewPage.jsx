@@ -14,17 +14,17 @@ const HostReviewPage = () => {
       if (!auth?.token || !userData?.profileId) return;
 
       const listingsResult = await getListings(userData.profileId, auth.token);
-      
+
       if (listingsResult.success && listingsResult.data.length > 0) {
         const allReviews = [];
-        
+
         for (const listing of listingsResult.data) {
           const reviewsResult = await getReviews({ listingId: listing.id }, auth.token);
           if (reviewsResult.success) {
             allReviews.push(...reviewsResult.data);
           }
         }
-        
+
         setReviews(allReviews);
       } else {
         setReviews([]);

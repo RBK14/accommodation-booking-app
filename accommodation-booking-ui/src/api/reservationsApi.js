@@ -1,10 +1,11 @@
+/**
+ * Reservations API module
+ * Handles all reservation-related API calls including CRUD operations and status updates.
+ */
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://localhost:7295/api';
 
-/**
- * Konfiguracja axios instance
- */
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -13,7 +14,9 @@ const apiClient = axios.create({
 });
 
 /**
- * Interceptor do dodawania tokenu do requestów
+ * Creates an authenticated axios client with Bearer token.
+ * @param {string} token - JWT authentication token
+ * @returns {AxiosInstance} Configured axios instance with auth header
  */
 const createAuthClient = (token) => {
   const authClient = axios.create({
@@ -27,9 +30,11 @@ const createAuthClient = (token) => {
 };
 
 /**
- * Utworzenie nowej rezerwacji (tylko dla Guest)
- * @param {Object} data - { listingId, checkIn, checkOut }
- * @param {string} token - Token autoryzacyjny
+ * Creates a new reservation.
+ * @param {object} data - Reservation data (listingId, checkIn, checkOut)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Created reservation data
+ * @throws {Error} Creation error message
  */
 export const createReservation = async (data, token) => {
   try {
@@ -38,16 +43,18 @@ export const createReservation = async (data, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Aktualizacja statusu rezerwacji (Host, Guest, Admin)
- * @param {string} id - ID rezerwacji
- * @param {string} status - Nowy status (Cancelled, NoShow, etc.)
- * @param {string} token - Token autoryzacyjny
+ * Updates the status of a reservation.
+ * @param {string} id - Reservation identifier
+ * @param {string} status - New status (Accepted, InProgress, Completed, Cancelled, NoShow)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Updated reservation data
+ * @throws {Error} Update error message
  */
 export const updateReservationStatus = async (id, status, token) => {
   try {
@@ -57,17 +64,18 @@ export const updateReservationStatus = async (id, status, token) => {
   } catch (error) {
     throw new Error(
       error.response?.data?.title ||
-      error.response?.data?.message ||
-      error.response?.data?.detail ||
-      'Wystąpił błąd'
+        error.response?.data?.message ||
+        error.response?.data?.detail ||
+        'An error occurred'
     );
   }
 };
 
 /**
- * Usunięcie rezerwacji (tylko Admin)
- * @param {string} id - ID rezerwacji
- * @param {string} token - Token autoryzacyjny
+ * Deletes a reservation by ID.
+ * @param {string} id - Reservation identifier
+ * @param {string} token - JWT authentication token
+ * @throws {Error} Deletion error message
  */
 export const deleteReservation = async (id, token) => {
   try {
@@ -75,15 +83,17 @@ export const deleteReservation = async (id, token) => {
     await authClient.delete(`/reservations/${id}`);
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Pobranie listy rezerwacji
- * @param {Object} filters - { listingId?, guestProfileId?, hostProfileId? }
- * @param {string} token - Token autoryzacyjny
+ * Retrieves reservations with optional filters.
+ * @param {object} filters - Filter options (listingId, guestProfileId, hostProfileId)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<Array>} Array of reservation objects
+ * @throws {Error} Fetch error message
  */
 export const getReservations = async (filters = {}, token) => {
   try {
@@ -97,15 +107,17 @@ export const getReservations = async (filters = {}, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Pobranie szczegółów rezerwacji
- * @param {string} id - ID rezerwacji
- * @param {string} token - Token autoryzacyjny
+ * Retrieves a single reservation by ID.
+ * @param {string} id - Reservation identifier
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Reservation data
+ * @throws {Error} Fetch error message
  */
 export const getReservation = async (id, token) => {
   try {
@@ -114,7 +126,7 @@ export const getReservation = async (id, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };

@@ -48,7 +48,7 @@ const Navbar = () => {
       }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Logo/Brand */}
+        {}
         <Box
           onClick={handleHomeClick}
           sx={{
@@ -65,7 +65,7 @@ const Navbar = () => {
           Hostly
         </Box>
 
-        {/* Navigation */}
+        {}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           {auth ? (
             <>

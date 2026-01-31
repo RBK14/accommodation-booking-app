@@ -22,15 +22,13 @@ const PasswordChangeForm = ({ onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Walidacja
     if (formData.newPassword !== formData.confirmPassword) {
-      setError('Nowe hasła nie są identyczne');
+      setError("New passwords don't match");
       return;
     }
 
     if (formData.newPassword.length < 8) {
-      setError('Hasło musi zawierać co najmniej 8 znaków');
+      setError('Password must be at least 8 characters');
       return;
     }
 
@@ -39,8 +37,6 @@ const PasswordChangeForm = ({ onSave }) => {
         currentPassword: formData.currentPassword,
         newPassword: formData.newPassword,
       });
-
-      // Wyczyść formularz po zapisie
       setFormData({
         currentPassword: '',
         newPassword: '',
@@ -53,7 +49,7 @@ const PasswordChangeForm = ({ onSave }) => {
     <Card>
       <CardContent>
         <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold', color: DARK_GRAY }}>
-          Zmiana hasła
+          Change Password
         </Typography>
         <form onSubmit={handleSubmit}>
           <Stack spacing={3}>
@@ -65,7 +61,7 @@ const PasswordChangeForm = ({ onSave }) => {
 
             <TextField
               fullWidth
-              label="Obecne hasło"
+              label="Current Password"
               name="currentPassword"
               type="password"
               value={formData.currentPassword}
@@ -76,19 +72,19 @@ const PasswordChangeForm = ({ onSave }) => {
 
             <TextField
               fullWidth
-              label="Nowe hasło"
+              label="New Password"
               name="newPassword"
               type="password"
               value={formData.newPassword}
               onChange={handleChange}
               required
               variant="outlined"
-              helperText="Minimum 8 znaków"
+              helperText="Minimum 8 characters"
             />
 
             <TextField
               fullWidth
-              label="Powtórz nowe hasło"
+              label="Confirm New Password"
               name="confirmPassword"
               type="password"
               value={formData.confirmPassword}
@@ -109,7 +105,7 @@ const PasswordChangeForm = ({ onSave }) => {
                 },
               }}
             >
-              Zmień hasło
+              Change Password
             </Button>
           </Stack>
         </form>

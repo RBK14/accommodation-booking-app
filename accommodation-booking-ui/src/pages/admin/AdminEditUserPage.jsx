@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
@@ -126,7 +126,10 @@ const AdminEditUserPage = () => {
           <Stack spacing={3} sx={{ maxWidth: '600px' }}>
             {/* Email - tylko do odczytu */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 1 }}
+              >
                 Adres email
               </Typography>
               <TextField
@@ -145,7 +148,10 @@ const AdminEditUserPage = () => {
 
             {/* Rola - tylko do odczytu */}
             <Box>
-              <Typography variant="body2" sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: 'textSecondary', fontWeight: 'bold', mb: 1 }}
+              >
                 Rola w systemie
               </Typography>
               <Chip
@@ -157,7 +163,7 @@ const AdminEditUserPage = () => {
               />
             </Box>
 
-            {/* Imię */}
+            {/* First name */}
             <TextField
               fullWidth
               label="Imię"

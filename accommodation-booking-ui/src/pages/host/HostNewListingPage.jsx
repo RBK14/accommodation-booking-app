@@ -1,3 +1,8 @@
+/**
+ * Host New Listing Page Component
+ * Form for creating new accommodation listings.
+ * Allows hosts to enter property details, upload photos, and set pricing.
+ */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -45,9 +50,12 @@ const HostNewListingPage = () => {
     amountPerDay: '',
     currency: 'PLN',
   });
-  const [images, setImages] = useState([]); // Pomijamy na razie
+  const [images, setImages] = useState([]);
   const [submitError, setSubmitError] = useState(null);
 
+  /**
+   * Handles form field changes.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -56,6 +64,9 @@ const HostNewListingPage = () => {
     }));
   };
 
+  /**
+   * Prompts user for image URL and adds it to the images array.
+   */
   const handleAddImage = () => {
     const imageUrl = prompt('Podaj URL zdjęcia:');
     if (imageUrl && imageUrl.trim()) {
@@ -63,26 +74,30 @@ const HostNewListingPage = () => {
     }
   };
 
+  /**
+   * Removes an image from the images array by index.
+   * @param {number} index - Index of image to remove
+   */
   const handleDeleteImage = (index) => {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  /**
+   * Validates form data and submits new listing to API.
+   */
   const handleSave = async () => {
     setSubmitError(null);
 
-    // Walidacja
     if (!formData.title || !formData.description || !formData.accommodationType) {
       setSubmitError('Wypełnij wszystkie wymagane pola');
       return;
     }
 
-    // Walidacja zdjęć
     if (images.length === 0) {
       setSubmitError('Dodaj przynajmniej jedno zdjęcie');
       return;
     }
 
-    // Przygotuj dane do wysłania
     const data = {
       title: formData.title,
       description: formData.description,
@@ -107,6 +122,9 @@ const HostNewListingPage = () => {
     }
   };
 
+  /**
+   * Handles cancel action and navigates back.
+   */
   const handleCancel = () => {
     navigate(-1);
   };

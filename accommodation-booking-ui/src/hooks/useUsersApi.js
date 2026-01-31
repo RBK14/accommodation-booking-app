@@ -1,15 +1,20 @@
+/**
+ * Users API Hook
+ * Provides user-related API operations with loading and error state management.
+ */
 import { useState } from 'react';
 import * as usersApi from '../api/usersApi';
 
-/**
- * Hook do obsługi API użytkowników
- */
 export const useUsersApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   /**
-   * Aktualizacja danych osobowych użytkownika
+   * Updates user's personal details.
+   * @param {string} id - User identifier
+   * @param {object} data - Personal details (firstName, lastName, phone)
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and error if failed
    */
   const handleUpdatePersonalDetails = async (id, data, token) => {
     setLoading(true);
@@ -19,7 +24,7 @@ export const useUsersApi = () => {
       await usersApi.updatePersonalDetails(id, data, token);
       return { success: true };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się zaktualizować danych osobowych';
+      const errorMessage = err.message || 'Failed to update personal details';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -28,7 +33,10 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Usunięcie konta gościa
+   * Deletes a guest user account.
+   * @param {string} id - User identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and error if failed
    */
   const handleDeleteGuest = async (id, token) => {
     setLoading(true);
@@ -38,7 +46,7 @@ export const useUsersApi = () => {
       await usersApi.deleteGuest(id, token);
       return { success: true };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się usunąć konta';
+      const errorMessage = err.message || 'Failed to delete account';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -47,7 +55,10 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Usunięcie konta gospodarza
+   * Deletes a host user account.
+   * @param {string} id - User identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and error if failed
    */
   const handleDeleteHost = async (id, token) => {
     setLoading(true);
@@ -57,7 +68,7 @@ export const useUsersApi = () => {
       await usersApi.deleteHost(id, token);
       return { success: true };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się usunąć konta';
+      const errorMessage = err.message || 'Failed to delete account';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -66,7 +77,10 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Usunięcie konta admina
+   * Deletes an admin user account.
+   * @param {string} id - User identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and error if failed
    */
   const handleDeleteAdmin = async (id, token) => {
     setLoading(true);
@@ -76,7 +90,7 @@ export const useUsersApi = () => {
       await usersApi.deleteAdmin(id, token);
       return { success: true };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się usunąć konta';
+      const errorMessage = err.message || 'Failed to delete account';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -85,7 +99,10 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Pobranie listy użytkowników - WYMAGA TOKENU
+   * Fetches users list with optional role filter.
+   * @param {string|null} userRole - Optional role filter
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleGetUsers = async (userRole = null, token) => {
     setLoading(true);
@@ -95,7 +112,7 @@ export const useUsersApi = () => {
       const response = await usersApi.getUsers(userRole, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się pobrać użytkowników';
+      const errorMessage = err.message || 'Failed to fetch users';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -104,7 +121,10 @@ export const useUsersApi = () => {
   };
 
   /**
-   * Pobranie szczegółów użytkownika - WYMAGA TOKENU
+   * Fetches a single user by ID.
+   * @param {string} id - User identifier
+   * @param {string} token - JWT token
+   * @returns {Promise<object>} Result with success status and data/error
    */
   const handleGetUser = async (id, token) => {
     setLoading(true);
@@ -114,7 +134,7 @@ export const useUsersApi = () => {
       const response = await usersApi.getUser(id, token);
       return { success: true, data: response };
     } catch (err) {
-      const errorMessage = err.message || 'Nie udało się pobrać użytkownika';
+      const errorMessage = err.message || 'Failed to fetch user';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -123,19 +143,14 @@ export const useUsersApi = () => {
   };
 
   return {
-    // Stan
     loading,
     error,
-
-    // Metody
     updatePersonalDetails: handleUpdatePersonalDetails,
     deleteGuest: handleDeleteGuest,
     deleteHost: handleDeleteHost,
     deleteAdmin: handleDeleteAdmin,
     getUsers: handleGetUsers,
     getUser: handleGetUser,
-
-    // Pomocnicze
     clearError: () => setError(null),
   };
 };

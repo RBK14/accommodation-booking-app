@@ -1,7 +1,16 @@
+/**
+ * Authentication Provider Component
+ * Manages user authentication state, JWT token handling, and session persistence.
+ * Provides login, logout, and user data management functionality.
+ */
 import { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
 
-// Funkcja do dekodowania JWT tokena
+/**
+ * Decodes a JWT token and extracts its payload.
+ * @param {string} token - The JWT token to decode
+ * @returns {object|null} The decoded token payload or null if invalid
+ */
 const decodeToken = (token) => {
   try {
     const base64Url = token.split('.')[1];
@@ -18,7 +27,12 @@ const decodeToken = (token) => {
   }
 };
 
-// Funkcja do wyciągania danych z claims tokena
+/**
+ * Extracts user data from JWT token claims.
+ * Maps standard and Microsoft-specific claim types to user properties.
+ * @param {string} token - The JWT token containing user claims
+ * @returns {object|null} User data object or null if token is invalid
+ */
 const extractUserDataFromToken = (token) => {
   const claims = decodeToken(token);
   if (!claims) return null;
@@ -39,10 +53,14 @@ const extractUserDataFromToken = (token) => {
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // NOWY STAN
+  const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Authenticates user and stores session data.
+   * @param {string} token - JWT authentication token
+   * @param {string} userId - User identifier
+   */
   const login = (token, userId) => {
-    // Wyciągnij dane użytkownika z tokena
     const user = extractUserDataFromToken(token);
 
     const authData = {
@@ -55,12 +73,19 @@ export const AuthProvider = ({ children }) => {
     setUserData(user);
   };
 
+  /**
+   * Clears authentication state and removes session data.
+   */
   const logout = () => {
     setAuth(null);
     setUserData(null);
     sessionStorage.removeItem('auth');
   };
 
+  /**
+   * Updates user data in the context state.
+   * @param {object} newData - Partial user data to merge with existing data
+   */
   const updateUserData = (newData) => {
     setUserData((prev) => ({
       ...prev,
@@ -75,17 +100,16 @@ export const AuthProvider = ({ children }) => {
         const authData = JSON.parse(storedAuth);
         setAuth(authData);
 
-        // Wyciągnij dane użytkownika z tokena
         if (authData.token) {
           const user = extractUserDataFromToken(authData.token);
           setUserData(user);
         }
       } catch (error) {
-        console.error('Błąd podczas ładowania danych autoryzacji:', error);
+        console.error('Error loading authentication data:', error);
         sessionStorage.removeItem('auth');
       }
     }
-    setIsLoading(false); // ZAKOŃCZ ŁADOWANIE
+    setIsLoading(false);
   }, []);
 
   return (

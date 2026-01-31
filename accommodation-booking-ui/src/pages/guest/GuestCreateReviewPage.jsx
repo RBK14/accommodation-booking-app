@@ -1,4 +1,9 @@
-﻿import { useState, useEffect } from 'react';
+/**
+ * Guest Create Review Page Component
+ * Allows guests to create, edit, and delete reviews for their reservations.
+ * Supports both new review creation and editing existing reviews.
+ */
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -43,8 +48,10 @@ const GuestCreateReviewPage = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
+  /**
+   * Initializes reservation data and existing review from location state.
+   */
   useEffect(() => {
-    // Pobierz dane rezerwacji i ewentualnie istniejącą opinię z location.state
     if (location.state?.reservation) {
       setReservation(location.state.reservation);
     }
@@ -60,6 +67,9 @@ const GuestCreateReviewPage = () => {
     }
   }, [location.state]);
 
+  /**
+   * Handles rating star selection change.
+   */
   const handleRatingChange = (event, newValue) => {
     setFormData((prev) => ({
       ...prev,
@@ -67,6 +77,9 @@ const GuestCreateReviewPage = () => {
     }));
   };
 
+  /**
+   * Handles comment text field change.
+   */
   const handleCommentChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -74,8 +87,11 @@ const GuestCreateReviewPage = () => {
     }));
   };
 
+  /**
+   * Handles form submission for creating or updating a review.
+   * Validates input and sends request to API.
+   */
   const handleSubmit = async () => {
-    // Walidacja
     if (formData.rating === 0) {
       toast.error('Proszę wybrać ocenę');
       return;
@@ -96,7 +112,6 @@ const GuestCreateReviewPage = () => {
     let result;
 
     if (isEditMode && existingReview) {
-      // Aktualizuj istniejącą opinię
       const dataToUpdate = {
         rating: formData.rating,
         comment: formData.comment.trim(),
@@ -104,7 +119,6 @@ const GuestCreateReviewPage = () => {
 
       result = await updateReview(existingReview.id, dataToUpdate, auth.token);
     } else {
-      // Utwórz nową opinię
       const dataToSend = {
         listingId: reservation.listingId,
         rating: formData.rating,
@@ -124,10 +138,16 @@ const GuestCreateReviewPage = () => {
     }
   };
 
+  /**
+   * Opens delete confirmation dialog.
+   */
   const handleDeleteClick = () => {
     setDeleteDialogOpen(true);
   };
 
+  /**
+   * Handles review deletion after confirmation.
+   */
   const handleDeleteConfirm = async () => {
     if (!existingReview) return;
 
@@ -146,6 +166,9 @@ const GuestCreateReviewPage = () => {
     }
   };
 
+  /**
+   * Closes delete confirmation dialog.
+   */
   const handleDeleteCancel = () => {
     setDeleteDialogOpen(false);
   };
@@ -170,7 +193,7 @@ const GuestCreateReviewPage = () => {
             {isEditMode ? 'Edytuj opinię' : 'Wystaw opinię'}
           </Typography>
 
-          {/* Informacje o rezerwacji */}
+          {/* Reservation info */}
           <Box sx={{ mb: 4, p: 2, backgroundColor: '#f8f9fa', borderRadius: 2 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
               {reservation.title}
@@ -188,7 +211,7 @@ const GuestCreateReviewPage = () => {
           <Divider sx={{ my: 3 }} />
 
           <Stack spacing={3} sx={{ maxWidth: '700px' }}>
-            {/* Ocena gwiazdkowa */}
+            {/* Star rating */}
             <Box>
               <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 2 }}>
                 Twoja ocena *
@@ -207,7 +230,7 @@ const GuestCreateReviewPage = () => {
               </Box>
             </Box>
 
-            {/* Komentarz */}
+            {/* Comment */}
             <Box>
               <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 2 }}>
                 Twoja opinia *
@@ -224,13 +247,13 @@ const GuestCreateReviewPage = () => {
               />
             </Box>
 
-            {/* Informacja */}
+            {/* Info message */}
             <Alert severity="info" sx={{ mt: 2 }}>
               Twoja opinia pomoże innym gościom w podjęciu decyzji oraz pomoże właścicielowi
               poprawić jakość usług.
             </Alert>
 
-            {/* Przyciski */}
+            {/* Action buttons */}
             <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
               <Button
                 variant="contained"
@@ -246,7 +269,7 @@ const GuestCreateReviewPage = () => {
               >
                 {isSaving ? 'Zapisywanie...' : isEditMode ? 'Zaktualizuj opinię' : 'Wystaw opinię'}
               </Button>
-              
+
               {isEditMode && (
                 <Button
                   variant="outlined"
@@ -287,7 +310,7 @@ const GuestCreateReviewPage = () => {
         </CardContent>
       </Card>
 
-      {/* Dialog potwierdzenia usunięcia */}
+      {/* Delete confirmation dialog */}
       <Dialog
         open={deleteDialogOpen}
         onClose={handleDeleteCancel}

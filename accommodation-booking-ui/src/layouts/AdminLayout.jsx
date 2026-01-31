@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import {
   AppBar,
@@ -71,7 +71,7 @@ const AdminLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: LIGHT_GRAY }}>
-      {/* --- APP BAR (GÓRNY PASEK) --- */}
+      {/* --- APP BAR (TOP BAR) --- */}
       <AppBar
         position="fixed"
         sx={{
@@ -81,7 +81,7 @@ const AdminLayout = () => {
         }}
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* Tytuł Panelu */}
+          {/* Panel Title */}
           <Box
             sx={{
               fontSize: '1.5rem',
@@ -97,7 +97,7 @@ const AdminLayout = () => {
             Panel Administratora
           </Box>
 
-          {/* Menu Użytkownika (Prawa strona) */}
+          {/* User Menu (Right side) */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Box
               sx={{
@@ -207,7 +207,7 @@ const AdminLayout = () => {
         </List>
       </Drawer>
 
-      {/* --- GŁÓWNA ZAWARTOŚĆ --- */}
+      {/* --- MAIN CONTENT --- */}
       <Box
         component="main"
         sx={{

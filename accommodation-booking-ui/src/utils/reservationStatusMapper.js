@@ -1,27 +1,29 @@
 /**
- * Mapa konwersji statusów rezerwacji z angielskiego na polski
+ * Reservation Status Mapper
+ * Provides mapping between backend reservation status keys and display labels.
  */
+
 const RESERVATION_STATUS_MAP = {
-  Accepted: 'Zaakceptowana',
-  InProgress: 'W trakcie',
-  Completed: 'Zakończona',
-  Cancelled: 'Anulowana',
-  NoShow: 'Nie pojawił się',
+  Accepted: 'Accepted',
+  InProgress: 'In Progress',
+  Completed: 'Completed',
+  Cancelled: 'Cancelled',
+  NoShow: 'No Show',
 };
 
 /**
- * Konwertuje status rezerwacji z angielskiego na polski
- * @param {string} status - Status rezerwacji w języku angielskim
- * @returns {string} Status rezerwacji w języku polskim
+ * Translates reservation status key to display label.
+ * @param {string} status - Status key
+ * @returns {string} Display label or original status if not found
  */
 export const translateReservationStatus = (status) => {
   return RESERVATION_STATUS_MAP[status] || status;
 };
 
 /**
- * Zwraca odwrotne mapowanie - z polskiego na angielski
- * @param {string} status - Status rezerwacji w języku polskim
- * @returns {string} Status rezerwacji w języku angielskim
+ * Reverse translates display label back to status key.
+ * @param {string} status - Display label
+ * @returns {string} Status key or original label if not found
  */
 export const reverseTranslateReservationStatus = (status) => {
   const reverseMap = Object.fromEntries(

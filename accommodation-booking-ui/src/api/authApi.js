@@ -1,10 +1,11 @@
+/**
+ * Authentication API module
+ * Handles all authentication-related API calls including registration, login, and credential updates.
+ */
 import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://localhost:7295/api';
 
-/**
- * Konfiguracja axios instance
- */
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -13,7 +14,9 @@ const apiClient = axios.create({
 });
 
 /**
- * Interceptor do dodawania tokenu do requestów
+ * Creates an authenticated axios client with Bearer token.
+ * @param {string} token - JWT authentication token
+ * @returns {AxiosInstance} Configured axios instance with auth header
  */
 const createAuthClient = (token) => {
   const authClient = axios.create({
@@ -27,8 +30,10 @@ const createAuthClient = (token) => {
 };
 
 /**
- * Rejestracja gościa
- * @param {Object} data - { email, password, firstName, lastName, phone }
+ * Registers a new guest user account.
+ * @param {object} data - Registration data (email, password, firstName, lastName)
+ * @returns {Promise<object>} Created user data
+ * @throws {Error} Registration error message
  */
 export const registerGuest = async (data) => {
   try {
@@ -36,14 +41,16 @@ export const registerGuest = async (data) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Rejestracja gospodarza
- * @param {Object} data - { email, password, firstName, lastName, phone }
+ * Registers a new host user account.
+ * @param {object} data - Registration data (email, password, firstName, lastName)
+ * @returns {Promise<object>} Created user data
+ * @throws {Error} Registration error message
  */
 export const registerHost = async (data) => {
   try {
@@ -51,14 +58,16 @@ export const registerHost = async (data) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Rejestracja admina
- * @param {Object} data - { email, password, firstName, lastName, phone }
+ * Registers a new admin user account.
+ * @param {object} data - Registration data (email, password, firstName, lastName)
+ * @returns {Promise<object>} Created user data
+ * @throws {Error} Registration error message
  */
 export const registerAdmin = async (data) => {
   try {
@@ -66,15 +75,16 @@ export const registerAdmin = async (data) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Logowanie
- * @param {Object} credentials - { email, password }
- * @returns {Promise<{id: string, accessToken: string}>}
+ * Authenticates user with credentials.
+ * @param {object} credentials - Login credentials (email, password)
+ * @returns {Promise<object>} Authentication response with token
+ * @throws {Error} Login error message
  */
 export const login = async (credentials) => {
   try {
@@ -82,16 +92,18 @@ export const login = async (credentials) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Aktualizacja email
- * @param {string} userId - ID użytkownika
- * @param {Object} data - { email }
- * @param {string} token - Token autoryzacyjny
+ * Updates user email address.
+ * @param {string} userId - User identifier
+ * @param {object} data - New email data
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Update response
+ * @throws {Error} Update error message
  */
 export const updateEmail = async (userId, data, token) => {
   try {
@@ -100,16 +112,18 @@ export const updateEmail = async (userId, data, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };
 
 /**
- * Aktualizacja hasła
- * @param {string} userId - ID użytkownika
- * @param {Object} data - { password, newPassword }
- * @param {string} token - Token autoryzacyjny
+ * Updates user password.
+ * @param {string} userId - User identifier
+ * @param {object} data - Password data (currentPassword, newPassword)
+ * @param {string} token - JWT authentication token
+ * @returns {Promise<object>} Update response
+ * @throws {Error} Update error message
  */
 export const updatePassword = async (userId, data, token) => {
   try {
@@ -118,7 +132,7 @@ export const updatePassword = async (userId, data, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.title || error.response?.data?.message || 'Wystąpił błąd'
+      error.response?.data?.title || error.response?.data?.message || 'An error occurred'
     );
   }
 };

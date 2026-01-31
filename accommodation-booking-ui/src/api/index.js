@@ -1,4 +1,3 @@
-// Export wszystkich API
 export * as authApi from './authApi';
 export * as listingsApi from './listingsApi';
 export * as reservationsApi from './reservationsApi';

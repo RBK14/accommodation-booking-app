@@ -1,4 +1,14 @@
-﻿import { useState } from 'react';
+/**
+ * Reviews Section Component
+ * Displays a paginated list of reviews with optional edit/delete functionality.
+ * @param {Object[]} reviews - Array of review objects to display
+ * @param {boolean} showListingTitle - Whether to show listing title in review cards
+ * @param {string} title - Section title text
+ * @param {boolean} allowEdit - Whether to allow editing and deleting reviews
+ * @param {Function} onReviewUpdated - Callback triggered after review update
+ * @param {Function} onReviewDeleted - Callback triggered after review deletion
+ */
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -28,13 +38,13 @@ import { DARK_GRAY, PRIMARY_BLUE } from '../../assets/styles/colors';
 import { useAuth, useReviewsApi } from '../../hooks';
 import { toast } from 'react-toastify';
 
-const ReviewsSection = ({ 
-  reviews = [], 
-  showListingTitle = false, 
+const ReviewsSection = ({
+  reviews = [],
+  showListingTitle = false,
   title = 'Opinie',
-  allowEdit = false,  // Nowy prop - czy zezwolić na edycję
-  onReviewUpdated = null, // Callback po aktualizacji
-  onReviewDeleted = null, // Callback po usunięciu
+  allowEdit = false,
+  onReviewUpdated = null,
+  onReviewDeleted = null,
 }) => {
   const { auth } = useAuth();
   const { updateReview, deleteReview } = useReviewsApi();
@@ -68,7 +78,7 @@ const ReviewsSection = ({
     try {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) {
-        return 'Nieprawidłowa data';
+        return 'Nieprawidlowa data';
       }
       return date.toLocaleDateString('pl-PL', {
         year: 'numeric',
@@ -76,7 +86,7 @@ const ReviewsSection = ({
         day: 'numeric',
       });
     } catch (error) {
-      return 'Błąd daty';
+      return 'Blad daty';
     }
   };
 
@@ -87,7 +97,7 @@ const ReviewsSection = ({
     if (review.guestName) {
       return review.guestName;
     }
-    return 'Gość';
+    return 'Gosc';
   };
 
   const handleEditClick = (review) => {
@@ -133,12 +143,12 @@ const ReviewsSection = ({
     if (!selectedReview || !auth?.token) return;
 
     if (editFormData.rating === 0) {
-      toast.error('Proszę wybrać ocenę');
+      toast.error('Prosze wybrac ocene');
       return;
     }
 
     if (!editFormData.comment.trim()) {
-      toast.error('Proszę dodać komentarz');
+      toast.error('Prosze dodac komentarz');
       return;
     }
 
@@ -154,15 +164,13 @@ const ReviewsSection = ({
     setIsSaving(false);
 
     if (result.success) {
-      toast.success('Opinia została zaktualizowana');
+      toast.success('Opinia zostala zaktualizowana');
       handleEditClose();
-      
-      // Wywołaj callback jeśli istnieje
       if (onReviewUpdated) {
         onReviewUpdated();
       }
     } else {
-      toast.error(result.error || 'Nie udało się zaktualizować opinii');
+      toast.error(result.error || 'Nie udalo sie zaktualizowac opinii');
     }
   };
 
@@ -176,15 +184,13 @@ const ReviewsSection = ({
     setIsSaving(false);
 
     if (result.success) {
-      toast.success('Opinia została usunięta');
+      toast.success('Opinia zostala usunieta');
       handleDeleteClose();
-      
-      // Wywołaj callback jeśli istnieje
       if (onReviewDeleted) {
         onReviewDeleted();
       }
     } else {
-      toast.error(result.error || 'Nie udało się usunąć opinii');
+      toast.error(result.error || 'Nie udalo sie usunac opinii');
     }
   };
 
@@ -192,7 +198,9 @@ const ReviewsSection = ({
     <>
       <Card>
         <CardContent>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}
+          >
             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
               {title} ({reviews.length})
             </Typography>
@@ -246,16 +254,16 @@ const ReviewsSection = ({
                             </Typography>
                           )}
                         </Box>
-                        
+
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Typography variant="caption" sx={{ color: 'textSecondary' }}>
                             {formatDate(review.createdAt || review.updatedAt || review.date)}
                           </Typography>
-                          
-                          {/* Przyciski edycji i usuwania dla Admina */}
+
+                          {}
                           {allowEdit && (
                             <Box sx={{ display: 'flex', gap: 0.5 }}>
-                              <Tooltip title="Edytuj opinię">
+                              <Tooltip title="Edytuj opinie">
                                 <IconButton
                                   size="small"
                                   sx={{ color: PRIMARY_BLUE }}
@@ -264,7 +272,7 @@ const ReviewsSection = ({
                                   <EditIcon fontSize="small" />
                                 </IconButton>
                               </Tooltip>
-                              <Tooltip title="Usuń opinię">
+                              <Tooltip title="Usun opinie">
                                 <IconButton
                                   size="small"
                                   sx={{ color: '#dc3545' }}
@@ -304,29 +312,20 @@ const ReviewsSection = ({
         </CardContent>
       </Card>
 
-      {/* Dialog edycji opinii */}
-      <Dialog
-        open={editDialogOpen}
-        onClose={handleEditClose}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>Edytuj opinię</DialogTitle>
+      {}
+      <Dialog open={editDialogOpen} onClose={handleEditClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Edytuj opinie</DialogTitle>
         <DialogContent>
           <Stack spacing={3} sx={{ mt: 2 }}>
-            {/* Ocena */}
+            {}
             <Box>
               <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 1 }}>
                 Ocena *
               </Typography>
-              <Rating
-                value={editFormData.rating}
-                onChange={handleRatingChange}
-                size="large"
-              />
+              <Rating value={editFormData.rating} onChange={handleRatingChange} size="large" />
             </Box>
 
-            {/* Komentarz */}
+            {}
             <Box>
               <Typography variant="body2" sx={{ color: DARK_GRAY, fontWeight: 'bold', mb: 1 }}>
                 Komentarz *
@@ -338,14 +337,14 @@ const ReviewsSection = ({
                 value={editFormData.comment}
                 onChange={handleCommentChange}
                 variant="outlined"
-                helperText={`${editFormData.comment.length} znaków`}
+                helperText={`${editFormData.comment.length} znak�w`}
               />
             </Box>
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button 
-            onClick={handleEditClose} 
+          <Button
+            onClick={handleEditClose}
             disabled={isSaving}
             startIcon={<CancelIcon />}
             sx={{ color: DARK_GRAY }}
@@ -369,23 +368,16 @@ const ReviewsSection = ({
         </DialogActions>
       </Dialog>
 
-      {/* Dialog potwierdzenia usunięcia */}
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={handleDeleteClose}
-      >
-        <DialogTitle>Usuń opinię</DialogTitle>
+      {}
+      <Dialog open={deleteDialogOpen} onClose={handleDeleteClose}>
+        <DialogTitle>Usun opinie</DialogTitle>
         <DialogContent>
           <Typography>
-            Czy na pewno chcesz usunąć tę opinię? Ta operacja jest nieodwracalna.
+            Czy na pewno chcesz usunac te opinie? Ta operacja jest nieodwracalna.
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button 
-            onClick={handleDeleteClose} 
-            disabled={isSaving}
-            sx={{ color: DARK_GRAY }}
-          >
+          <Button onClick={handleDeleteClose} disabled={isSaving} sx={{ color: DARK_GRAY }}>
             Anuluj
           </Button>
           <Button
@@ -398,7 +390,7 @@ const ReviewsSection = ({
               },
             }}
           >
-            {isSaving ? 'Usuwanie...' : 'Usuń'}
+            {isSaving ? 'Usuwanie...' : 'Usun'}
           </Button>
         </DialogActions>
       </Dialog>

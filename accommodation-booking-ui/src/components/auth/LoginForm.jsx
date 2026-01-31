@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthApi } from '../../hooks';
-import { 
-  Box, 
-  TextField, 
-  Button, 
-  Typography, 
-  Alert, 
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
   Paper,
   IconButton,
   InputAdornment,
@@ -105,9 +105,9 @@ const LoginForm = ({ onSuccess }) => {
             fullWidth
             disabled={loading}
             startIcon={<LoginIcon />}
-            sx={{ 
-              mt: 3, 
-              mb: 2, 
+            sx={{
+              mt: 3,
+              mb: 2,
               py: 1.5,
               backgroundColor: PRIMARY_BLUE,
               '&:hover': {
