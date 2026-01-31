@@ -4,13 +4,13 @@
  */
 
 const ACCOMMODATION_TYPE_MAP = {
-  Apartment: 'Apartment',
-  House: 'House',
-  Hotel: 'Hotel Room',
-  Villa: 'Villa',
-  Room: 'Room',
+  Apartment: 'Apartament',
+  House: 'Dom',
+  Hotel: 'Pokój hotelowy',
+  Villa: 'Willa',
+  Room: 'Pokój',
   Loft: 'Loft',
-  Studio: 'Studio',
+  Studio: 'Kawalerka',
 };
 
 /**

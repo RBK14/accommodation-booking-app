@@ -19,6 +19,7 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { ReservationsSection } from '../../components/host';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { useAuth, useReservationsApi } from '../../hooks';
+import { translateReservationStatus } from '../../utils';
 import { toast } from 'react-toastify';
 
 const HostReservationsPage = () => {
@@ -98,15 +99,13 @@ const HostReservationsPage = () => {
     setNewStatus(null);
   };
 
+  /**
+   * Returns translated label for status change confirmation.
+   * @param {string} status - Status key
+   * @returns {string} Translated status label
+   */
   const getNewStatusLabel = (status) => {
-    switch (status) {
-      case 'Cancelled':
-        return 'Anulowana';
-      case 'NoShow':
-        return 'Nieodbyta';
-      default:
-        return status;
-    }
+    return translateReservationStatus(status);
   };
 
   const reservationsWithActions = reservations.map((reservation) => {

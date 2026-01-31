@@ -22,6 +22,7 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 import { ReservationsSection, ReviewsSection } from '../../components/host';
 import { ListingDetailsSection, ListingGallerySection } from '../../components/shared';
 import { useAuth, useListingsApi, useReservationsApi, useReviewsApi } from '../../hooks';
+import { translateReservationStatus } from '../../utils';
 import { PRIMARY_BLUE, DARK_GRAY } from '../../assets/styles/colors';
 import { toast } from 'react-toastify';
 
@@ -153,15 +154,13 @@ const AdminListingPage = () => {
     setNewStatus(null);
   };
 
+  /**
+   * Returns translated label for status change confirmation.
+   * @param {string} status - Status key
+   * @returns {string} Translated status label
+   */
   const getNewStatusLabel = (status) => {
-    switch (status) {
-      case 'Cancelled':
-        return 'Anulowana';
-      case 'NoShow':
-        return 'Nieodbyta';
-      default:
-        return status;
-    }
+    return translateReservationStatus(status);
   };
 
   const reservationsWithActions = reservations.map((reservation) => {

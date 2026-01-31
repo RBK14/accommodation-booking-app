@@ -4,11 +4,11 @@
  */
 
 const RESERVATION_STATUS_MAP = {
-  Accepted: 'Accepted',
-  InProgress: 'In Progress',
-  Completed: 'Completed',
-  Cancelled: 'Cancelled',
-  NoShow: 'No Show',
+  Accepted: 'Zaakceptowana',
+  InProgress: 'W trakcie',
+  Completed: 'Zakończona',
+  Cancelled: 'Anulowana',
+  NoShow: 'Nie pojawił się',
 };
 
 /**
