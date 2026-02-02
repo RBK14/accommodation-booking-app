@@ -43,7 +43,7 @@ namespace AccommodationBooking.Application.UnitTests.Reservations.Commands.Creat
 
             _validator.TestValidate(command)
                 .ShouldHaveValidationErrorFor(x => x.CheckOut)
-                .WithErrorMessage("Data wymeldowania musi by? pó?niejsza ni? data zameldowania.");
+                .WithErrorMessage("Data wymeldowania musi byc pózniejsza niz data zameldowania.");
         }
 
         [Fact]

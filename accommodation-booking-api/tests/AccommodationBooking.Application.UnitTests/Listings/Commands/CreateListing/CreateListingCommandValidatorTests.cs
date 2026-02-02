@@ -35,7 +35,7 @@ namespace AccommodationBooking.Application.UnitTests.Listings.Commands.CreateLis
 
             _validator.TestValidate(command)
                 .ShouldHaveValidationErrorFor(x => x.Title)
-                .WithErrorMessage("Tytu? jest wymagany.");
+                .WithErrorMessage("Tytul jest wymagany.");
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace AccommodationBooking.Application.UnitTests.Listings.Commands.CreateLis
 
             _validator.TestValidate(command)
                 .ShouldHaveValidationErrorFor(x => x.MaxGuests)
-                .WithErrorMessage("Liczba go?ci nie mo?e by? mniejsza ni? liczba ?ó?ek.");
+                .WithErrorMessage("Liczba gosci nie moze byc mniejsza niz liczba lózek.");
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace AccommodationBooking.Application.UnitTests.Listings.Commands.CreateLis
 
             _validator.TestValidate(command)
                 .ShouldHaveValidationErrorFor(x => x.AccommodationType)
-                .WithErrorMessage("Nieprawid?owy typ zakwaterowania.");
+                .WithErrorMessage("Nieprawidlowy typ zakwaterowania.");
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace AccommodationBooking.Application.UnitTests.Listings.Commands.CreateLis
 
             _validator.TestValidate(command)
                 .ShouldHaveValidationErrorFor(x => x.Currency)
-                .WithErrorMessage("Nieprawid?owy kod waluty.");
+                .WithErrorMessage("Nieprawidlowy kod waluty.");
         }
 
         [Theory]

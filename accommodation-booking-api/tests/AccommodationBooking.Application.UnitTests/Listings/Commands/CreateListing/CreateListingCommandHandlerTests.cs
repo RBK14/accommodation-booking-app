@@ -119,7 +119,7 @@ namespace AccommodationBooking.Application.UnitTests.Listings.Commands.CreateLis
                 BuildingNumber: "10",
                 AmountPerDay: 200,
                 Currency: "PLN",
-                Photos: ["string"]
+                Photos: ["https://example.com/photo1.jpg"]
             );
         }
     }
