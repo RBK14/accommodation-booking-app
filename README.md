@@ -1,74 +1,74 @@
 # 🏠 Accommodation Booking App
 
-System rezerwacji noclegów składający się z REST API (.NET 8) oraz aplikacji frontendowej (React + Vite).
+Accommodation booking system consisting of REST API (.NET 8) and frontend application (React + Vite).
 
-## 📋 Spis treści
+## 📋 Table of Contents
 
-- [O projekcie](#-o-projekcie)
-- [Funkcjonalności](#-funkcjonalności)
-- [Role użytkowników](#-role-użytkowników)
-- [Architektura](#-architektura)
-- [Technologie](#-technologie)
-- [Wymagania](#-wymagania)
-- [Szybki start](#-szybki-start)
-- [Dokumentacja modułów](#-dokumentacja-modułów)
-- [Testowanie](#-testowanie)
-- [Licencja](#-licencja)
+- [About the project](#-about-the-project)
+- [Features](#-features)
+- [User roles](#-user-roles)
+- [Architecture](#-architecture)
+- [Technologies](#-technologies)
+- [Requirements](#-requirements)
+- [Quick start](#-quick-start)
+- [Module documentation](#-module-documentation)
+- [Testing](#-testing)
+- [License](#-license)
 
-## 📝 O projekcie
+## 📝 About the project
 
-Accommodation Booking App to kompleksowy system rezerwacji noclegów umożliwiający:
+Accommodation Booking App is a comprehensive accommodation booking system that enables:
 
-- **Przeglądanie ofert** - wyszukiwanie i filtrowanie dostępnych noclegów
-- **Rezerwację noclegów** - intuicyjny proces składania rezerwacji
-- **Zarządzanie ofertami** - tworzenie i edycja ogłoszeń przez gospodarzy
-- **System opinii** - ocenianie i recenzowanie noclegów przez gości
-- **Panel administracyjny** - pełna kontrola nad systemem
+- **Browsing offers** - searching and filtering available accommodations
+- **Booking accommodations** - intuitive reservation process
+- **Managing offers** - creating and editing listings by hosts
+- **Review system** - rating and reviewing accommodations by guests
+- **Admin panel** - full control over the system
 
-Aplikacja została zaprojektowana z myślą o trzech typach użytkowników: gościach, gospodarzach oraz administratorach.
+The application was designed with three types of users in mind: guests, hosts, and administrators.
 
-## ✨ Funkcjonalności
+## ✨ Features
 
-### Publiczne
+### Public
 
-- 🏠 Przeglądanie strony głównej z ofertami
-- 🔍 Wyszukiwanie noclegów z filtrami
-- 📋 Podgląd szczegółów oferty
-- 🔐 Rejestracja i logowanie
+- 🏠 Browse homepage with offers
+- 🔍 Search accommodations with filters
+- 📋 View offer details
+- 🔐 Registration and login
 
-### Panel Gościa
+### Guest Panel
 
-- 👤 Zarządzanie kontem i profilem
-- 📅 Rezerwacja noclegów
-- 📝 Przeglądanie historii rezerwacji
-- ⭐ Wystawianie i edycja opinii
+- 👤 Account and profile management
+- 📅 Booking accommodations
+- 📝 Viewing reservation history
+- ⭐ Posting and editing reviews
 
-### Panel Gospodarza
+### Host Panel
 
-- 🏡 Zarządzanie ofertami noclegów
-- ➕ Dodawanie nowych ofert z cenami i dostępnością
-- ✏️ Edycja istniejących ogłoszeń
-- 📊 Przeglądanie rezerwacji na swoje oferty
-- 🔄 Zmiana statusów rezerwacji (potwierdzenie, odrzucenie)
+- 🏡 Managing accommodation offers
+- ➕ Adding new offers with prices and availability
+- ✏️ Editing existing listings
+- 📊 Viewing reservations for own offers
+- 🔄 Changing reservation statuses (confirm, reject)
 
-### Panel Administratora
+### Administrator Panel
 
-- 👥 Zarządzanie wszystkimi użytkownikami
-- 🏘️ Moderacja ofert noclegów
-- 📈 Przeglądanie wszystkich rezerwacji
-- ⚙️ Pełna kontrola nad systemem
+- 👥 Managing all users
+- 🏘️ Moderating accommodation offers
+- 📈 Viewing all reservations
+- ⚙️ Full control over the system
 
-## 👥 Role użytkowników
+## 👥 User roles
 
-| Rola      | Opis          | Uprawnienia                                                |
-| --------- | ------------- | ---------------------------------------------------------- |
-| **Guest** | Gość          | Przeglądanie ofert, rezerwacje, opinie, zarządzanie kontem |
-| **Host**  | Gospodarz     | Zarządzanie własnymi ofertami, obsługa rezerwacji gości    |
-| **Admin** | Administrator | Pełny dostęp do wszystkich zasobów i funkcji systemu       |
+| Role      | Description   | Permissions                                              |
+| --------- | ------------- | -------------------------------------------------------- |
+| **Guest** | Guest         | Browse offers, reservations, reviews, account management |
+| **Host**  | Host          | Managing own offers, handling guest reservations         |
+| **Admin** | Administrator | Full access to all resources and system functions        |
 
-## 🏗 Architektura
+## 🏗 Architecture
 
-Projekt składa się z dwóch głównych modułów:
+The project consists of two main modules:
 
 ```
 accommodation-booking-app/
@@ -100,58 +100,58 @@ accommodation-booking-app/
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Wzorce projektowe
+### Design patterns
 
-- **CQRS** - rozdzielenie operacji odczytu i zapisu
-- **MediatR** - implementacja wzorca Mediator
-- **Repository Pattern** - abstrakcja dostępu do danych
-- **Unit of Work** - zarządzanie transakcjami
-- **DDD** - modelowanie domeny z agregatami i Value Objects
+- **CQRS** - separation of read and write operations
+- **MediatR** - implementation of Mediator pattern
+- **Repository Pattern** - data access abstraction
+- **Unit of Work** - transaction management
+- **DDD** - domain modeling with aggregates and Value Objects
 
-## 🛠 Technologie
+## 🛠 Technologies
 
 ### Backend
 
-| Technologia           | Wersja | Opis             |
-| --------------------- | ------ | ---------------- |
-| .NET                  | 8.0    | Framework        |
-| Entity Framework Core | 9.0.8  | ORM              |
-| SQL Server            | -      | Baza danych      |
-| JWT Bearer            | 8.0.19 | Autentykacja     |
-| FluentValidation      | 12.0.0 | Walidacja        |
-| MediatR               | 13.0.0 | Mediator         |
-| Mapster               | 7.4.0  | Mapping          |
-| Swagger/OpenAPI       | 6.6.2  | Dokumentacja API |
+| Technology            | Version | Description      |
+| --------------------- | ------- | ---------------- |
+| .NET                  | 8.0     | Framework        |
+| Entity Framework Core | 9.0.8   | ORM              |
+| SQL Server            | -       | Database         |
+| JWT Bearer            | 8.0.19  | Authentication   |
+| FluentValidation      | 12.0.0  | Validation       |
+| MediatR               | 13.0.0  | Mediator         |
+| Mapster               | 7.4.0   | Mapping          |
+| Swagger/OpenAPI       | 6.6.2   | API Documentation|
 
 ### Frontend
 
-| Technologia    | Wersja | Opis          |
-| -------------- | ------ | ------------- |
-| React          | 19.2.0 | Biblioteka UI |
-| Vite           | 7.2.4  | Build tool    |
-| Material UI    | 7.3.5  | Komponenty UI |
-| React Router   | 7.9.6  | Routing       |
-| Axios          | 1.13.2 | Klient HTTP   |
-| date-fns       | 4.1.0  | Obsługa dat   |
-| react-toastify | 11.0.5 | Powiadomienia |
+| Technology     | Version | Description     |
+| -------------- | ------- | --------------- |
+| React          | 19.2.0  | UI Library      |
+| Vite           | 7.2.4   | Build tool      |
+| Material UI    | 7.3.5   | UI Components   |
+| React Router   | 7.9.6   | Routing         |
+| Axios          | 1.13.2  | HTTP Client     |
+| date-fns       | 4.1.0   | Date handling   |
+| react-toastify | 11.0.5  | Notifications   |
 
-## 📦 Wymagania
+## 📦 Requirements
 
 - [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node.js](https://nodejs.org/) >= 18.x
-- [SQL Server](https://www.microsoft.com/pl-pl/sql-server/sql-server-downloads) (LocalDB, Express lub pełna wersja)
+- [SQL Server](https://www.microsoft.com/pl-pl/sql-server/sql-server-downloads) (LocalDB, Express, or full version)
 - npm >= 9.x
 
-## 🚀 Szybki start
+## 🚀 Quick start
 
-### 1. Klonowanie repozytorium
+### 1. Clone repository
 
 ```bash
 git clone https://github.com/RBK14/accommodation-booking-app.git
 cd accommodation-booking-app
 ```
 
-### 2. Uruchomienie backendu
+### 2. Run backend
 
 ```bash
 cd accommodation-booking-api
@@ -161,10 +161,10 @@ dotnet ef database update
 dotnet run
 ```
 
-API będzie dostępne pod adresem: `https://localhost:7295`  
+API will be available at: `https://localhost:7295`  
 Swagger UI: `https://localhost:7295/swagger`
 
-### 3. Uruchomienie frontendu
+### 3. Run frontend
 
 ```bash
 cd accommodation-booking-ui
@@ -172,37 +172,37 @@ npm install
 npm run dev
 ```
 
-Aplikacja będzie dostępna pod adresem: `http://localhost:5173`
+Application will be available at: `http://localhost:5173`
 
-## 📚 Dokumentacja modułów
+## 📚 Module documentation
 
-Szczegółowa dokumentacja techniczna znajduje się w README poszczególnych modułów:
+Detailed technical documentation can be found in the README of individual modules:
 
-| Moduł           | Opis                                           | Dokumentacja                                                               |
-| --------------- | ---------------------------------------------- | -------------------------------------------------------------------------- |
-| **Backend API** | REST API, konfiguracja, endpointy, baza danych | [accommodation-booking-api/README.md](accommodation-booking-api/README.md) |
-| **Frontend UI** | Aplikacja React, struktura projektu, skrypty   | [accommodation-booking-ui/README.md](accommodation-booking-ui/README.md)   |
+| Module          | Description                                 | Documentation                                                              |
+| --------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
+| **Backend API** | REST API, configuration, endpoints, database| [accommodation-booking-api/README.md](accommodation-booking-api/README.md) |
+| **Frontend UI** | React application, project structure, scripts| [accommodation-booking-ui/README.md](accommodation-booking-ui/README.md)   |
 
-## 🧪 Testowanie
+## 🧪 Testing
 
 ### Backend
 
 ```bash
 cd accommodation-booking-api
 
-# Wszystkie testy
+# All tests
 dotnet test
 
-# Testy jednostkowe domeny
+# Domain unit tests
 dotnet test tests/AccommodationBooking.Domain.UnitTests
 
-# Testy jednostkowe aplikacji
+# Application unit tests
 dotnet test tests/AccommodationBooking.Application.UnitTests
 
-# Testy integracyjne
+# Integration tests
 dotnet test tests/AccommodationBooking.Application.IntegrationTests
 
-# Testy akceptacyjne (BDD)
+# Acceptance tests (BDD)
 dotnet test tests/AccommodationBooking.AcceptanceTests
 ```
 
@@ -215,13 +215,13 @@ cd accommodation-booking-ui
 npm run lint
 ```
 
-## 📄 Licencja
+## 📄 License
 
-Ten projekt jest udostępniony na licencji MIT.
+This project is released under the MIT License.
 
 ---
 
-**Autorzy:**
+**Authors:**
 
 - [Maciej](https://github.com/RBK14)
 - [Wiktor](https://github.com/Czewski04)
